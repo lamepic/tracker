@@ -1,13 +1,62 @@
-body {
+* {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+:root {
+  --white: #fff;
+  --dark-brown: #582f08;
+  --semi-dark-brown: #603814;
+  --light-brown: #9d4d01;
+  --lighter-brown: #e3bc97;
+  --lightest-brown: #f9eeda;
+  --background-color: #eadfd5;
+  --green: #009014;
+  --blue: #0707c7;
+  --red: #c50101;
+  --green: #009014;
+  --brown-text: #d2aa85;
+  --text-background: #e4a66c;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+}
+
+.text-light-brown {
+  color: var(--light-brown);
+}
+
+.divider {
+  background-color: var(--dark-brown);
+  height: 0.8px;
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

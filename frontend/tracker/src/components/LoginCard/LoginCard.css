@@ -1,0 +1,129 @@
+.card {
+  width: 70%;
+  height: auto;
+  margin: auto;
+  margin-top: 1.5rem;
+  box-shadow: 3px 3px 5px 5px #49494929;
+  border-radius: 15px;
+  padding-bottom: 6rem;
+}
+
+.card__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card__header {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.card__header > h3 {
+  color: var(--light-brown);
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  margin-top: 10px;
+}
+
+.card__logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.line {
+  height: 30px;
+  width: 1px;
+  background-color: var(--light-brown);
+  margin: 0 7px 0 0;
+}
+
+.card__logo__text {
+  padding: 2px;
+  color: var(--dark-brown);
+}
+
+.card__logo__text-title {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.card__logo__text-subtitle {
+  font-size: 0.49rem;
+  font-weight: 600;
+}
+
+.card__logo > img {
+  width: 50px;
+  object-fit: contain;
+}
+
+.card__content > p {
+  margin-top: 10px;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.card__content > button {
+  margin-top: 20px;
+  width: 85%;
+  padding: 8px;
+  background-image: linear-gradient(
+    to right,
+    var(--light-brown),
+    var(--dark-brown)
+  );
+  outline: none;
+  border: none;
+  color: var(--white);
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.verification {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.message {
+  font-size: 0.9rem;
+  color: var(--light-brown);
+}
+
+.email {
+  color: var(--green);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.verification > input {
+  width: 85%;
+  border-radius: 5px;
+}
+
+.verification > input:focus {
+  border: 0.2px solid var(--light-brown);
+  outline: 1px solid var(--dark-brown);
+}
+
+.verification > button {
+  margin-top: 20px;
+  width: 85%;
+  padding: 8px;
+  background-image: linear-gradient(to right, rgb(63, 238, 63), rgb(5, 46, 5));
+  outline: none;
+  border: none;
+  color: var(--white);
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.progress {
+  margin-top: 30px;
+}

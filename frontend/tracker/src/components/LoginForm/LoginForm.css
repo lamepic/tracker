@@ -1,0 +1,69 @@
+.verificationInput {
+  padding: 10px;
+  width: 85%;
+  border: 0.2px solid var(--light-brown);
+  margin: auto;
+  border-radius: 5px;
+}
+
+.verificationInput:focus {
+  border: 0.2px solid var(--light-brown);
+  outline: 1px solid var(--dark-brown);
+}
+
+.btn {
+  margin-top: 20px;
+  width: 85% !important;
+  padding: 8px;
+  outline: none;
+  border: none;
+  color: var(--white);
+  border-radius: 5px;
+  cursor: pointer;
+}
+/* 
+    .btn:hover {
+        opacity: 0.1;
+    } */
+
+.error__label {
+  color: red;
+  display: block;
+  text-align: left;
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.login__btn {
+  background-image: linear-gradient(to right, rgb(63, 238, 63), rgb(5, 46, 5));
+}
+
+.login__btn:hover {
+  background-image: linear-gradient(
+    to right,
+    rgb(106, 250, 106),
+    rgb(50, 97, 50)
+  );
+}
+
+.verification__btn {
+  background-image: linear-gradient(
+    to right,
+    var(--light-brown),
+    var(--dark-brown)
+  );
+}
+
+.verification__btn:hover {
+  background-image: linear-gradient(
+    to right,
+    var(--lighter-brown),
+    var(--light-brown)
+  );
+}
