@@ -51,6 +51,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -138,3 +139,22 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'api.User'
+
+# Rest framework config
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': [
+        # Change to IsAuthenticated
+        'rest_framework.permissions.IsAuthenticated',
+    ]
+}
+
+# passwordless config
+PASSWORDLESS_AUTH = {
+    'PASSWORDLESS_AUTH_TYPES': ['EMAIL'],
+    'PASSWORDLESS_AUTH_TYPES': ['EMAIL', ],
+    'PASSWORDLESS_EMAIL_NOREPLY_ADDRESS': 'noreply@cocobod.com.gh',
+    'PASSWORDLESS_REGISTER_NEW_USERS': False
+}
