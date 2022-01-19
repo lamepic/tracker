@@ -38,7 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # my apps
     'api.apps.ApiConfig',
+
+    # 3rd party apps
+    'rest_framework',
+    'rest_framework.authtoken',
+    'drfpasswordless',
+    "corsheaders",
 ]
 
 MIDDLEWARE = [

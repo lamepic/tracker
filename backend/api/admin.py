@@ -57,7 +57,7 @@ class DepartmentTrailAdmin(admin.ModelAdmin):
 
 @admin.register(models.PreviewCode)
 class PreviewCodeAdmin(admin.ModelAdmin):
-    list_display = ['employee', 'document', 'code', 'used', 'created_at']
+    list_display = ['user', 'document', 'code', 'used', 'created_at']
     list_filter = ('used',)
 
 
