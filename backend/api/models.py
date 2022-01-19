@@ -111,7 +111,7 @@ class PreviewCode(models.Model):
     code = models.CharField(max_length=4)
     document = models.ForeignKey(
         Document, on_delete=models.CASCADE, related_name='document_code')
-    employee = models.ForeignKey(
+    user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='employee_code')
     used = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
