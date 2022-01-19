@@ -17,8 +17,7 @@ class UserAPIView(generics.RetrieveAPIView):
     serializer_class = serializers.UserSerializer
 
     def get_object(self):
-        user = models.User.objects.get(id=self.request.user.id)
-        return user
+        return self.request.user
 
 
 class DepartmentAPIView(generics.ListAPIView):

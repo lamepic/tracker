@@ -4,17 +4,19 @@ from django.contrib.auth import get_user_model
 from . import models
 
 
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = get_user_model()
-        fields = ['first_name', 'last_name', 'email',
-                  'is_department', 'employee_id', 'department']
-
-
 class DepartmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Department
         fields = ['id', 'name']
+
+
+class UserSerializer(serializers.ModelSerializer):
+    department = DepartmentSerializer()
+
+    class Meta:
+        model = get_user_model()
+        fields = ['first_name', 'last_name', 'email',
+                  'is_department', 'employee_id', 'department']
 
 
 class MinuteSerializer(serializers.ModelSerializer):

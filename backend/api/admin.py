@@ -3,6 +3,12 @@ from django.contrib import admin
 from . import models
 
 
+@admin.register(models.User)
+class UserAdmin(admin.ModelAdmin):
+    list_display = ['employee_id', 'first_name',
+                    'last_name', 'email',  'department']
+
+
 @admin.register(models.Department)
 class DepartmentAdmin(admin.ModelAdmin):
     pass
