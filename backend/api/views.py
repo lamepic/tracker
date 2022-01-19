@@ -3,9 +3,9 @@ from django.contrib.auth import get_user_model
 
 from rest_framework import generics, viewsets, views, status
 from rest_framework.response import Response
-
-
 from rest_framework.permissions import AllowAny
+
+import requests
 
 from . import serializers
 from . import models
@@ -18,6 +18,22 @@ class UserAPIView(generics.RetrieveAPIView):
 
     def get_object(self):
         return self.request.user
+
+
+class LoginAPIView(views.APIView):
+    permission_classes = (AllowAny,)
+
+    def post(self, request, format=None):
+        employee_id = request.data.get('employee_id')
+        user = models.User.objects.get(employee_id=employee_id)
+        email = user.email
+
+        res = requests.post('http://localhost:8000/auth/email/',
+                            data={'email': email})
+        if res.status_code == 200:
+            return Response({"email": email}, status=status.HTTP_200_OK)
+
+        return Response({"msg": "Invalid staff Id"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class DepartmentAPIView(generics.ListAPIView):

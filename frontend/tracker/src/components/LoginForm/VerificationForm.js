@@ -6,6 +6,7 @@ import axios from "../../utility/axios";
 
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { verificationToken } from "../../http/auth";
 
 function VerificationForm({
   setSentVerificationToken,
@@ -21,21 +22,17 @@ function VerificationForm({
       onSubmit={async (values, options) => {
         setLoading(true);
         setSentVerificationToken(false);
-        await axios
-          .post("/api/auth/login/", {
-            employee_id: values.id,
-          })
-          .then((res) => {
-            setSentVerificationToken(true);
-            setVerifiedEmail(res.data.email);
-            setLoading(false);
-          })
-          .catch((err) => {
-            // show erorr in form
-            // showNotification("Error", "Invalid Staff ID", "danger");
-            setLoading(false);
-            setSentVerificationToken(false);
-          });
+        const res = await verificationToken(values.id);
+
+        if (res.status === 200) {
+          setSentVerificationToken(true);
+          setVerifiedEmail(res.data.email);
+          setLoading(false);
+        } else {
+          // showNotification("Error", "Invalid Staff ID", "danger");
+          setLoading(false);
+          setSentVerificationToken(false);
+        }
         options.resetForm({ values: "" });
         options.setSubmitting(false);
       }}

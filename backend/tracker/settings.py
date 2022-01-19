@@ -158,3 +158,7 @@ PASSWORDLESS_AUTH = {
     'PASSWORDLESS_EMAIL_NOREPLY_ADDRESS': 'noreply@cocobod.com.gh',
     'PASSWORDLESS_REGISTER_NEW_USERS': False
 }
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
