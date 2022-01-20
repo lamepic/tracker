@@ -1,5 +1,6 @@
 from urllib import request
 from django.contrib.auth import get_user_model
+from django.shortcuts import get_object_or_404
 
 from rest_framework import generics, viewsets, views, status
 from rest_framework.response import Response
@@ -25,7 +26,7 @@ class LoginAPIView(views.APIView):
 
     def post(self, request, format=None):
         employee_id = request.data.get('employee_id')
-        user = models.User.objects.get(employee_id=employee_id)
+        user = get_object_or_404(models.User, employee_id=employee_id)
         email = user.email
 
         res = requests.post('http://localhost:8000/auth/email/',

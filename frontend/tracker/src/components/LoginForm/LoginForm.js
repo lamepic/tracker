@@ -1,17 +1,32 @@
 import React from "react";
 import "./LoginForm.css";
 
-import axios from "../../utility/axios";
 import { useStateValue } from "../../store/StateProvider";
 import * as actionTypes from "../../store/actionTypes";
 
 import * as Yup from "yup";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 
-// import { showNotification } from "../../utility/utility";
+import { login } from "../../http/auth";
+import { showNotification } from "../../utility/helper";
 
 function LoginForm({ verifiedEmail }) {
-  const [{}, dispatch] = useStateValue();
+  const [_, dispatch] = useStateValue();
+
+  const loginUser = async (email, token) => {
+    try {
+      const res = await login(email, token);
+      dispatch({
+        type: actionTypes.LOGIN_SUCCESS,
+        payload: res.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: actionTypes.LOGIN_FAIL,
+      });
+      showNotification("Error", "Incorrect Token", "danger");
+    }
+  };
 
   return (
     <Formik
@@ -19,26 +34,9 @@ function LoginForm({ verifiedEmail }) {
       validationSchema={Yup.object({
         loginToken: Yup.string().required("Token is required").length(6).trim(),
       })}
-      onSubmit={(values, options) => {
-        const body = JSON.stringify({
-          email: verifiedEmail,
-          token: values.loginToken,
-        });
-        axios
-          .post("/auth/token/", body)
-          .then((res) => {
-            dispatch({
-              type: actionTypes.LOGIN_SUCCESS,
-              payload: res.data,
-            });
-          })
-          .catch((error) => {
-            dispatch({
-              type: actionTypes.LOGIN_FAIL,
-            });
-            // showNotification("Error", "Incorrect Token", "danger");
-          });
-        options.setSubmitting(false);
+      onSubmit={async (values, options) => {
+        await loginUser(verifiedEmail, values.loginToken);
+        // options.setSubmitting(false);
       }}
     >
       <Form className="form">

@@ -2,7 +2,7 @@ import React from "react";
 import "./LoginForm.css";
 
 import axios from "../../utility/axios";
-// import { showNotification } from "../../utility/utility";
+import { showNotification } from "../../utility/helper";
 
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -22,14 +22,18 @@ function VerificationForm({
       onSubmit={async (values, options) => {
         setLoading(true);
         setSentVerificationToken(false);
-        const res = await verificationToken(values.id);
-
-        if (res.status === 200) {
-          setSentVerificationToken(true);
-          setVerifiedEmail(res.data.email);
-          setLoading(false);
-        } else {
-          // showNotification("Error", "Invalid Staff ID", "danger");
+        try {
+          const res = await verificationToken(values.id);
+          if (res.status === 200) {
+            setSentVerificationToken(true);
+            setVerifiedEmail(res.data.email);
+            setLoading(false);
+          } else {
+            setLoading(false);
+            setSentVerificationToken(false);
+          }
+        } catch {
+          showNotification("Error", "Invalid Staff ID", "danger");
           setLoading(false);
           setSentVerificationToken(false);
         }
