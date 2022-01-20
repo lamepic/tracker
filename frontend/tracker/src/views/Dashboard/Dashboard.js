@@ -9,6 +9,7 @@ import { loadUser } from "../../http/auth";
 
 import Sidebar from "../../components/Sidebar/Sidebar";
 import Navbar from "../../components/Navbar/Navbar";
+import Home from "../Home/Home";
 
 function Dashboard() {
   const [store, dispatch] = useStateValue();
@@ -42,7 +43,7 @@ function Dashboard() {
             <>
               <Navbar />
               <main>
-                {/* <Route exact path="/dashboard" component={Home} /> */}
+                <Route exact path="/dashboard" component={Home} />
                 {/* <Route path="/dashboard/incoming" component={Incoming} /> */}
                 {/* <Route path="/dashboard/outgoing" component={Outgoing} /> */}
                 {/* <Route

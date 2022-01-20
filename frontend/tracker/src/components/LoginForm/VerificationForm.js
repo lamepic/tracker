@@ -1,7 +1,6 @@
 import React from "react";
 import "./LoginForm.css";
 
-import axios from "../../utility/axios";
 import { showNotification } from "../../utility/helper";
 
 import { Formik, Field, Form, ErrorMessage } from "formik";

@@ -37,6 +37,12 @@ class LoginAPIView(views.APIView):
         return Response({"msg": "Invalid staff Id"}, status=status.HTTP_400_BAD_REQUEST)
 
 
+class LogoutAPIView(views.APIView):
+    def post(self, request, format=None):
+        request.user.auth_token.delete()
+        return Response(status=status.HTTP_200_OK)
+
+
 class DepartmentAPIView(generics.ListAPIView):
     serializer_class = serializers.DepartmentSerializer
     queryset = models.Department.objects.all()

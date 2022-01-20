@@ -16,6 +16,7 @@ import { IconButton, Typography } from "@mui/material";
 // import SearchAutocomplete from "../Autocomplete/SearchAutocomplete";
 import { useHistory } from "react-router-dom";
 import moment from "moment";
+import { logout } from "../../http/auth";
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -268,8 +269,13 @@ function Navbar() {
 
   const userInfo = store.user;
 
-  const handleLogout = () => {
-    // logout(dispatch, store);
+  const handleLogout = async () => {
+    const res = await logout(store.token);
+    if (res.status === 200) {
+      dispatch({
+        type: actionTypes.LOGOUT_SUCCESS,
+      });
+    }
   };
 
   const getDay = () => {
