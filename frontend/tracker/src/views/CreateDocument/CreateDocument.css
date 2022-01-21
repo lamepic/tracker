@@ -1,0 +1,180 @@
+.document {
+  margin-left: 10px;
+  position: relative;
+  height: 100%;
+}
+
+.document__content {
+  max-width: 450px;
+  height: 100%;
+}
+
+.document .divider {
+  margin-top: 10px;
+}
+
+.document__header {
+  color: var(--dark-brown);
+}
+
+.form__details {
+  /* padding: 15px; */
+}
+
+.form-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  padding: 10px;
+}
+
+.form-group input {
+  padding: 5px;
+  border: 0.2px solid var(--light-brown);
+  width: 100%;
+  background-color: var(--lightest-brown);
+  border-radius: 5px;
+}
+
+.form-group > input:focus {
+  border: 0.2px solid var(--light-brown);
+  outline: 0.2px solid var(--dark-brown);
+}
+
+.form-group label {
+  color: var(--dark-brown);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.form__document {
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.form__document label {
+  color: var(--dark-brown);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.document__section {
+  width: 60%;
+  height: 150px;
+}
+
+.document__section-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.document__section-header .MuiSvgIcon-root {
+  font-size: 3rem;
+  color: var(--dark-brown);
+  margin-right: 5px;
+}
+
+.form__attachment {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+}
+
+.form__attachment button {
+  padding: 7px;
+  border-radius: 3px;
+  background-color: var(--blue);
+  width: 8rem;
+  color: var(--white);
+  border: none;
+  display: block;
+  margin-left: auto;
+  cursor: pointer;
+}
+
+.title h4 {
+  color: var(--dark-brown);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.title p {
+  color: var(--dark-brown);
+  font-weight: 400;
+  font-size: 0.7rem;
+}
+
+.form__buttons {
+  margin-top: 37px;
+  width: fit-content;
+  margin-left: auto;
+}
+
+.form__buttons button {
+  padding: 7px;
+  border-radius: 3px;
+  width: 8rem;
+  color: var(--white);
+  border: none;
+  cursor: pointer;
+}
+
+.form__buttons .cancel {
+  background-color: var(--red);
+  margin-right: 15px;
+}
+
+.form__buttons .submit {
+  background-color: var(--green);
+}
+
+.upload {
+  padding: 7px;
+  border-radius: 3px;
+  width: 8rem;
+  color: var(--white);
+  border: none;
+  cursor: pointer;
+}
+
+.document__img {
+  width: 300px;
+  position: absolute;
+  bottom: 0;
+  right: 80px;
+}
+
+.upload__box {
+  border: 1.5px dotted var(--light-brown);
+  height: 5rem;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  padding: 5px;
+  background-color: var(--lightest-brown);
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.ext {
+  text-transform: uppercase;
+  font-size: 13px;
+  color: var(--dark-brown);
+  font-weight: 500;
+}
+
+.upload__box-text {
+  font-size: 10px;
+  color: #e3bc97;
+}
+
+.upload__box > .MuiSvgIcon-root {
+  color: #e3bc97;
+}

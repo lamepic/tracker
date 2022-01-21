@@ -21,6 +21,11 @@ class UserAPIView(generics.RetrieveAPIView):
         return self.request.user
 
 
+class UsersAPIView(generics.ListAPIView):
+    serializer_class = serializers.UserSerializer
+    queryset = models.User.objects.all()
+
+
 class LoginAPIView(views.APIView):
     permission_classes = (AllowAny,)
 

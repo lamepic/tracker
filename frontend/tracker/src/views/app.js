@@ -10,7 +10,7 @@ import PrivateRoute from "../utility/PrivateRoute";
 import Dashboard from "./Dashboard/Dashboard";
 import { useStateValue } from "../store/StateProvider";
 import * as actionTypes from "../store/actionTypes";
-import { loadUser } from "../http/auth";
+import { loadUser } from "../http/user";
 
 function App() {
   const [store, dispatch] = useStateValue();
@@ -37,7 +37,7 @@ function App() {
 
   return (
     <div>
-      {/* <ReactNotification /> */}
+      <ReactNotification />
       <Switch>
         <Route exact path="/" component={Login} />
         <PrivateRoute path="/dashboard" component={Dashboard} />

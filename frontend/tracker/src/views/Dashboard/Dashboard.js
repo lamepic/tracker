@@ -5,11 +5,14 @@ import { Route, Redirect } from "react-router";
 import { useStateValue } from "../../store/StateProvider";
 import * as actionTypes from "../../store/actionTypes";
 
-import { loadUser } from "../../http/auth";
+import { loadUser } from "../../http/user";
 
 import Sidebar from "../../components/Sidebar/Sidebar";
 import Navbar from "../../components/Navbar/Navbar";
 import Home from "../Home/Home";
+import Incoming from "../Incoming/Incoming";
+import Outgoing from "../Outgoing/Outgoing";
+import CreateDocument from "../CreateDocument/CreateDocument";
 
 function Dashboard() {
   const [store, dispatch] = useStateValue();
@@ -44,12 +47,12 @@ function Dashboard() {
               <Navbar />
               <main>
                 <Route exact path="/dashboard" component={Home} />
-                {/* <Route path="/dashboard/incoming" component={Incoming} /> */}
-                {/* <Route path="/dashboard/outgoing" component={Outgoing} /> */}
-                {/* <Route
+                <Route path="/dashboard/incoming" component={Incoming} />
+                <Route path="/dashboard/outgoing" component={Outgoing} />
+                <Route
                   path="/dashboard/add-document"
                   component={CreateDocument}
-                /> */}
+                />
                 {/* <Route
                   path={`/dashboard/document/:type/:id/`}
                   component={ViewDocument}

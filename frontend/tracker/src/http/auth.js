@@ -13,18 +13,6 @@ export async function login(email, token) {
   return res;
 }
 
-// load user
-export async function loadUser(token) {
-  const config = {
-    headers: {
-      Authorization: `Token ${token}`,
-    },
-  };
-
-  const res = await axios.get("user/", config);
-  return res;
-}
-
 export async function logout(token) {
   const config = {
     headers: {

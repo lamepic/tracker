@@ -1,0 +1,16 @@
+.search__item {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.search__items-action:first-child {
+  margin-right: 5px;
+}
+
+.search__item-ref {
+  font-size: 14px;
+  color: var(--brown-text);
+  font-weight: 600;
+}
