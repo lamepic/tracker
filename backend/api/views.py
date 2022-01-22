@@ -69,7 +69,7 @@ class IncomingAPIView(views.APIView):
 class IncomingCountAPIView(views.APIView):
 
     def get(self, request, format=None):
-        user = models.User.objects.get(id=request.user.employee_id)
+        user = models.User.objects.get(employee_id=request.user.employee_id)
         incoming = models.Trail.objects.filter(
             forwarded=True,
             receiver=user, status='P')
@@ -91,7 +91,7 @@ class OutgoingAPIView(views.APIView):
 class OutgoingCountAPIView(views.APIView):
 
     def get(self, request, format=None):
-        user = models.User.objects.get(id=request.user.id)
+        user = models.User.objects.get(employee_id=request.user.employee_id)
         outgoing = models.Trail.objects.filter(
             send_id=user.employee_id,
             sender=user, status='P').order_by('-document__id').distinct('document__id')

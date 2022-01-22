@@ -32,7 +32,7 @@ export async function createDocument(token, data) {
 }
 
 // incoming count
-export async function incomingCount(token) {
+export async function fetchIncomingCount(token) {
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -45,7 +45,7 @@ export async function incomingCount(token) {
 }
 
 // outgoing count
-export async function outgoingCount(token) {
+export async function fetchOutgoingCount(token) {
   const config = {
     headers: {
       "Content-Type": "application/json",
