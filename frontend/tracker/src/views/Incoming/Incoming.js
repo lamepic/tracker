@@ -80,7 +80,7 @@ function Incoming() {
           </div>
         </div>
       ) : (
-        <LoadingBackdrop />
+        <LoadingBackdrop loading={loading} />
       )}
     </>
   );

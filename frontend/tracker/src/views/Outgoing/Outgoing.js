@@ -34,23 +34,31 @@ function Outgoing() {
           <div className="outgoing__container">
             <h2 className="outgoing__header">Pending</h2>
             <div className="outgoing__content">
-              <div className="outgoing__items">
-                {outgoing.map((item) => {
-                  if (item.related_document.length > 0) {
-                    return (
-                      <Folder
-                        doc={item}
-                        key={item.document.id}
-                        type="outgoing"
-                      />
-                    );
-                  } else {
-                    return (
-                      <File doc={item} key={item.document.id} type="outgoing" />
-                    );
-                  }
-                })}
-              </div>
+              {outgoing.length > 0 ? (
+                <div className="outgoing__items">
+                  {outgoing.map((item) => {
+                    if (item.related_document.length > 0) {
+                      return (
+                        <Folder
+                          doc={item}
+                          key={item.document.id}
+                          type="outgoing"
+                        />
+                      );
+                    } else {
+                      return (
+                        <File
+                          doc={item}
+                          key={item.document.id}
+                          type="outgoing"
+                        />
+                      );
+                    }
+                  })}
+                </div>
+              ) : (
+                <EmptyPage type="outgoing" />
+              )}
               <Link to="/dashboard/add-document">
                 <Fab
                   size="medium"

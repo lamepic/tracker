@@ -44,7 +44,7 @@ function VerificationForm({
         <Field
           name="id"
           type="text"
-          placeholder="Enter Staff ID"
+          placeholder="Enter Staff Number"
           className="verificationInput"
         />
         <ErrorMessage name="email" component="small" className="error__label" />
