@@ -13,6 +13,8 @@ import AttachmentModal from "../../components/AttachmentModal/AttachmentModal";
 import LoadingBackdrop from "../../components/Loading/LoadingBackdrop";
 import { departments, loadUsers } from "../../http/user";
 import { Typography } from "@mui/material";
+import { createDocument } from "../../http/document";
+import swal from "sweetalert";
 
 function CreateDocument() {
   const [store, dispatch] = useStateValue();
@@ -83,9 +85,9 @@ function CreateDocument() {
     history.push("/dashboard");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const items = {
+    const data = {
       subject,
       reference,
       receiver,
@@ -93,7 +95,73 @@ function CreateDocument() {
       document,
       attachments,
     };
-    console.log(items);
+    if (subject && receiver && department) {
+      if (document === null) {
+        swal({
+          title: "Empty Document",
+          text: "Submission of empty document, press OK to proceed",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        }).then(async (willSubmit) => {
+          if (willSubmit) {
+            swal({
+              title: "Are you sure you want to submit this Document?",
+              text: "Submission of this Document is irreversible",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            }).then(async (willSubmit) => {
+              if (willSubmit) {
+                try {
+                  const res = await createDocument(store.token, data);
+                  if (res.status === 201) {
+                    setSubject("");
+                    setAttachments([]);
+                    setDocument(null);
+                    history.push("/dashboard/outgoing");
+                    swal("Document has been sent succesfully", {
+                      icon: "success",
+                    });
+                  }
+                } catch (err) {
+                  const error_msg = err.response.data.msg;
+                  showNotification("Warning", error_msg, "warning");
+                }
+              }
+            });
+          }
+        });
+      } else {
+        swal({
+          title: "Are you sure you want to submit this Document?",
+          text: "Submission of this Document is irreversible",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        }).then(async (willSubmit) => {
+          if (willSubmit) {
+            try {
+              const res = await createDocument(store.token, data);
+              if (res.status === 201) {
+                setSubject("");
+                setAttachments([]);
+                setDocument(null);
+                history.push("/dashboard/outgoing");
+                swal("Document has been sent succesfully", {
+                  icon: "success",
+                });
+              }
+            } catch (err) {
+              const error_msg = err.response.data.msg;
+              showNotification("Warning", error_msg, "warning");
+            }
+          }
+        });
+      }
+    } else {
+      showNotification("Warning", "Fields cannot be blank", "warning");
+    }
   };
 
   return (

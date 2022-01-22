@@ -22,7 +22,7 @@ class DepartmentAdmin(admin.ModelAdmin):
 
 @admin.register(models.Document)
 class DocumentAdmin(admin.ModelAdmin):
-    list_display = ['id', 'subject', 'filename', 'created_by']
+    list_display = ['id', 'subject', 'ref', 'filename', 'created_by']
 
     def filename(self, obj):
         return obj.content.name[10:]

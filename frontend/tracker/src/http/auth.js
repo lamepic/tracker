@@ -20,6 +20,5 @@ export async function logout(token) {
     },
   };
   const res = await axios.post("auth/logout/", null, config);
-  console.log(res);
   return res;
 }

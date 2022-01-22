@@ -32,8 +32,8 @@ class Document(models.Model):
     def __str__(self):
         return self.subject
 
-    def save(self, *args, **kwargs):
-        pass
+    # def save(self, *args, **kwargs):
+    #     pass
 
 
 class RelatedDocument(models.Model):
