@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Incoming.css";
 
 import Fab from "@mui/material/Fab";
@@ -9,52 +9,80 @@ import { useStateValue } from "../../store/StateProvider";
 import Folder from "../../components/DocIcon/Folder";
 import File from "../../components/DocIcon/File";
 import EmptyPage from "../../components/EmptyPage/EmptyPage";
+import { fetchIncoming } from "../../http/document";
+import LoadingBackdrop from "../../components/Loading/LoadingBackdrop";
 
 function Incoming() {
   const [store] = useStateValue();
+  const [incoming, setIncoming] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  //   const data = store.incoming;
+  const _fetchIncoming = async () => {
+    const res = await fetchIncoming(store.token);
+    const data = res.data;
+    setIncoming(data);
+  };
+
+  useEffect(() => {
+    _fetchIncoming();
+    setLoading(false);
+  }, []);
 
   return (
-    <div className="incoming">
-      <div className="incoming__container">
-        <h2 className="incoming__header">Received</h2>
-        <div className="incoming__content">
-          {/* {data.length > 0 ? (
-            <div className="incoming__items">
-              {data.map((item) => {
-                if (item.related_document.length > 0) {
-                  return (
-                    <Folder doc={item} key={item.document.id} type="incoming" />
-                  );
-                } else {
-                  return (
-                    <File doc={item} key={item.document.id} type="incoming" />
-                  );
-                }
-              })}
+    <>
+      {!loading ? (
+        <div className="incoming">
+          <div className="incoming__container">
+            <h2 className="incoming__header">Received</h2>
+            <div className="incoming__content">
+              {incoming.length > 0 ? (
+                <div className="incoming__items">
+                  {incoming.map((item) => {
+                    if (item.related_document.length > 0) {
+                      return (
+                        <Folder
+                          doc={item}
+                          key={item.document.id}
+                          type="incoming"
+                        />
+                      );
+                    } else {
+                      return (
+                        <File
+                          doc={item}
+                          key={item.document.id}
+                          type="incoming"
+                        />
+                      );
+                    }
+                  })}
+                </div>
+              ) : (
+                <EmptyPage type="incoming" />
+              )}
+
+              <Link to="/dashboard/add-document">
+                <Fab
+                  size="medium"
+                  sx={{
+                    backgroundColor: "#582F08",
+                    color: "#E3BC97",
+                    position: "absolute",
+                    right: "10px",
+                    bottom: "0px",
+                  }}
+                  aria-label="add"
+                >
+                  <AddIcon />
+                </Fab>
+              </Link>
             </div>
-          ) : (
-            <EmptyPage type="Incoming" />
-          )} */}
-          <Link to="/dashboard/add-document">
-            <Fab
-              size="medium"
-              sx={{
-                backgroundColor: "#582F08",
-                color: "#E3BC97",
-                position: "absolute",
-                right: "10px",
-                bottom: "0px",
-              }}
-              aria-label="add"
-            >
-              <AddIcon />
-            </Fab>
-          </Link>
+          </div>
         </div>
-      </div>
-    </div>
+      ) : (
+        <LoadingBackdrop />
+      )}
+    </>
   );
 }
 
