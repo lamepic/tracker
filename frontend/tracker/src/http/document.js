@@ -30,3 +30,16 @@ export async function createDocument(token, data) {
   const res = await axios.post("create-document/", formData, config);
   return res;
 }
+
+// incoming count
+export async function incomingCount(token) {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
+    },
+  };
+
+  const res = await axios.get("create-document/", config);
+  return res;
+}

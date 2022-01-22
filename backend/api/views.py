@@ -66,6 +66,17 @@ class IncomingAPIView(views.APIView):
         return Response(serialized_data.data)
 
 
+class IncomingCountAPIView(views.APIView):
+
+    def get(self, request, format=None):
+        user = models.User.objects.get(id=request.user.employee_id)
+        incoming = models.Trail.objects.filter(
+            forwarded=True,
+            receiver=user, status='P')
+        count = len(incoming)
+        return Response({"data": count}, status=status.HTTP_200_OK)
+
+
 class OutgoingAPIView(views.APIView):
 
     def get(self, request, format=None):
