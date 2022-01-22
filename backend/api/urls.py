@@ -14,4 +14,8 @@ urlpatterns = [
          name='incoming-count'),
     path('outgoing-count/', views.OutgoingCountAPIView.as_view(),
          name='outgoing-count'),
+    path('incoming/', views.IncomingAPIView.as_view(),
+         name='incoming'),
+    path('outgoing/', views.OutgoingAPIView.as_view(),
+         name='outgoing'),
 ]

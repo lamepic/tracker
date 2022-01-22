@@ -58,12 +58,12 @@ class DepartmentAPIView(generics.ListAPIView):
 class IncomingAPIView(views.APIView):
 
     def get(self, request, format=None):
-        user = models.User.objects.get(id=request.user.id)
+        user = models.User.objects.get(employee_id=request.user.employee_id)
         incoming = models.Trail.objects.filter(
             forwarded=True,
             receiver=user, status='P')
         serialized_data = serializers.IncomingSerializer(incoming, many=True)
-        return Response(serialized_data.data)
+        return Response(serialized_data.data, status=status.HTTP_200_OK)
 
 
 class IncomingCountAPIView(views.APIView):
@@ -80,12 +80,12 @@ class IncomingCountAPIView(views.APIView):
 class OutgoingAPIView(views.APIView):
 
     def get(self, request, format=None):
-        user = models.User.objects.get(id=request.user.id)
+        user = models.User.objects.get(employee_id=request.user.employee_id)
         outgoing = models.Trail.objects.filter(
             send_id=user.employee_id,
             sender=user, status='P').order_by('-document__id').distinct('document__id')
         serialized_data = serializers.OutgoingSerializer(outgoing, many=True)
-        return Response(serialized_data.data)
+        return Response(serialized_data.data, status=status.HTTP_200_OK)
 
 
 class OutgoingCountAPIView(views.APIView):

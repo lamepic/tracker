@@ -38,7 +38,7 @@ function Home() {
     _fetchIncomingCount();
     _fetchOutgoingCount();
     setLoading(false);
-  });
+  }, []);
 
   return (
     <>

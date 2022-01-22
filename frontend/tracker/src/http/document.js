@@ -44,6 +44,19 @@ export async function fetchIncomingCount(token) {
   return res;
 }
 
+// incoming documents
+export async function fetchIncoming(token) {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
+    },
+  };
+
+  const res = await axios.get("incoming/", config);
+  return res;
+}
+
 // outgoing count
 export async function fetchOutgoingCount(token) {
   const config = {
@@ -54,5 +67,18 @@ export async function fetchOutgoingCount(token) {
   };
 
   const res = await axios.get("outgoing-count/", config);
+  return res;
+}
+
+// incoming documents
+export async function fetchOutgoing(token) {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
+    },
+  };
+
+  const res = await axios.get("outgoing/", config);
   return res;
 }
