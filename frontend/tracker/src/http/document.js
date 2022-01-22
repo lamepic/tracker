@@ -40,6 +40,6 @@ export async function incomingCount(token) {
     },
   };
 
-  const res = await axios.get("create-document/", config);
+  const res = await axios.get("incoming-count/", config);
   return res;
 }
