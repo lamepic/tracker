@@ -43,3 +43,16 @@ export async function incomingCount(token) {
   const res = await axios.get("incoming-count/", config);
   return res;
 }
+
+// outgoing count
+export async function outgoingCount(token) {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
+    },
+  };
+
+  const res = await axios.get("outgoing-count/", config);
+  return res;
+}

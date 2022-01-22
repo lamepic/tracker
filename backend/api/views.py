@@ -88,6 +88,17 @@ class OutgoingAPIView(views.APIView):
         return Response(serialized_data.data)
 
 
+class OutgoingCountAPIView(views.APIView):
+
+    def get(self, request, format=None):
+        user = models.User.objects.get(id=request.user.id)
+        outgoing = models.Trail.objects.filter(
+            send_id=user.employee_id,
+            sender=user, status='P').order_by('-document__id').distinct('document__id')
+        count = len(outgoing)
+        return Response({"data": count}, status=status.HTTP_200_OK)
+
+
 class CreateDocument(views.APIView):
 
     def post(self, request, format=None):
