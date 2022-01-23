@@ -15,6 +15,7 @@ import Incoming from "../Incoming/Incoming";
 import Outgoing from "../Outgoing/Outgoing";
 import CreateDocument from "../CreateDocument/CreateDocument";
 import LoadingBackdrop from "../../components/Loading/LoadingBackdrop";
+import Archive from "../Archive/Archive";
 
 function Dashboard() {
   const [store, dispatch] = useStateValue();
@@ -82,7 +83,7 @@ function Dashboard() {
                   component={ViewDocument}
                 /> */}
                 {/* <Route path="/dashboard/tracker" component={Tracking} /> */}
-                {/* <Route path="/dashboard/archive" component={Archive} /> */}
+                <Route path="/dashboard/archive" component={Archive} />
                 {/* <Route
                   path="/dashboard/activate-document"
                   component={ActivateDocument}

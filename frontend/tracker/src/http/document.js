@@ -82,3 +82,29 @@ export async function fetchOutgoing(token) {
   const res = await axios.get("outgoing/", config);
   return res;
 }
+
+// Individual employee archived documents
+export async function fetchEmployeeArchive(token, employee_id) {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
+    },
+  };
+
+  const res = await axios.get(`archive/${employee_id}/`, config);
+  return res;
+}
+
+// All employee archived documents
+export async function fetchArchive(token) {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
+    },
+  };
+
+  const res = await axios.get(`archive/`, config);
+  return res;
+}

@@ -18,4 +18,8 @@ urlpatterns = [
          name='incoming'),
     path('outgoing/', views.OutgoingAPIView.as_view(),
          name='outgoing'),
+    path('archive/', views.ArchiveAPIView.as_view(),
+         name='archive'),
+    path('archive/<employee_id>/', views.ArchiveAPIView.as_view(),
+         name='archive'),
 ]

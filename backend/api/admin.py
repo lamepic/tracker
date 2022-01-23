@@ -9,11 +9,22 @@ from . import models
 User = get_user_model()
 
 
-def mark_as_complete(modeladmin, request, queryset):
-    queryset.update(status='C')
+# def mark_as_complete(modeladmin, request, queryset):
+#     for trail in queryset:
+#         trail.status = 'C'
+#         trail.save()
+
+#         # take the first and last item from the trail of the completed document and add to archive
+#         completed_documents = models.Trail.objects.filter(
+#             document__id=document_id, status='C').order_by('date')
+#         first_trail = completed_documents.first()
+#         last_trail = completed_documents.last()
+
+#     models.Archive.objects.create(
+#         created_by=document.created_by, closed_by=last_trail.receiver, document=first_trail.document)
 
 
-mark_as_complete.short_description = 'Mark as complete'
+# mark_as_complete.short_description = 'Mark as complete'
 
 
 @admin.register(models.User)
@@ -53,7 +64,7 @@ class TrailAdmin(admin.ModelAdmin):
         "document__subject",
     )
     list_filter = ('status',)
-    actions = [mark_as_complete, ]
+    # actions = [mark_as_complete, ]
 
 
 @admin.register(models.Minute)

@@ -166,6 +166,29 @@ class CreateDocument(views.APIView):
         return Response({'msg': 'Document sent'}, status=status.HTTP_201_CREATED)
 
 
+class ArchiveAPIView(views.APIView):
+
+    def get(self, request, employee_id=None, format=None):
+        # get archive of logged in user
+        if employee_id:
+            employee = models.User.objects.get(
+                employee_id=request.user.employee_id)
+
+            data = [archive for archive in models.Archive.objects.filter(requested=False).order_by(
+                'created_by', 'close_date') if archive.created_by == employee or archive.closed_by == employee]
+            serialized_data = serializers.ArchiveSerializer(data, many=True)
+            return Response(serialized_data.data, status=status.HTTP_200_OK)
+
+        # get all archives in the database
+        archives = models.Archive.objects.all()
+        serialized_data = serializers.ArchiveSerializer(archives, many=True)
+
+        return Response(serialized_data.data, status=status.HTTP_200_OK)
+
+    def post(self, request, employee_id=None, format=None):
+        pass
+
+
 def generate_code():
     code = random.sample(string.digits, 4)
     return ''.join(code)
