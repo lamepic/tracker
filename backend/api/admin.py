@@ -31,6 +31,7 @@ User = get_user_model()
 class UserAdmin(admin.ModelAdmin):
     list_display = ['employee_id', 'first_name',
                     'last_name', 'email',  'department']
+    list_filter = ('is_department', 'department')
 
 
 @admin.register(models.Department)
