@@ -17,6 +17,8 @@ function Incoming() {
   const [incoming, setIncoming] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const incomingCount = store.incomingCount;
+
   const _fetchIncoming = async () => {
     const res = await fetchIncoming(store.token);
     const data = res.data;
@@ -35,7 +37,7 @@ function Incoming() {
           <div className="incoming__container">
             <h2 className="incoming__header">Received</h2>
             <div className="incoming__content">
-              {incoming.length > 0 ? (
+              {incomingCount > 0 ? (
                 <div className="incoming__items">
                   {incoming.map((item) => {
                     if (item.related_document.length > 0) {

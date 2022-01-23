@@ -17,6 +17,16 @@ const reducer = (state, action) => {
         user: action.payload,
         isAuthenticated: true,
       };
+    case actionTypes.SET_INCOMING_COUNT:
+      return {
+        ...state,
+        incomingCount: action.payload,
+      };
+    case actionTypes.SET_OUTGOING_COUNT:
+      return {
+        ...state,
+        outgoingCount: action.payload,
+      };
     case actionTypes.LOGIN_FAIL:
     case actionTypes.AUTH_ERROR:
     case actionTypes.LOGOUT_SUCCESS:

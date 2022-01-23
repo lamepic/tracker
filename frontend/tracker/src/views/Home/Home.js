@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Home.css";
 import { useStateValue } from "../../store/StateProvider";
+import * as actionTypes from "../../store/actionTypes";
 import dashboard_hero from "../../assets/icons/dashboard-hero-icon.svg";
 import incoming_icon from "../../assets/icons/incoming-tray-icon.svg";
 import outgoing_icon from "../../assets/icons/outgoing-tray-icon.svg";
@@ -16,16 +17,20 @@ import LoadingBackdrop from "../../components/Loading/LoadingBackdrop";
 
 function Home() {
   const [store, dispatch] = useStateValue();
-  const [incomingCount, setIncomingCount] = useState(0);
+  // const [incomingCount, setIncomingCount] = useState(0);
   const [outgoingCount, setOutgoingCount] = useState(0);
   const [loading, setLoading] = useState(true);
 
   const userInfo = store.user;
+  const incomingCount = store.incomingCount;
 
   const _fetchIncomingCount = async () => {
     const res = await fetchIncomingCount(store.token);
     const data = res.data;
-    setIncomingCount(data.data);
+    dispatch({
+      type: actionTypes.SET_INCOMING_COUNT,
+      payload: data.data,
+    });
   };
 
   const _fetchOutgoingCount = async () => {
