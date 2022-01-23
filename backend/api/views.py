@@ -185,8 +185,29 @@ class ArchiveAPIView(views.APIView):
 
         return Response(serialized_data.data, status=status.HTTP_200_OK)
 
+    # mark item ass complete or create archive
     def post(self, request, employee_id=None, format=None):
         pass
+
+
+class TrackingAPIView(views.APIView):
+    def get(self, request, document_id, format=None):
+        trackingStep = []
+        try:
+            trails = models.Trail.objects.filter(document_id=document_id)
+
+            creator = trails.last()
+            trackingStep.append(
+                f'{creator.sender.first_name} {creator.sender.last_name}')
+
+            for i in range(len(trails)-1, -1, -1):
+                trail = trails[i]
+                name = f'{trail.receiver.first_name} {trail.receiver.last_name}'
+                trackingStep.append(name)
+        except:
+            return Response({'msg': f'Invalid Id. Document with Id:"{document_id}" cannot be tracked'}, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response({"data": trackingStep}, status=status.HTTP_200_OK)
 
 
 def generate_code():

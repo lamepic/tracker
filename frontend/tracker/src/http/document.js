@@ -108,3 +108,16 @@ export async function fetchArchive(token) {
   const res = await axios.get(`archive/`, config);
   return res;
 }
+
+// Tracking trail of a document
+export async function fetchTracking(token, document_id) {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
+    },
+  };
+
+  const res = await axios.get(`tracking/${document_id}`, config);
+  return res;
+}

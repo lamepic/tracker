@@ -27,6 +27,16 @@ const reducer = (state, action) => {
         ...state,
         outgoingCount: action.payload,
       };
+    case actionTypes.SET_OPEN_TRACKING_MODAL:
+      return {
+        ...state,
+        openTrackingModal: action.payload,
+      };
+    case actionTypes.SET_TRACKING_DOC_ID:
+      return {
+        ...state,
+        trackingDocId: action.payload,
+      };
     case actionTypes.LOGIN_FAIL:
     case actionTypes.AUTH_ERROR:
     case actionTypes.LOGOUT_SUCCESS:

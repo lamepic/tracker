@@ -22,4 +22,6 @@ urlpatterns = [
          name='archive'),
     path('archive/<employee_id>/', views.ArchiveAPIView.as_view(),
          name='archive'),
+    path('tracking/<document_id>/',
+         views.TrackingAPIView.as_view(), name='tracking')
 ]
