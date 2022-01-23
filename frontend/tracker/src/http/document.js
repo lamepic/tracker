@@ -31,7 +31,7 @@ export async function createDocument(token, data) {
   return res;
 }
 
-// incoming count
+// Number of incoming documents
 export async function fetchIncomingCount(token) {
   const config = {
     headers: {
@@ -44,7 +44,7 @@ export async function fetchIncomingCount(token) {
   return res;
 }
 
-// incoming documents
+// Incoming documents
 export async function fetchIncoming(token) {
   const config = {
     headers: {
@@ -57,7 +57,7 @@ export async function fetchIncoming(token) {
   return res;
 }
 
-// outgoing count
+// Number of outgoing documents
 export async function fetchOutgoingCount(token) {
   const config = {
     headers: {
@@ -70,7 +70,7 @@ export async function fetchOutgoingCount(token) {
   return res;
 }
 
-// incoming documents
+// Outgoing documents
 export async function fetchOutgoing(token) {
   const config = {
     headers: {

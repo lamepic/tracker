@@ -129,7 +129,7 @@ class CreateDocument(views.APIView):
         try:
             # creating documents and attachments
             document = models.Document.objects.create(
-                content=document, subject=data['subject'], created_by=sender, ref=reference)
+                content=document, subject=subject, created_by=sender, ref=reference)
             if document:
                 count = 0
                 for item in data_lst:
