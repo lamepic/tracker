@@ -9,7 +9,8 @@ import { useStateValue } from "../../store/StateProvider";
 import Folder from "../../components/DocIcon/Folder";
 import File from "../../components/DocIcon/File";
 import EmptyPage from "../../components/EmptyPage/EmptyPage";
-import { fetchArchive, fetchEmployeeArchive } from "../../http/document";
+import { fetchEmployeeArchive } from "../../http/document";
+import LoadingBackdrop from "../../components/Loading/LoadingBackdrop";
 
 function Archive() {
   const [store] = useStateValue();
@@ -28,45 +29,59 @@ function Archive() {
   }, []);
 
   return (
-    <div className="archive">
-      <div className="archive__container">
-        <h2 className="archive__header">Archive</h2>
-        <div className="archive__content">
-          {archive.length > 0 ? (
-            <div className="archive__items">
-              {archive.map((item) => {
-                if (item?.document.related_document?.length > 0) {
-                  return (
-                    <Folder doc={item} key={item.document.id} type="archive" />
-                  );
-                } else {
-                  return (
-                    <File doc={item} key={item.document.id} type="archive" />
-                  );
-                }
-              })}
+    <>
+      {!loading ? (
+        <div className="archive">
+          <div className="archive__container">
+            <h2 className="archive__header">Archive</h2>
+            <div className="archive__content">
+              {archive.length > 0 ? (
+                <div className="archive__items">
+                  {archive.map((item) => {
+                    if (item?.document.related_document?.length > 0) {
+                      return (
+                        <Folder
+                          doc={item}
+                          key={item.document.id}
+                          type="archive"
+                        />
+                      );
+                    } else {
+                      return (
+                        <File
+                          doc={item}
+                          key={item.document.id}
+                          type="archive"
+                        />
+                      );
+                    }
+                  })}
+                </div>
+              ) : (
+                <EmptyPage type="archived" />
+              )}
+              <Link to="/dashboard/add-document">
+                <Fab
+                  size="medium"
+                  sx={{
+                    backgroundColor: "#582F08",
+                    color: "#E3BC97",
+                    position: "absolute",
+                    right: "10px",
+                    bottom: "0px",
+                  }}
+                  aria-label="add"
+                >
+                  <AddIcon />
+                </Fab>
+              </Link>
             </div>
-          ) : (
-            <EmptyPage type="archived" />
-          )}
-          <Link to="/dashboard/add-document">
-            <Fab
-              size="medium"
-              sx={{
-                backgroundColor: "#582F08",
-                color: "#E3BC97",
-                position: "absolute",
-                right: "10px",
-                bottom: "0px",
-              }}
-              aria-label="add"
-            >
-              <AddIcon />
-            </Fab>
-          </Link>
+          </div>
         </div>
-      </div>
-    </div>
+      ) : (
+        <LoadingBackdrop loading={loading} />
+      )}
+    </>
   );
 }
 
