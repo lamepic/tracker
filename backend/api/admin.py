@@ -9,6 +9,13 @@ from . import models
 User = get_user_model()
 
 
+def mark_as_complete(modeladmin, request, queryset):
+    queryset.update(status='C')
+
+
+mark_as_complete.short_description = 'Mark as complete'
+
+
 @admin.register(models.User)
 class UserAdmin(admin.ModelAdmin):
     list_display = ['employee_id', 'first_name',
@@ -46,6 +53,7 @@ class TrailAdmin(admin.ModelAdmin):
         "document__subject",
     )
     list_filter = ('status',)
+    actions = [mark_as_complete, ]
 
 
 @admin.register(models.Minute)
