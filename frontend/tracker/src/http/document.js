@@ -123,7 +123,7 @@ export async function fetchTracking(token, document_id) {
 }
 
 // Minutes
-export async function createdMinute(token, data) {
+export async function createMinute(token, data) {
   const config = {
     headers: {
       "Content-Type": "application/json",
