@@ -214,7 +214,7 @@ function CreateDocument() {
                     <DescriptionIcon />
                     <div className="title">
                       <h4>Upload your document</h4>
-                      <p>Drag and drop your file here</p>
+                      <p>Click to upload your file here</p>
                     </div>
                   </div>
                   <label htmlFor="file" className="upload__box">
