@@ -47,7 +47,7 @@ function LoginCard() {
         />
         {loading && (
           <div className="progress">
-            <CircularProgress />
+            <CircularProgress color="inherit" />
           </div>
         )}
         {/* Show card when user enters token */}

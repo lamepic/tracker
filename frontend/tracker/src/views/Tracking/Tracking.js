@@ -3,10 +3,10 @@ import "./Tracking.css";
 
 import TrackingCard from "../../components/TrackingCard/TrackingCard";
 import EmptyPage from "../../components/EmptyPage/EmptyPage";
-import LoadingBackdrop from "../../components/Loading/LoadingBackdrop";
 import TrackingDetail from "./TrackingDetail";
 import { useStateValue } from "../../store/StateProvider";
 import { fetchOutgoing } from "../../http/document";
+import LoadingPage from "../../components/Loading/LoadingPage";
 
 function Tracking() {
   const [store] = useStateValue();
@@ -33,11 +33,11 @@ function Tracking() {
 
   return (
     <>
-      {!loading ? (
-        <div className="tracking">
-          <div className="tracking__container">
-            <h2 className="tracking__header">Document Tracking</h2>
-            <hr className="divider" />
+      <div className="tracking">
+        <div className="tracking__container">
+          <h2 className="tracking__header">Document Tracking</h2>
+          <hr className="divider" />
+          {!loading ? (
             <div className="tracking__content">
               {outgoing.map((item) => {
                 const user = item.receiver;
@@ -59,11 +59,11 @@ function Tracking() {
               })}
               {openTrackingModal && <TrackingDetail />}
             </div>
-          </div>
+          ) : (
+            <LoadingPage />
+          )}
         </div>
-      ) : (
-        <LoadingBackdrop loading={loading} />
-      )}
+      </div>
     </>
   );
 }

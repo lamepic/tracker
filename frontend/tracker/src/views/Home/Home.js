@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./Home.css";
 import { useStateValue } from "../../store/StateProvider";
-import * as actionTypes from "../../store/actionTypes";
 import dashboard_hero from "../../assets/icons/dashboard-hero-icon.svg";
 import incoming_icon from "../../assets/icons/incoming-tray-icon.svg";
 import outgoing_icon from "../../assets/icons/outgoing-tray-icon.svg";
@@ -12,7 +11,6 @@ import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 
 import { Link } from "react-router-dom";
-import LoadingBackdrop from "../../components/Loading/LoadingBackdrop";
 
 function Home() {
   const [store] = useStateValue();

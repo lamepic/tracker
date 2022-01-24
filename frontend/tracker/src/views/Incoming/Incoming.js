@@ -11,6 +11,7 @@ import File from "../../components/DocIcon/File";
 import EmptyPage from "../../components/EmptyPage/EmptyPage";
 import { fetchIncoming } from "../../http/document";
 import LoadingBackdrop from "../../components/Loading/LoadingBackdrop";
+import LoadingPage from "../../components/Loading/LoadingPage";
 
 function Incoming() {
   const [store] = useStateValue();
@@ -30,34 +31,38 @@ function Incoming() {
     setLoading(false);
   }, []);
 
-  if (incomingCount === 0) {
-    return <EmptyPage type="incoming" />;
-  }
-
   return (
     <>
-      {!loading ? (
-        <div className="incoming">
-          <div className="incoming__container">
-            <h2 className="incoming__header">Received</h2>
+      <div className="incoming">
+        <div className="incoming__container">
+          <h2 className="incoming__header">Received</h2>
+          {!loading ? (
             <div className="incoming__content">
-              <div className="incoming__items">
-                {incoming.map((item) => {
-                  if (item.related_document.length > 0) {
-                    return (
-                      <Folder
-                        doc={item}
-                        key={item.document.id}
-                        type="incoming"
-                      />
-                    );
-                  } else {
-                    return (
-                      <File doc={item} key={item.document.id} type="incoming" />
-                    );
-                  }
-                })}
-              </div>
+              {!incomingCount === 0 ? (
+                <div className="incoming__items">
+                  {incoming.map((item) => {
+                    if (item.related_document.length > 0) {
+                      return (
+                        <Folder
+                          doc={item}
+                          key={item.document.id}
+                          type="incoming"
+                        />
+                      );
+                    } else {
+                      return (
+                        <File
+                          doc={item}
+                          key={item.document.id}
+                          type="incoming"
+                        />
+                      );
+                    }
+                  })}
+                </div>
+              ) : (
+                <EmptyPage type="incoming" />
+              )}
 
               <Link to="/dashboard/add-document">
                 <Fab
@@ -75,11 +80,11 @@ function Incoming() {
                 </Fab>
               </Link>
             </div>
-          </div>
+          ) : (
+            <LoadingPage />
+          )}
         </div>
-      ) : (
-        <LoadingBackdrop loading={loading} />
-      )}
+      </div>
     </>
   );
 }

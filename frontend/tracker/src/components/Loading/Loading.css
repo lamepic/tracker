@@ -1,0 +1,5 @@
+.page__loader {
+  height: 30rem;
+  display: grid;
+  place-items: center;
+}

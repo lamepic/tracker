@@ -9,7 +9,7 @@ import File from "../../components/DocIcon/File";
 import EmptyPage from "../../components/EmptyPage/EmptyPage";
 import { fetchOutgoing } from "../../http/document";
 import { useStateValue } from "../../store/StateProvider";
-import LoadingBackdrop from "../../components/Loading/LoadingBackdrop";
+import LoadingPage from "../../components/Loading/LoadingPage";
 
 function Outgoing() {
   const [store] = useStateValue();
@@ -29,35 +29,38 @@ function Outgoing() {
     setLoading(false);
   }, []);
 
-  if (outgoingCount === 0) {
-    return <EmptyPage type="outgoing" />;
-  }
-
   return (
     <>
-      {!loading ? (
-        <div className="outgoing">
-          <div className="outgoing__container">
-            <h2 className="outgoing__header">Pending</h2>
+      <div className="outgoing">
+        <div className="outgoing__container">
+          <h2 className="outgoing__header">Pending</h2>
+          {!loading ? (
             <div className="outgoing__content">
-              <div className="outgoing__items">
-                {outgoing.map((item) => {
-                  if (item.related_document.length > 0) {
-                    return (
-                      <Folder
-                        doc={item}
-                        key={item.document.id}
-                        type="outgoing"
-                      />
-                    );
-                  } else {
-                    return (
-                      <File doc={item} key={item.document.id} type="outgoing" />
-                    );
-                  }
-                })}
-              </div>
-
+              {!outgoingCount === 0 ? (
+                <div className="outgoing__items">
+                  {outgoing.map((item) => {
+                    if (item.related_document.length > 0) {
+                      return (
+                        <Folder
+                          doc={item}
+                          key={item.document.id}
+                          type="outgoing"
+                        />
+                      );
+                    } else {
+                      return (
+                        <File
+                          doc={item}
+                          key={item.document.id}
+                          type="outgoing"
+                        />
+                      );
+                    }
+                  })}
+                </div>
+              ) : (
+                <EmptyPage type="outgoing" />
+              )}
               <Link to="/dashboard/add-document">
                 <Fab
                   size="medium"
@@ -74,11 +77,11 @@ function Outgoing() {
                 </Fab>
               </Link>
             </div>
-          </div>
+          ) : (
+            <LoadingPage />
+          )}
         </div>
-      ) : (
-        <LoadingBackdrop loading={loading} />
-      )}
+      </div>
     </>
   );
 }
