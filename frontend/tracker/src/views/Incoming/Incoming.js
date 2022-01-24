@@ -31,6 +31,10 @@ function Incoming() {
     setLoading(false);
   }, []);
 
+  if (incomingCount === 0) {
+    return <EmptyPage type="incoming" />;
+  }
+
   return (
     <>
       <div className="incoming">
@@ -38,31 +42,23 @@ function Incoming() {
           <h2 className="incoming__header">Received</h2>
           {!loading ? (
             <div className="incoming__content">
-              {!incomingCount === 0 ? (
-                <div className="incoming__items">
-                  {incoming.map((item) => {
-                    if (item.related_document.length > 0) {
-                      return (
-                        <Folder
-                          doc={item}
-                          key={item.document.id}
-                          type="incoming"
-                        />
-                      );
-                    } else {
-                      return (
-                        <File
-                          doc={item}
-                          key={item.document.id}
-                          type="incoming"
-                        />
-                      );
-                    }
-                  })}
-                </div>
-              ) : (
-                <EmptyPage type="incoming" />
-              )}
+              <div className="incoming__items">
+                {incoming.map((item) => {
+                  if (item.related_document.length > 0) {
+                    return (
+                      <Folder
+                        doc={item}
+                        key={item.document.id}
+                        type="incoming"
+                      />
+                    );
+                  } else {
+                    return (
+                      <File doc={item} key={item.document.id} type="incoming" />
+                    );
+                  }
+                })}
+              </div>
 
               <Link to="/dashboard/add-document">
                 <Fab

@@ -17,6 +17,7 @@ import { IconButton, Typography } from "@mui/material";
 import { useHistory } from "react-router-dom";
 import moment from "moment";
 import { logout } from "../../http/auth";
+import SearchAutocomplete from "../Autocomplete/SearchAutocomplete";
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -304,7 +305,9 @@ function Navbar() {
           <span className="title__day">{`${new Date().getDate()} ${getMonth()} ${new Date().getFullYear()}`}</span>
         </h3>
       </div>
-      <div className="search">{/* <SearchAutocomplete /> */}</div>
+      <div className="search">
+        <SearchAutocomplete />
+      </div>
       <div className="notification">
         <Badge count={10} size="20px" position={{ top: "0", right: "0" }} />
         <RequestDropDownMenu />
