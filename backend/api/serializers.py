@@ -26,7 +26,7 @@ class MinuteSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        representation['employee'] = f'{instance.creator.user.first_name} {instance.creator.user.last_name}'
+        representation['user'] = f'{instance.created_by.first_name} {instance.created_by.last_name}'
         return representation
 
 

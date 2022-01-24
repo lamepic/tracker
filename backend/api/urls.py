@@ -9,6 +9,7 @@ urlpatterns = [
     path('user/', views.UserAPIView.as_view(), name='user'),
     path('users/', views.UsersAPIView.as_view(), name='users'),
     path('departments/', views.DepartmentAPIView.as_view(), name='departments'),
+    path('minute/', views.MinuteAPIView.as_view(), name='minute'),
     path('create-document/', views.CreateDocument.as_view(), name='create_document'),
     path('incoming-count/', views.IncomingCountAPIView.as_view(),
          name='incoming-count'),

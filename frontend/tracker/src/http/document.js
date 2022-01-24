@@ -121,3 +121,16 @@ export async function fetchTracking(token, document_id) {
   const res = await axios.get(`tracking/${document_id}`, config);
   return res;
 }
+
+// Minutes
+export async function createdMinute(token, data) {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
+    },
+  };
+
+  const res = await axios.post("minute/", data, config);
+  return res;
+}
