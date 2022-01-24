@@ -25,7 +25,8 @@ class UserAPIView(generics.RetrieveAPIView):
 
 class UsersAPIView(generics.ListAPIView):
     serializer_class = serializers.UserSerializer
-    queryset = models.User.objects.all()
+    queryset = models.User.objects.filter(
+        is_superuser=False).order_by('is_department', 'first_name')
 
 
 class LoginAPIView(views.APIView):
@@ -52,7 +53,8 @@ class LogoutAPIView(views.APIView):
 
 class DepartmentAPIView(generics.ListAPIView):
     serializer_class = serializers.DepartmentSerializer
-    queryset = models.Department.objects.all()
+    queryset = models.Department.objects.exclude(
+        name='Admin')
 
 
 class IncomingAPIView(views.APIView):
