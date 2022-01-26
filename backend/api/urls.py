@@ -13,6 +13,8 @@ urlpatterns = [
          views.MinuteAPIView.as_view(), name='minute'),
     path('create-document/', views.CreateDocument.as_view(), name='create_document'),
     path('document/<int:id>/', views.DocumentAPIView.as_view(), name='document'),
+    path('mark-complete/<int:id>/',
+         views.MarkCompleteAPIView.as_view(), name='mark_complete'),
     path('incoming-count/', views.IncomingCountAPIView.as_view(),
          name='incoming-count'),
     path('outgoing-count/', views.OutgoingCountAPIView.as_view(),
@@ -23,7 +25,7 @@ urlpatterns = [
          name='outgoing'),
     path('archive/', views.ArchiveAPIView.as_view(),
          name='archive'),
-    path('archive/<employee_id>/', views.ArchiveAPIView.as_view(),
+    path('archive/<user_id>/', views.ArchiveAPIView.as_view(),
          name='archive'),
     path('tracking/<document_id>/',
          views.TrackingAPIView.as_view(), name='tracking')

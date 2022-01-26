@@ -189,14 +189,14 @@ class MinuteAPIView(views.APIView):
 
 class ArchiveAPIView(views.APIView):
 
-    def get(self, request, employee_id=None, format=None):
-        # get archive of logged in user
-        if employee_id:
+    def get(self, request, user_id=None, format=None):
+        # get archive of logged in user[department]
+        if user_id:
             employee = models.User.objects.get(
-                employee_id=request.user.employee_id)
+                employee_id=user_id)
 
-            data = [archive for archive in models.Archive.objects.filter(requested=False).order_by(
-                'created_by', 'close_date') if archive.created_by == employee or archive.closed_by == employee]
+            data = [archive for archive in models.Archive.objects.all().order_by(
+                'created_by') if archive.created_by.department == employee.department]
             serialized_data = serializers.ArchiveSerializer(data, many=True)
             return Response(serialized_data.data, status=status.HTTP_200_OK)
 
@@ -207,8 +207,27 @@ class ArchiveAPIView(views.APIView):
         return Response(serialized_data.data, status=status.HTTP_200_OK)
 
     # mark item ass complete or create archive
-    def post(self, request, employee_id=None, format=None):
+    def post(self, request, user_id=None, format=None):
         pass
+
+
+class MarkCompleteAPIView(views.APIView):
+    def post(self, request, id, format=None):
+        trails = models.Trail.objects.filter(document__id=id)
+        document = models.Document.objects.get(id=id)
+
+        for trail in trails:
+            trail.status = 'C'
+            trail.save()
+
+        completed_documents = models.Trail.objects.filter(
+            document__id=id, status='C').order_by('date')
+        last_trail = completed_documents.last()
+
+        create_archive = models.Archive.objects.create(
+            created_by=document.created_by, closed_by=last_trail.receiver, document=document)
+
+        return Response({'success': 'marked as complete'}, status=status.HTTP_200_OK)
 
 
 class TrackingAPIView(views.APIView):

@@ -3,11 +3,13 @@ import "./ViewDocument.css";
 import logo from "../../assets/images/logo.png";
 import LoadingPage from "../../components/Loading/LoadingPage";
 import { useParams, useHistory } from "react-router";
-import { createMinute, fetchDocument } from "../../http/document";
+import { createMinute, fetchDocument, markComplete } from "../../http/document";
 import { useStateValue } from "../../store/StateProvider";
+import swal from "sweetalert";
 
 function ViewDocument() {
   const [store] = useStateValue();
+  const history = useHistory();
   const { id, type } = useParams();
   const [document, setDocument] = useState(null);
   const [minute, setMinute] = useState("");
@@ -22,6 +24,27 @@ function ViewDocument() {
     const data = res.data;
     setDocument(data);
     setLoading(false);
+  };
+
+  const handleMarkComplete = async () => {
+    swal({
+      title: "Are you sure you want to mark this document as complete?",
+      text: "This action is irreversible",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then(async (willSubmit) => {
+      if (willSubmit) {
+        const res = await markComplete(store.token, id);
+        console.log(res);
+        if (res.status === 200) {
+          swal("Document has been marked as complete", {
+            icon: "success",
+          });
+          history.push("/dashboard");
+        }
+      }
+    });
   };
 
   const handleMinute = async (e) => {
@@ -63,7 +86,7 @@ function ViewDocument() {
                     </button>
                     <button
                       className="file-btn submit"
-                      // onClick={handleMarkComplete}
+                      onClick={handleMarkComplete}
                     >
                       Mark Complete
                     </button>

@@ -84,7 +84,7 @@ export async function fetchOutgoing(token) {
 }
 
 // Individual employee archived documents
-export async function fetchEmployeeArchive(token, employee_id) {
+export async function fetchUserArchive(token, user_id) {
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -92,7 +92,7 @@ export async function fetchEmployeeArchive(token, employee_id) {
     },
   };
 
-  const res = await axios.get(`archive/${employee_id}/`, config);
+  const res = await axios.get(`archive/${user_id}/`, config);
   return res;
 }
 
@@ -144,5 +144,17 @@ export async function fetchDocument(token, id) {
   };
 
   const res = await axios.get(`document/${id}`, config);
+  return res;
+}
+
+export async function markComplete(token, id) {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
+    },
+  };
+
+  const res = await axios.post(`mark-complete/${id}/`, null, config);
   return res;
 }

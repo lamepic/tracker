@@ -18,6 +18,7 @@ import LoadingBackdrop from "../../components/Loading/LoadingBackdrop";
 import Archive from "../Archive/Archive";
 import Tracking from "../Tracking/Tracking";
 import ViewDocument from "../ViewDocument/ViewDocument";
+import ProtectedRoute from "../../utility/ProtectedRoute";
 
 function Dashboard() {
   const [store, dispatch] = useStateValue();
@@ -85,7 +86,7 @@ function Dashboard() {
                   component={ViewDocument}
                 />
                 <Route path="/dashboard/tracker" component={Tracking} />
-                <Route path="/dashboard/archive" component={Archive} />
+                <ProtectedRoute path="/dashboard/archive" component={Archive} />
                 {/* <Route
                   path="/dashboard/activate-document"
                   component={ActivateDocument}

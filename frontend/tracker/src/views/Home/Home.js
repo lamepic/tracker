@@ -53,11 +53,13 @@ function Home() {
                 />
               </Link>
             </div>
-            <div className="home__option">
-              <Link to="/dashboard/archive">
-                <HomeOption icon={archive} text="Archive" />
-              </Link>
-            </div>
+            {userInfo.is_department && (
+              <div className="home__option">
+                <Link to="/dashboard/archive">
+                  <HomeOption icon={archive} text="Archive" />
+                </Link>
+              </div>
+            )}
           </div>
 
           <hr className="divider" />

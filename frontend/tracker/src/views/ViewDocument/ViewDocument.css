@@ -172,7 +172,7 @@ textarea::placeholder {
 }
 
 .vr {
-  height: 380px;
+  height: 340px;
   width: 1px;
   opacity: 0.5;
   background-color: var(--dark-brown);
