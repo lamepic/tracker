@@ -3,14 +3,19 @@ import "./ViewDocument.css";
 import logo from "../../assets/images/logo.png";
 import LoadingPage from "../../components/Loading/LoadingPage";
 import { useParams, useHistory } from "react-router";
-import { fetchDocument } from "../../http/document";
+import { createMinute, fetchDocument } from "../../http/document";
 import { useStateValue } from "../../store/StateProvider";
 
 function ViewDocument() {
   const [store] = useStateValue();
   const { id, type } = useParams();
   const [document, setDocument] = useState(null);
+  const [minute, setMinute] = useState("");
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    _fetchDocument();
+  }, []);
 
   const _fetchDocument = async () => {
     const res = await fetchDocument(store.token, id);
@@ -19,9 +24,15 @@ function ViewDocument() {
     setLoading(false);
   };
 
-  useEffect(() => {
-    _fetchDocument();
-  }, []);
+  const handleMinute = async (e) => {
+    e.preventDefault();
+    const res = await createMinute(store.token, id, minute);
+    const data = res.data;
+    if (res.status === 201) {
+      setDocument({ ...document, minute: [data, ...document.minute] });
+      setMinute("");
+    }
+  };
 
   return (
     <>
@@ -61,17 +72,20 @@ function ViewDocument() {
               </div>
             </div>
 
-            <div className="vr"></div>
+            <div className={`vr ${type !== "incoming" && "vr-sm"}`}></div>
 
             <div className="file-info">
-              <div className="minute-box-preview">
+              <div
+                className={`minute-box-preview ${
+                  type !== "incoming" && "minute-box-preview-lg"
+                }`}
+              >
                 <div>
-                  {" "}
                   {document?.minute?.map((item) => {
                     return (
                       <div className="minute" key={item?.id}>
                         <p>{item?.content}</p>
-                        <p className="employee">{item?.employee}</p>
+                        <p className="employee">{item?.user}</p>
                         <p className="date">
                           Date: {new Date(item?.date).toDateString()}
                         </p>
@@ -81,20 +95,24 @@ function ViewDocument() {
                 </div>
               </div>
               {type === "incoming" && (
-                <form onSubmit={(e) => {}}>
+                <form
+                  onSubmit={(e) => {
+                    handleMinute(e);
+                  }}
+                >
                   <textarea
                     name="minutes"
                     cols="35"
                     rows="7"
                     placeholder="Please add minutes here..."
-                    // onChange={(e) => setMinute(e.target.value)}
-                    // value={minute}
+                    onChange={(e) => setMinute(e.target.value)}
+                    value={minute}
                   ></textarea>
                   <input
                     type="submit"
                     value="Add Minute"
                     className="minute-button"
-                    // disabled={minute ? false : true}
+                    disabled={minute ? false : true}
                   />
                 </form>
               )}

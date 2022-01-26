@@ -177,13 +177,12 @@ class DocumentAPIView(views.APIView):
 
 class MinuteAPIView(views.APIView):
 
-    def post(self, request, format=None):
-        data = request.data
-        content = data.get('content')
-        document = models.Document.objects.get(id=data.get('document'))
-        creator = models.User.objects.get(employee_id=request.user.employee_id)
+    def post(self, request, document_id, format=None):
+        content = request.data
+        document = get_object_or_404(models.Document, id=document_id)
+        creator = get_object_or_404(models.User, id=request.user.id)
         minute = models.Minute.objects.create(
-            content=content, creator=creator, document=document)
+            content=content, created_by=creator, document=document)
         serialized_data = serializers.MinuteSerializer(minute)
         return Response(serialized_data.data, status=status.HTTP_201_CREATED)
 

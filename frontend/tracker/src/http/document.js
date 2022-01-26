@@ -123,7 +123,7 @@ export async function fetchTracking(token, document_id) {
 }
 
 // Minutes
-export async function createMinute(token, data) {
+export async function createMinute(token, documentId, data) {
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -131,7 +131,7 @@ export async function createMinute(token, data) {
     },
   };
 
-  const res = await axios.post("minutes/", data, config);
+  const res = await axios.post(`minutes/${documentId}/`, data, config);
   return res;
 }
 

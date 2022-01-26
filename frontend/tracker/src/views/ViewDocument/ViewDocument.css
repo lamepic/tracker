@@ -104,6 +104,10 @@
   overflow-y: scroll;
 }
 
+.minute-box-preview-lg {
+  height: 270px !important;
+}
+
 .file-info {
   flex: 0.6;
   padding-left: 15px;
@@ -168,8 +172,13 @@ textarea::placeholder {
 }
 
 .vr {
-  height: auto;
+  height: 380px;
   width: 1px;
   opacity: 0.5;
   background-color: var(--dark-brown);
+  margin-top: 10px;
+}
+
+.vr-sm {
+  height: 270px;
 }
