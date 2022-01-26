@@ -131,6 +131,6 @@ export async function createMinute(token, data) {
     },
   };
 
-  const res = await axios.post("minute/", data, config);
+  const res = await axios.post("minutes/", data, config);
   return res;
 }
