@@ -11,6 +11,7 @@ urlpatterns = [
     path('departments/', views.DepartmentAPIView.as_view(), name='departments'),
     path('minutes/', views.MinuteAPIView.as_view(), name='minute'),
     path('create-document/', views.CreateDocument.as_view(), name='create_document'),
+    path('document/<int:id>/', views.DocumentAPIView.as_view(), name='document'),
     path('incoming-count/', views.IncomingCountAPIView.as_view(),
          name='incoming-count'),
     path('outgoing-count/', views.OutgoingCountAPIView.as_view(),

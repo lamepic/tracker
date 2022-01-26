@@ -134,3 +134,15 @@ export async function createMinute(token, data) {
   const res = await axios.post("minutes/", data, config);
   return res;
 }
+
+export async function fetchDocument(token, id) {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
+    },
+  };
+
+  const res = await axios.get(`document/${id}`, config);
+  return res;
+}

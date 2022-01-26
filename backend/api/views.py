@@ -168,6 +168,13 @@ class CreateDocument(views.APIView):
         return Response({'msg': 'Document sent'}, status=status.HTTP_201_CREATED)
 
 
+class DocumentAPIView(views.APIView):
+    def get(self, request, id, format=None):
+        document = get_object_or_404(models.Document, id=id)
+        serialized_data = serializers.DocumentsSerializer(document)
+        return Response(serialized_data.data)
+
+
 class MinuteAPIView(views.APIView):
 
     def post(self, request, format=None):
