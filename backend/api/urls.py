@@ -12,6 +12,8 @@ urlpatterns = [
     path('minutes/<int:document_id>/',
          views.MinuteAPIView.as_view(), name='minute'),
     path('create-document/', views.CreateDocument.as_view(), name='create_document'),
+    path('preview-code/<user_id>/<document_id>/',
+         views.PreviewCodeAPIView.as_view(), name='preview_code'),
     path('document/<int:id>/', views.DocumentAPIView.as_view(), name='document'),
     path('mark-complete/<int:id>/',
          views.MarkCompleteAPIView.as_view(), name='mark_complete'),

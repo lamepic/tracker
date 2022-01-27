@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Redirect } from "react-router";
 import { useStateValue } from "../store/StateProvider";
 
-const ProtectedRoute = ({ component: Component, ...rest }) => {
+const ProtectedPage = ({ component: Component, ...rest }) => {
   const [{ user }] = useStateValue();
 
   return (
@@ -19,4 +19,4 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
   );
 };
 
-export default ProtectedRoute;
+export default ProtectedPage;

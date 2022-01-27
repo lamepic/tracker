@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Dashboard.css";
 
-import { Route, Redirect } from "react-router";
+import { Route } from "react-router";
 import { useStateValue } from "../../store/StateProvider";
 import * as actionTypes from "../../store/actionTypes";
 
@@ -18,7 +18,7 @@ import LoadingBackdrop from "../../components/Loading/LoadingBackdrop";
 import Archive from "../Archive/Archive";
 import Tracking from "../Tracking/Tracking";
 import ViewDocument from "../ViewDocument/ViewDocument";
-import ProtectedRoute from "../../utility/ProtectedRoute";
+import ProtectedPage from "../../utility/ProtectedPage";
 
 function Dashboard() {
   const [store, dispatch] = useStateValue();
@@ -86,7 +86,7 @@ function Dashboard() {
                   component={ViewDocument}
                 />
                 <Route path="/dashboard/tracker" component={Tracking} />
-                <ProtectedRoute path="/dashboard/archive" component={Archive} />
+                <ProtectedPage path="/dashboard/archive" component={Archive} />
                 {/* <Route
                   path="/dashboard/activate-document"
                   component={ActivateDocument}

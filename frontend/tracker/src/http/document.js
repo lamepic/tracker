@@ -158,3 +158,27 @@ export async function markComplete(token, id) {
   const res = await axios.post(`mark-complete/${id}/`, null, config);
   return res;
 }
+
+export async function previewCode(token, user_id, document_id, data = null) {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
+    },
+  };
+
+  if (data !== null) {
+    const res = await axios.post(
+      `preview-code/${user_id}/${document_id}/`,
+      data,
+      config
+    );
+    return res;
+  } else {
+    const res = await axios.get(
+      `preview-code/${user_id}/${document_id}/`,
+      config
+    );
+    return res;
+  }
+}

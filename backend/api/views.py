@@ -250,6 +250,29 @@ class TrackingAPIView(views.APIView):
         return Response({"data": trackingStep}, status=status.HTTP_200_OK)
 
 
+class PreviewCodeAPIView(views.APIView):
+    def post(self, request, user_id, document_id, format=None):
+        data = request.data
+        print(data)
+        user_code = data.get('code')
+
+        code = models.PreviewCode.objects.filter(
+            user__employee_id=user_id, document__id=document_id).first()
+
+        if user_code == code.code:
+            code.used = True
+            code.save()
+            return Response({'status': 'success'}, status=status.HTTP_200_OK)
+        else:
+            return Response({'Error': 'Wrong Code'}, status=status.HTTP_400_BAD_REQUEST)
+
+    def get(self, request, user_id, document_id, format=None):
+        data = models.PreviewCode.objects.filter(
+            document__id=document_id, user__employee_id=user_id)
+        serialised_data = serializers.PreviewCodeSerializer(data, many=True)
+        return Response(serialised_data.data, status=status.HTTP_200_OK)
+
+
 def generate_code():
     code = random.sample(string.digits, 4)
     return ''.join(code)

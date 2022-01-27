@@ -60,3 +60,9 @@ a {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+.disabled:disabled {
+  cursor: not-allowed;
+  background-color: none !important;
+  pointer-events: all !important;
+}
