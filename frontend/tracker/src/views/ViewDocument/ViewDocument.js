@@ -25,8 +25,8 @@ function ViewDocument() {
   const [code, setCode] = useState(null);
 
   useEffect(() => {
-    _fetchDocument();
     fetchPreviewCode();
+    _fetchDocument();
   }, []);
 
   const _fetchDocument = async () => {
@@ -57,7 +57,7 @@ function ViewDocument() {
           swal("Document has been marked as complete", {
             icon: "success",
           });
-          history.push("/dashboard");
+          history.push("/");
         }
       }
     });
