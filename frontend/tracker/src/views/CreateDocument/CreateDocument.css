@@ -27,7 +27,7 @@
   justify-content: space-between;
   align-items: center;
   position: relative;
-  padding: 10px;
+  padding: 5px;
 }
 
 .form-group input {
@@ -36,6 +36,10 @@
   width: 100%;
   background-color: var(--lightest-brown);
   border-radius: 5px;
+}
+
+.form-group button {
+  display: inline-block;
 }
 
 .form-group > input:focus {
@@ -110,7 +114,7 @@
 }
 
 .form__buttons {
-  margin-top: 37px;
+  margin-top: 35px;
   width: fit-content;
   margin-left: auto;
 }

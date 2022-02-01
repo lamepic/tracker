@@ -9,7 +9,7 @@ function InputAutocomplete({ options, getOption }) {
         sx={{
           display: "inline-block",
           "& input": {
-            width: 261,
+            width: 264,
             color: (theme) =>
               theme.palette.getContrastText(theme.palette.background.paper),
           },

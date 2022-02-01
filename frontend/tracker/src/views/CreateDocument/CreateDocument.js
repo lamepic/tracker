@@ -15,6 +15,7 @@ import { departments, loadUsers } from "../../http/user";
 import { Typography } from "@mui/material";
 import { createDocument } from "../../http/document";
 import swal from "sweetalert";
+import SelectInput from "../../components/Misc/CustomSelect";
 
 function CreateDocument() {
   const [store, dispatch] = useStateValue();
@@ -190,6 +191,10 @@ function CreateDocument() {
                     style={{ width: "60%" }}
                     onChange={(e) => setReference(e.target.value)}
                   />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="">Document type</label>
+                  <SelectInput />
                 </div>
                 <div className="form-group">
                   <label htmlFor="">Department</label>

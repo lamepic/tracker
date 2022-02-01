@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import SelectUnstyled, {
   selectUnstyledClasses,
@@ -10,26 +10,28 @@ import PopperUnstyled from "@mui/base/PopperUnstyled";
 import { styled } from "@mui/system";
 
 const StyledButton = styled("button")`
-  font-family: IBM Plex Sans, sans-serif;
+  // font-family: IBM Plex Sans, sans-serif;
   font-size: 0.875rem;
   box-sizing: border-box;
-  min-height: calc(1.5em + 22px);
-  min-width: 200px;
+  // min-height: calc(1.5em + 22px);
+  width: 264px;
+  flex: 1;
   background: #fff;
-  border: 1px solid #ccc;
-  border-radius: 0.75em;
-  margin: 0.5em;
-  padding: 10px;
+  border: 0.2px solid var(--light-brown);
+  border-radius: 5px;
+  // margin: 0.5em;
+  padding: 5px 10px 0 5px;
   text-align: left;
   line-height: 1.5;
   color: #000;
+  background-color: var(--lightest-brown);
 
   &.${selectUnstyledClasses.focusVisible} {
     outline: 4px solid rgba(100, 100, 100, 0.3);
   }
 
   &.${selectUnstyledClasses.expanded} {
-    border-radius: 0.75em 0.75em 0 0;
+    // border-radius: 0.75em 0.75em 0 0;
 
     &::after {
       content: "▴";
@@ -57,10 +59,13 @@ const StyledListbox = styled("ul")`
 
 const StyledOption = styled(OptionUnstyled)`
   list-style: none;
-  padding: 4px 10px;
+  padding: 10px 10px;
   margin: 0;
   border-bottom: 1px solid #ddd;
   cursor: default;
+  min-width: 261px;
+  color: var(--dark-brown);
+  font-weight: 16px,
 
   &:last-of-type {
     border-bottom: none;
@@ -118,27 +123,39 @@ CustomSelect.propTypes = {
 };
 
 const characters = [
-  { name: "Frodo", race: "Hobbit" },
-  { name: "Sam", race: "Hobbit" },
+  { name: "Gimli", race: "Dwarf" },
+  { name: "Merry", race: "Hobbit" },
+  { name: "Gandalf", race: "Maia" },
+  { name: "Gimli", race: "Dwarf" },
+  { name: "Merry", race: "Hobbit" },
+  { name: "Gandalf", race: "Maia" },
+  { name: "Gimli", race: "Dwarf" },
   { name: "Merry", race: "Hobbit" },
   { name: "Gandalf", race: "Maia" },
   { name: "Gimli", race: "Dwarf" },
 ];
 
-export default function UnstyledSelectObjectValues() {
+function SelectInput() {
   const [character, setCharacter] = React.useState(characters[0]);
   return (
     <div>
       <CustomSelect value={character} onChange={setCharacter}>
-        {characters.map((c) => (
-          <StyledOption key={c.name} value={c}>
-            {c.name}
-          </StyledOption>
-        ))}
+        <div
+          style={{
+            height: "250px",
+            overflowY: "scroll",
+            overflowX: "none",
+          }}
+        >
+          {characters.map((c) => (
+            <StyledOption key={c.name} value={c}>
+              {c.name}
+            </StyledOption>
+          ))}
+        </div>
       </CustomSelect>
-
-      <p>Selected character:</p>
-      <pre>{JSON.stringify(character, null, 2)}</pre>
     </div>
   );
 }
+
+export default SelectInput;
