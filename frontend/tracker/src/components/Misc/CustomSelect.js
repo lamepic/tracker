@@ -65,7 +65,7 @@ const StyledOption = styled(OptionUnstyled)`
   margin: 0;
   border-bottom: 1px solid #ddd;
   cursor: default;
-  min-width: 261px;
+  min-width: 256px;
   color: var(--dark-brown);
   font-size: 16px,
 
