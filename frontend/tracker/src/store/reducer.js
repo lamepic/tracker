@@ -37,6 +37,11 @@ const reducer = (state, action) => {
         ...state,
         trackingDocId: action.payload,
       };
+    case actionTypes.SET_DOCTYPE:
+      return {
+        ...state,
+        documentType: action.payload,
+      };
     case actionTypes.LOGIN_FAIL:
     case actionTypes.AUTH_ERROR:
     case actionTypes.LOGOUT_SUCCESS:

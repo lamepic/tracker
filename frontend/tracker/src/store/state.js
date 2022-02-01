@@ -7,6 +7,7 @@ const intialState = {
   outgoingCount: 0,
   openTrackingModal: false,
   trackingDocId: null,
+  documentType: null,
 };
 
 export default intialState;

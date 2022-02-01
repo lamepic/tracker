@@ -28,6 +28,7 @@ function CreateDocument() {
   const [department, setDepartment] = useState(null);
   const [document, setDocument] = useState(null);
   const [attachments, setAttachments] = useState([]);
+  const [namesOfUsers, setNamesOfUsers] = useState([]);
 
   // utility state
   const [loading, setLoading] = useState(true);
@@ -61,13 +62,20 @@ function CreateDocument() {
     setLoading(false);
   }, []);
 
-  const namesOfUsers = users
-    .filter((user) => user.employee_id !== store.user.employee_id)
-    .map((user) => {
-      const { first_name, last_name, employee_id } = user;
-      const name = `${first_name} ${last_name}`;
-      return { employee_id, name };
-    });
+  useEffect(() => {
+    const namesOfUsers = users
+      .filter(
+        (user) =>
+          user.employee_id !== store.user.employee_id &&
+          user.department?.name === department?.name
+      )
+      .map((user) => {
+        const { first_name, last_name, employee_id } = user;
+        const name = `${first_name} ${last_name}`;
+        return { employee_id, name };
+      });
+    setNamesOfUsers(namesOfUsers);
+  }, [department]);
 
   const namesOfDepartments = _departments.map((department) => {
     const { id, name } = department;
@@ -95,6 +103,7 @@ function CreateDocument() {
       department,
       document,
       attachments,
+      documentType: store.documentType.name,
     };
     if (subject && receiver && department) {
       if (document === null) {

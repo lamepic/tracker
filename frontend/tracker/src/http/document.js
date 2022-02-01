@@ -18,6 +18,7 @@ export async function createDocument(token, data) {
   formData.append("document", data.document);
   formData.append("subject", data.subject);
   formData.append("reference", data.reference);
+  formData.append("documentType", data.documentType);
 
   for (let count = 0; count < data.attachments.length; count++) {
     formData.append(`attachment_${count}`, data.attachments[count].file);

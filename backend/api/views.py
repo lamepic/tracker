@@ -106,64 +106,65 @@ class CreateDocument(views.APIView):
     def post(self, request, format=None):
         data = request.data
         data_lst = list(data)
+        print(data)
 
-        department = data.get('department')
-        document = data.get('document')
-        reference = data.get('reference')
-        subject = data.get('subject')
+        # department = data.get('department')
+        # document = data.get('document')
+        # reference = data.get('reference')
+        # subject = data.get('subject')
 
-        receiver = get_object_or_404(
-            models.User, employee_id=data.get('receiver'))
-        sender = get_object_or_404(
-            models.User, employee_id=self.request.user.employee_id)
-        meta_info = f'Receipient : {receiver}'
+        # receiver = get_object_or_404(
+        #     models.User, employee_id=data.get('receiver'))
+        # sender = get_object_or_404(
+        #     models.User, employee_id=self.request.user.employee_id)
+        # meta_info = f'Receipient : {receiver}'
 
-        # sender_department_account = get_object_or_404(
-        #     models.User, is_department=True, department__id=sender.department.id)
-        receiver_department_account = get_object_or_404(
-            models.User, is_department=True, department__id=receiver.department.id)
+        # # sender_department_account = get_object_or_404(
+        # #     models.User, is_department=True, department__id=sender.department.id)
+        # receiver_department_account = get_object_or_404(
+        #     models.User, is_department=True, department__id=receiver.department.id)
 
-        print(receiver_department_account)
+        # print(receiver_department_account)
 
-        if str(department) != str(receiver.department):
-            return Response({'msg': 'User Department is incorrect'}, status=status.HTTP_400_BAD_REQUEST)
+        # if str(department) != str(receiver.department):
+        #     return Response({'msg': 'User Department is incorrect'}, status=status.HTTP_400_BAD_REQUEST)
 
-        try:
-            # creating documents and attachments
-            document = models.Document.objects.create(
-                content=document, subject=subject, created_by=sender, ref=reference)
-            if document:
-                count = 0
-                for item in data_lst:
-                    if item == f'attachment_{count}':
-                        doc = data[item]
-                        if f'attachment_subject_{count}' in data_lst:
-                            sub = data[f'attachment_subject_{count}']
+        # try:
+        #     # creating documents and attachments
+        #     document = models.Document.objects.create(
+        #         content=document, subject=subject, created_by=sender, ref=reference)
+        #     if document:
+        #         count = 0
+        #         for item in data_lst:
+        #             if item == f'attachment_{count}':
+        #                 doc = data[item]
+        #                 if f'attachment_subject_{count}' in data_lst:
+        #                     sub = data[f'attachment_subject_{count}']
 
-                        related_document = models.RelatedDocument.objects.create(
-                            subject=sub, content=doc, document=document)
-                        count += 1
+        #                 related_document = models.RelatedDocument.objects.create(
+        #                     subject=sub, content=doc, document=document)
+        #                 count += 1
 
-            # send to reciever department if sender and receiver not in the same department
-            if sender.department != receiver.department:
-                trail = models.Trail.objects.create(
-                    receiver=receiver_department_account, sender=sender, document=document, meta_info=meta_info)
-                trail.forwarded = True
-                trail.send_id = sender.employee_id
-                trail.save()
-                send_email(receiver=receiver_department_account,
-                           sender=sender, document=document, create_code=True)
-            else:
-                # send to receiver
-                trail = models.Trail.objects.create(
-                    receiver=receiver, sender=sender, document=document, meta_info=meta_info)
-                trail.forwarded = True
-                trail.send_id = sender.employee_id
-                trail.save()
-                send_email(receiver=receiver,
-                           sender=sender, document=document, create_code=True)
-        except:
-            return Response({'msg': 'Something went wrong!!'}, status=status.HTTP_400_BAD_REQUEST)
+        #     # send to reciever department if sender and receiver not in the same department
+        #     if sender.department != receiver.department:
+        #         trail = models.Trail.objects.create(
+        #             receiver=receiver_department_account, sender=sender, document=document, meta_info=meta_info)
+        #         trail.forwarded = True
+        #         trail.send_id = sender.employee_id
+        #         trail.save()
+        #         send_email(receiver=receiver_department_account,
+        #                    sender=sender, document=document, create_code=True)
+        #     else:
+        #         # send to receiver
+        #         trail = models.Trail.objects.create(
+        #             receiver=receiver, sender=sender, document=document, meta_info=meta_info)
+        #         trail.forwarded = True
+        #         trail.send_id = sender.employee_id
+        #         trail.save()
+        #         send_email(receiver=receiver,
+        #                    sender=sender, document=document, create_code=True)
+        # except:
+        #     return Response({'msg': 'Something went wrong!!'}, status=status.HTTP_400_BAD_REQUEST)
 
         return Response({'msg': 'Document sent'}, status=status.HTTP_201_CREATED)
 

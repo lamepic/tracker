@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import SelectUnstyled, {
   selectUnstyledClasses,
@@ -8,6 +8,8 @@ import OptionUnstyled, {
 } from "@mui/base/OptionUnstyled";
 import PopperUnstyled from "@mui/base/PopperUnstyled";
 import { styled } from "@mui/system";
+import { useStateValue } from "../../store/StateProvider";
+import * as actionTypes from "../../store/actionTypes";
 
 const StyledButton = styled("button")`
   // font-family: IBM Plex Sans, sans-serif;
@@ -65,7 +67,7 @@ const StyledOption = styled(OptionUnstyled)`
   cursor: default;
   min-width: 261px;
   color: var(--dark-brown);
-  font-weight: 16px,
+  font-size: 16px,
 
   &:last-of-type {
     border-bottom: none;
@@ -123,26 +125,31 @@ CustomSelect.propTypes = {
 };
 
 const characters = [
-  { name: "Gimli", race: "Dwarf" },
-  { name: "Merry", race: "Hobbit" },
-  { name: "Gandalf", race: "Maia" },
-  { name: "Gimli", race: "Dwarf" },
-  { name: "Merry", race: "Hobbit" },
-  { name: "Gandalf", race: "Maia" },
-  { name: "Gimli", race: "Dwarf" },
-  { name: "Merry", race: "Hobbit" },
-  { name: "Gandalf", race: "Maia" },
-  { name: "Gimli", race: "Dwarf" },
+  { name: "Custom", race: "Hobbit" },
+  { name: "Medical", race: "Hobbit" },
+  { name: "Stationary", race: "Hobbit" },
+  { name: "Water", race: "Hobbit" },
+  { name: "Food", race: "Maia" },
+  { name: "Salary", race: "Dwarf" },
 ];
 
 function SelectInput() {
-  const [character, setCharacter] = React.useState(characters[0]);
+  const [store, dispatch] = useStateValue();
+  const [option, setOption] = useState(null);
+
+  useEffect(() => {
+    dispatch({
+      type: actionTypes.SET_DOCTYPE,
+      payload: option,
+    });
+  }, [option]);
+
   return (
     <div>
-      <CustomSelect value={character} onChange={setCharacter}>
+      <CustomSelect value={store.documentType} onChange={setOption}>
         <div
           style={{
-            height: "250px",
+            maxHeight: "250px",
             overflowY: "scroll",
             overflowX: "none",
           }}
