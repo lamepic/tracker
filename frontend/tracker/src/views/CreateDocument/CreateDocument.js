@@ -192,17 +192,17 @@ function CreateDocument() {
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="">To</label>
-                  <InputAutocomplete
-                    options={namesOfUsers}
-                    getOption={setReceiver}
-                  />
-                </div>
-                <div className="form-group">
                   <label htmlFor="">Department</label>
                   <InputAutocomplete
                     options={namesOfDepartments}
                     getOption={setDepartment}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="">To</label>
+                  <InputAutocomplete
+                    options={namesOfUsers}
+                    getOption={setReceiver}
                   />
                 </div>
               </div>
