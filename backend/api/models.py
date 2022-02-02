@@ -162,3 +162,20 @@ class ActivateDocument(models.Model):
 
     def __str__(self):
         return f'{self.document.subject} - {self.expire_at}'
+
+
+class DocumentAction(models.Model):
+    ACTION_OPTIONS = (
+        ('F', 'Forward'),
+        ('CC', 'Carbon Copy')
+    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    action = models.CharField(max_length=2, choices=ACTION_OPTIONS)
+
+
+class DocumentType(models.Model):
+    name = models.CharField(max_length=100)
+    department = models.ForeignKey(
+        Department, on_delete=models.CASCADE, related_name='flow_department')
+    flow_action_path = models.ForeignKey(
+        DocumentAction, on_delete=models.CASCADE)
