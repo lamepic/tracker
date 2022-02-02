@@ -274,6 +274,12 @@ class PreviewCodeAPIView(views.APIView):
         return Response(serialised_data.data, status=status.HTTP_200_OK)
 
 
+class DocumentTypeAPIView(views.APIView):
+    def get(self, request, format=None):
+        document_types = models.DocumentType.filter(department=request.user.department)
+        serialized_data = serializers.DocumentTypeSerializer(document_types, many=True)
+        return Response(serialized_data.data, status=status.HTTP_200_OK)
+
 def generate_code():
     code = random.sample(string.digits, 4)
     return ''.join(code)
