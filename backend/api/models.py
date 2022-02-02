@@ -22,12 +22,39 @@ class Department(models.Model):
         super(Department, self).save(*args, **kwargs)
 
 
+class DocumentAction(models.Model):
+    ACTION_OPTIONS = (
+        ('F', 'Forward'),
+        ('CC', 'Carbon Copy')
+    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    action = models.CharField(max_length=2, choices=ACTION_OPTIONS)
+    document_type = models.ForeignKey(
+        'DocumentType', on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self):
+        return f'{self.user.first_name} {self.user.last_name} - {self.action}'
+
+
+class DocumentType(models.Model):
+    name = models.CharField(max_length=100)
+    department = models.ForeignKey(
+        Department, on_delete=models.CASCADE, related_name='flow_department', blank=True, null=True)
+
+    def __str__(self):
+        if self.department:
+            return f'{self.name} [{self.department.name}]'
+        return f'{self.name}'
+
+
 class Document(models.Model):
     content = models.FileField(upload_to='documents/', blank=True, null=False)
     subject = models.CharField(max_length=100)
     ref = models.CharField(max_length=60, blank=True, null=True)
     created_by = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='document_creator')
+    document_type = models.ForeignKey(
+        DocumentType, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.subject
@@ -162,28 +189,3 @@ class ActivateDocument(models.Model):
 
     def __str__(self):
         return f'{self.document.subject} - {self.expire_at}'
-
-
-class DocumentAction(models.Model):
-    ACTION_OPTIONS = (
-        ('F', 'Forward'),
-        ('CC', 'Carbon Copy')
-    )
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    action = models.CharField(max_length=2, choices=ACTION_OPTIONS)
-    document_type = models.ForeignKey(
-        'DocumentType', on_delete=models.CASCADE, null=True, blank=True)
-
-    def __str__(self):
-        return f'{self.user.first_name} {self.user.last_name} - {self.action}'
-
-
-class DocumentType(models.Model):
-    name = models.CharField(max_length=100)
-    department = models.ForeignKey(
-        Department, on_delete=models.CASCADE, related_name='flow_department', blank=True, null=True)
-
-    def __str__(self):
-        if self.department:
-            return f'{self.name} [{self.department.name}]'
-        return f'{self.name}'

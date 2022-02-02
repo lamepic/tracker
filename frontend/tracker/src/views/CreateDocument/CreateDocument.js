@@ -190,7 +190,6 @@ function CreateDocument() {
     }
   };
 
-  console.log(documentAction);
   return (
     <>
       {!loading ? (
