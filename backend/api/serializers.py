@@ -171,3 +171,12 @@ class DocumentTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.DocumentType
         fields = ['id', 'name', 'department']
+
+
+class DocumentActionSerializer(serializers.ModelSerializer):
+    document_type = DocumentTypeSerializer()
+    user = UserSerializer()
+
+    class Meta:
+        model = models.DocumentAction
+        fields = ['id', 'user', 'action', 'document_type']
