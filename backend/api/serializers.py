@@ -163,3 +163,11 @@ class ActivateDocumentSerializer(serializers.ModelSerializer):
         model = models.ActivateDocument
         fields = ['id', 'document', 'expire_at', 'document_receiver',
                   'document_sender', 'date_activated', 'expired']
+
+
+class DocumentTypeSerializer(serializers.ModelSerializer):
+    department = DepartmentSerializer()
+
+    class Meta:
+        model = models.DocumentType
+        fields = ['id', 'name', 'department']
