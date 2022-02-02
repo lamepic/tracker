@@ -10,6 +10,7 @@ import PopperUnstyled from "@mui/base/PopperUnstyled";
 import { styled } from "@mui/system";
 import { useStateValue } from "../../store/StateProvider";
 import * as actionTypes from "../../store/actionTypes";
+import { fetchDocumentType } from "../../http/document";
 
 const StyledButton = styled("button")`
   // font-family: IBM Plex Sans, sans-serif;
@@ -124,18 +125,14 @@ CustomSelect.propTypes = {
   }),
 };
 
-const characters = [
-  { name: "Custom", race: "Hobbit" },
-  { name: "Medical", race: "Hobbit" },
-  { name: "Stationary", race: "Hobbit" },
-  { name: "Water", race: "Hobbit" },
-  { name: "Food", race: "Maia" },
-  { name: "Salary", race: "Dwarf" },
-];
-
 function SelectInput() {
   const [store, dispatch] = useStateValue();
   const [option, setOption] = useState(null);
+  const [options, setOptions] = useState([]);
+
+  useEffect(() => {
+    _fetchDocumentType();
+  }, []);
 
   useEffect(() => {
     dispatch({
@@ -143,6 +140,12 @@ function SelectInput() {
       payload: option,
     });
   }, [option]);
+
+  const _fetchDocumentType = async () => {
+    const res = await fetchDocumentType(store.token);
+    const data = res.data;
+    setOptions(data);
+  };
 
   return (
     <div>
@@ -154,7 +157,7 @@ function SelectInput() {
             overflowX: "none",
           }}
         >
-          {characters.map((c) => (
+          {options.map((c) => (
             <StyledOption key={c.name} value={c}>
               {c.name}
             </StyledOption>

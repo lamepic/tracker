@@ -183,3 +183,27 @@ export async function previewCode(token, user_id, document_id, data = null) {
     return res;
   }
 }
+
+export async function fetchDocumentType(token) {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
+    },
+  };
+
+  const res = await axios.get("document-type/", config);
+  return res;
+}
+
+export async function fetchDocumentAction(token, id) {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
+    },
+  };
+
+  const res = await axios.get(`document-action/${id}`, config);
+  return res;
+}

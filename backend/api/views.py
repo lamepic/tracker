@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
+from django.db.models import Q
 
 import random
 import string
@@ -276,9 +277,27 @@ class PreviewCodeAPIView(views.APIView):
 
 class DocumentTypeAPIView(views.APIView):
     def get(self, request, format=None):
-        document_types = models.DocumentType.filter(department=request.user.department)
-        serialized_data = serializers.DocumentTypeSerializer(document_types, many=True)
+        document_types = models.DocumentType.objects.filter(
+            Q(department=request.user.department) | Q(department=None))
+        serialized_data = serializers.DocumentTypeSerializer(
+            document_types, many=True)
         return Response(serialized_data.data, status=status.HTTP_200_OK)
+
+
+class DocumentActionAPIView(views.APIView):
+    def get(self, request, action_id, format=None):
+        if action_id:
+            try:
+                document_action = models.DocumentAction.objects.filter(
+                    document_type__id=action_id)
+                serialized_data = serializers.DocumentActionSerializer(
+                    document_action, many=True)
+                print(document_action)
+                return Response(serialized_data.data, status=status.HTTP_200_OK)
+            except:
+                print("error")
+        return Response({'data': 'success'}, status=status.HTTP_200_OK)
+
 
 def generate_code():
     code = random.sample(string.digits, 4)
@@ -296,7 +315,7 @@ def send_email(receiver, sender, document, create_code=False):
 
     subject = 'New Document Received'
 
-    body = f'''You Just Received a document 
+    body = f'''You Just Received a document
             {document.subject.capitalize()} from {sender.first_name} {sender.last_name}.'''
 
     info = {
@@ -306,8 +325,8 @@ def send_email(receiver, sender, document, create_code=False):
 
     if code:
         info['code'] = code
-        body = f'''You Just Received a document 
-            {document.subject.capitalize()} from {sender.first_name} {sender.last_name} 
+        body = f'''You Just Received a document
+            {document.subject.capitalize()} from {sender.first_name} {sender.last_name}
             with a one time token to view it. Your one time code is {code}'''
 
     # html_body = render_to_string('preview_code.html', info)

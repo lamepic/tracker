@@ -13,7 +13,7 @@ import AttachmentModal from "../../components/AttachmentModal/AttachmentModal";
 import LoadingBackdrop from "../../components/Loading/LoadingBackdrop";
 import { departments, loadUsers } from "../../http/user";
 import { Typography } from "@mui/material";
-import { createDocument } from "../../http/document";
+import { createDocument, fetchDocumentAction } from "../../http/document";
 import swal from "sweetalert";
 import SelectInput from "../../components/Misc/CustomSelect";
 
@@ -29,6 +29,7 @@ function CreateDocument() {
   const [document, setDocument] = useState(null);
   const [attachments, setAttachments] = useState([]);
   const [namesOfUsers, setNamesOfUsers] = useState([]);
+  const [documentAction, setDocumentAction] = useState(null);
 
   // utility state
   const [loading, setLoading] = useState(true);
@@ -56,6 +57,16 @@ function CreateDocument() {
     }
   };
 
+  const _fetchDocumentActions = async (id) => {
+    try {
+      const res = await fetchDocumentAction(store.token, id);
+      const data = res.data;
+      setDocumentAction(data[0]);
+    } catch (error) {
+      console.log("document Actions", error);
+    }
+  };
+
   useEffect(() => {
     fetchDepartments();
     fetchUsers();
@@ -76,6 +87,11 @@ function CreateDocument() {
       });
     setNamesOfUsers(namesOfUsers);
   }, [department]);
+
+  useEffect(() => {
+    const documentTypeId = store.documentType !== null && store.documentType.id;
+    _fetchDocumentActions(documentTypeId);
+  }, [store.documentType?.id]);
 
   const namesOfDepartments = _departments.map((department) => {
     const { id, name } = department;
@@ -174,6 +190,7 @@ function CreateDocument() {
     }
   };
 
+  console.log(documentAction);
   return (
     <>
       {!loading ? (
@@ -207,17 +224,35 @@ function CreateDocument() {
                 </div>
                 <div className="form-group">
                   <label htmlFor="">Department</label>
-                  <InputAutocomplete
-                    options={namesOfDepartments}
-                    getOption={setDepartment}
-                  />
+                  {documentAction ? (
+                    <input
+                      type="text"
+                      style={{ width: "60%" }}
+                      value={documentAction?.user.department.name}
+                      disabled
+                    />
+                  ) : (
+                    <InputAutocomplete
+                      options={namesOfDepartments}
+                      getOption={setDepartment}
+                    />
+                  )}
                 </div>
                 <div className="form-group">
                   <label htmlFor="">To</label>
-                  <InputAutocomplete
-                    options={namesOfUsers}
-                    getOption={setReceiver}
-                  />
+                  {documentAction ? (
+                    <input
+                      type="text"
+                      style={{ width: "60%" }}
+                      value={`${documentAction?.user.first_name}  ${documentAction?.user.last_name}`}
+                      disabled
+                    />
+                  ) : (
+                    <InputAutocomplete
+                      options={namesOfUsers}
+                      getOption={setReceiver}
+                    />
+                  )}
                 </div>
               </div>
               <hr className="divider" />
