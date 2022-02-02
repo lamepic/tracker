@@ -96,3 +96,13 @@ class ArchiveAdmin(admin.ModelAdmin):
 class ActivateDocumentAdmin(admin.ModelAdmin):
     list_display = ['id', 'document', 'document_receiver',
                     'document_sender', 'expire_at', 'date_activated', 'expired']
+
+
+@admin.register(models.DocumentType)
+class DocumentTypeAdmin(admin.ModelAdmin):
+    list_display = ['name', 'department']
+
+
+@admin.register(models.DocumentAction)
+class DocumentActionAdmin(admin.ModelAdmin):
+    list_display = ['user', 'action', 'document_type']

@@ -171,11 +171,17 @@ class DocumentAction(models.Model):
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     action = models.CharField(max_length=2, choices=ACTION_OPTIONS)
+    document_type = models.ForeignKey(
+        'DocumentType', on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self):
+        return f'{self.user.first_name} {self.user.last_name} - {self.action}'
 
 
 class DocumentType(models.Model):
     name = models.CharField(max_length=100)
     department = models.ForeignKey(
         Department, on_delete=models.CASCADE, related_name='flow_department')
-    flow_action_path = models.ForeignKey(
-        DocumentAction, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.name} [{self.department.name}]'
