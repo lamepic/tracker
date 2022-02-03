@@ -32,6 +32,6 @@ urlpatterns = [
     path('tracking/<document_id>/',
          views.TrackingAPIView.as_view(), name='tracking'),
     path('document-type/', views.DocumentTypeAPIView.as_view(), name='document_type'),
-    path('document-action/<action_id>',
+    path('document-action/<action_id>/',
          views.DocumentActionAPIView.as_view(), name='document-action')
 ]

@@ -61,7 +61,8 @@ function CreateDocument() {
     try {
       const res = await fetchDocumentAction(store.token, id);
       const data = res.data;
-      setDocumentAction(data[0]);
+      setDocumentAction(data);
+      console.log("document action", data);
     } catch (error) {
       console.log("document Actions", error);
     }
@@ -89,9 +90,16 @@ function CreateDocument() {
   }, [department]);
 
   useEffect(() => {
-    const documentTypeId = store.documentType !== null && store.documentType.id;
-    _fetchDocumentActions(documentTypeId);
-  }, [store.documentType?.id]);
+    if (store.documentType !== null) {
+      const documentTypeId = store.documentType.id;
+      _fetchDocumentActions(documentTypeId);
+    }
+  }, [store.documentType]);
+
+  useEffect(() => {
+    setDepartment(documentAction?.user?.department);
+    setReceiver(documentAction?.user);
+  }, [documentAction]);
 
   const namesOfDepartments = _departments.map((department) => {
     const { id, name } = department;
@@ -119,6 +127,7 @@ function CreateDocument() {
       department,
       document,
       attachments,
+      documentAction,
       documentType: store.documentType.name,
     };
     if (subject && receiver && department) {
@@ -223,11 +232,12 @@ function CreateDocument() {
                 </div>
                 <div className="form-group">
                   <label htmlFor="">Department</label>
-                  {documentAction ? (
+                  {documentAction === null ||
+                  documentAction?.data !== "Custom" ? (
                     <input
                       type="text"
                       style={{ width: "60%" }}
-                      value={documentAction?.user.department.name}
+                      value={documentAction?.user?.department?.name}
                       disabled
                     />
                   ) : (
@@ -239,11 +249,16 @@ function CreateDocument() {
                 </div>
                 <div className="form-group">
                   <label htmlFor="">To</label>
-                  {documentAction ? (
+                  {documentAction === null ||
+                  documentAction?.data !== "Custom" ? (
                     <input
                       type="text"
                       style={{ width: "60%" }}
-                      value={`${documentAction?.user.first_name}  ${documentAction?.user.last_name}`}
+                      value={
+                        documentAction
+                          ? `${documentAction?.user?.first_name} ${documentAction?.user?.last_name}`
+                          : ""
+                      }
                       disabled
                     />
                   ) : (

@@ -204,6 +204,6 @@ export async function fetchDocumentAction(token, id) {
     },
   };
 
-  const res = await axios.get(`document-action/${id}`, config);
+  const res = await axios.get(`document-action/${id}/`, config);
   return res;
 }

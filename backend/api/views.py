@@ -1,3 +1,5 @@
+import json
+from msilib.schema import Error
 from django.shortcuts import get_object_or_404
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
@@ -106,66 +108,87 @@ class CreateDocument(views.APIView):
 
     def post(self, request, format=None):
         data = request.data
-        data_lst = list(data)
-        print(data)
+        data_lst = list(data)  # for attachments
 
-        # department = data.get('department')
-        # document = data.get('document')
-        # reference = data.get('reference')
-        # subject = data.get('subject')
+        data_document_type = data.get('documentType')
+        document = data.get('document')
+        reference = data.get('reference')
+        subject = data.get('subject')
+        receiver = get_object_or_404(
+            models.User, employee_id=data.get('receiver'))
+        sender = get_object_or_404(
+            models.User, employee_id=self.request.user.employee_id)
 
-        # receiver = get_object_or_404(
-        #     models.User, employee_id=data.get('receiver'))
-        # sender = get_object_or_404(
-        #     models.User, employee_id=self.request.user.employee_id)
-        # meta_info = f'Receipient : {receiver}'
+        if data_document_type == 'Custom':
+            department = data.get('department')
 
-        # # sender_department_account = get_object_or_404(
-        # #     models.User, is_department=True, department__id=sender.department.id)
-        # receiver_department_account = get_object_or_404(
-        #     models.User, is_department=True, department__id=receiver.department.id)
+            meta_info = f'Receipient : {receiver}'
+            document_type = get_object_or_404(
+                models.DocumentType, name=data_document_type)
 
-        # print(receiver_department_account)
+            # sender_department_account = get_object_or_404(
+            #     models.User, is_department=True, department__id=sender.department.id)
+            receiver_department_account = get_object_or_404(
+                models.User, is_department=True, department__id=receiver.department.id)
 
-        # if str(department) != str(receiver.department):
-        #     return Response({'msg': 'User Department is incorrect'}, status=status.HTTP_400_BAD_REQUEST)
+            if str(department) != str(receiver.department):
+                return Response({'msg': 'User Department is incorrect'}, status=status.HTTP_400_BAD_REQUEST)
 
-        # try:
-        #     # creating documents and attachments
-        #     document = models.Document.objects.create(
-        #         content=document, subject=subject, created_by=sender, ref=reference)
-        #     if document:
-        #         count = 0
-        #         for item in data_lst:
-        #             if item == f'attachment_{count}':
-        #                 doc = data[item]
-        #                 if f'attachment_subject_{count}' in data_lst:
-        #                     sub = data[f'attachment_subject_{count}']
+            try:
+                # creating documents and attachments
+                document = models.Document.objects.create(
+                    content=document, subject=subject, created_by=sender, ref=reference, document_type=document_type)
+                if document:
+                    count = 0
+                    for item in data_lst:
+                        if item == f'attachment_{count}':
+                            doc = data[item]
+                            if f'attachment_subject_{count}' in data_lst:
+                                sub = data[f'attachment_subject_{count}']
 
-        #                 related_document = models.RelatedDocument.objects.create(
-        #                     subject=sub, content=doc, document=document)
-        #                 count += 1
+                            related_document = models.RelatedDocument.objects.create(
+                                subject=sub, content=doc, document=document)
+                            count += 1
 
-        #     # send to reciever department if sender and receiver not in the same department
-        #     if sender.department != receiver.department:
-        #         trail = models.Trail.objects.create(
-        #             receiver=receiver_department_account, sender=sender, document=document, meta_info=meta_info)
-        #         trail.forwarded = True
-        #         trail.send_id = sender.employee_id
-        #         trail.save()
-        #         send_email(receiver=receiver_department_account,
-        #                    sender=sender, document=document, create_code=True)
-        #     else:
-        #         # send to receiver
-        #         trail = models.Trail.objects.create(
-        #             receiver=receiver, sender=sender, document=document, meta_info=meta_info)
-        #         trail.forwarded = True
-        #         trail.send_id = sender.employee_id
-        #         trail.save()
-        #         send_email(receiver=receiver,
-        #                    sender=sender, document=document, create_code=True)
-        # except:
-        #     return Response({'msg': 'Something went wrong!!'}, status=status.HTTP_400_BAD_REQUEST)
+                # send to reciever department if sender and receiver not in the same department
+                if sender.department != receiver.department:
+                    trail = models.Trail.objects.create(
+                        receiver=receiver_department_account, sender=sender, document=document, meta_info=meta_info)
+                    trail.forwarded = True
+                    trail.send_id = sender.employee_id
+                    trail.save()
+                    send_email(receiver=receiver_department_account,
+                               sender=sender, document=document, create_code=True)
+                else:
+                    # send to receiver
+                    trail = models.Trail.objects.create(
+                        receiver=receiver, sender=sender, document=document, meta_info=meta_info)
+                    trail.forwarded = True
+                    trail.send_id = sender.employee_id
+                    trail.save()
+                    send_email(receiver=receiver,
+                               sender=sender, document=document, create_code=True)
+            except:
+                return Response({'msg': 'Something went wrong!!'}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            document_type = models.DocumentType.objects.get(
+                name=data_document_type)
+            document_actions = models.DocumentAction.objects.filter(
+                document_type=document_type)
+            # document_action_receiver =
+            data = [
+                path for path in document_actions if path.user != request.user]
+
+            order = data.index()
+
+            trail = models.Trail.objects.create(
+                receiver=receiver, sender=sender, document=document)
+            trail.forwarded = True
+            trail.send_id = sender.employee_id
+            trail.save()
+            send_email(receiver=receiver,
+                       sender=sender, document=document, create_code=True)
+            print(document_type)
 
         return Response({'msg': 'Document sent'}, status=status.HTTP_201_CREATED)
 
@@ -285,18 +308,54 @@ class DocumentTypeAPIView(views.APIView):
 
 
 class DocumentActionAPIView(views.APIView):
+
     def get(self, request, action_id, format=None):
         if action_id:
             try:
+                # get document actions for the requested document type
                 document_action = models.DocumentAction.objects.filter(
                     document_type__id=action_id)
-                serialized_data = serializers.DocumentActionSerializer(
-                    document_action, many=True)
-                print(document_action)
-                return Response(serialized_data.data, status=status.HTTP_200_OK)
-            except:
-                print("error")
-        return Response({'data': 'success'}, status=status.HTTP_200_OK)
+                if len(document_action) > 0:
+                    # check if the last user in the document action is the department account else create a department action
+                    document_action_last_user = document_action.last()
+                    department_account = models.User.objects.get(
+                        department=request.user.department, is_department=True)
+                    if document_action_last_user.user != department_account:
+                        document_type = document_action[0].document_type
+                        models.DocumentAction.objects.create(
+                            user=department_account, action='F', document_type=document_type)
+                    # Check if the request.user [creator of document] is in the document actions
+                    document_sender = [
+                        user for user in document_action if user.user == request.user]
+                    if len(document_sender) > 0:
+                        # if request.user is in the document action send document to next user after request.user
+                        document_action_lst = [
+                            action for action in models.DocumentAction.objects.filter(
+                                document_type__id=action_id)]
+                        document_action_sender_index = document_action_lst.index(
+                            document_sender[0])
+                        # check if there is a next user to send to then send
+                        if document_action_sender_index + 1 <= len(document_action_lst):
+                            document_action_next_receiveing_user = document_action_lst[
+                                document_action_sender_index + 1]
+                        # else:
+                        #     pass
+                        data = document_action_next_receiveing_user
+                        serialized_data = serializers.DocumentActionSerializer(
+                            data)
+                        return Response(serialized_data.data, status=status.HTTP_200_OK)
+                    else:
+                        document_action_next_receiveing_user = document_action[0]
+                        data = document_action_next_receiveing_user
+                        print(data)
+                        serialized_data = serializers.DocumentActionSerializer(
+                            data)
+                        return Response(serialized_data.data, status=status.HTTP_200_OK)
+                else:
+                    print(action_id)
+            except Exception as err:
+                print(err)
+        return Response({'data': 'Custom'}, status=status.HTTP_200_OK)
 
 
 def generate_code():
