@@ -62,7 +62,6 @@ function CreateDocument() {
       const res = await fetchDocumentAction(store.token, id);
       const data = res.data;
       setDocumentAction(data);
-      console.log("document action", data);
     } catch (error) {
       console.log("document Actions", error);
     }
@@ -154,6 +153,7 @@ function CreateDocument() {
                     setSubject("");
                     setAttachments([]);
                     setDocument(null);
+                    setDocumentAction(null);
                     history.push("/dashboard/outgoing");
                     swal("Document has been sent succesfully", {
                       icon: "success",

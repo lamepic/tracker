@@ -147,8 +147,6 @@ function SelectInput() {
     setOptions([...options, ...data]);
   };
 
-  console.log(options);
-
   return (
     <div>
       <CustomSelect value={store.documentType} onChange={setOption}>
