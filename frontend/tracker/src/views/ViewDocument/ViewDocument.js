@@ -46,7 +46,6 @@ function ViewDocument() {
     const res = await fetchNextUserToForwardDoc(store.token, id);
     const data = res.data;
     setNextReceiver(data.data);
-    console.log(data.data);
   };
 
   const fetchPreviewCode = async () => {
@@ -105,9 +104,7 @@ function ViewDocument() {
             receiver: nextReceiver.receiver,
             document,
           };
-          console.log(data);
           const res = await forwardDocument(store.token, data);
-          console.log(res);
           if (res.status === 201) {
             setOpenModal(false);
             history.push("/dashboard/outgoing");

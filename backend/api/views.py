@@ -381,30 +381,33 @@ class DocumentActionAPIView(views.APIView):
 class ForwardDocumentAPIView(views.APIView):
 
     def get(self, request, document_id, format=None):
-        document = models.Document.objects.get(id=document_id)
-        document_actions = models.DocumentAction.objects.filter(
-            document_type=document.document_type)
-        document_prev_trail = models.Trail.objects.filter(
-            document=document).latest('document')
-        next_receiving_user_index = document_prev_trail.document_flow_order.order + 1
 
         try:
+            document = models.Document.objects.get(id=document_id)
+            document_actions = models.DocumentAction.objects.filter(
+                document_type=document.document_type)
+            document_prev_trail = models.Trail.objects.filter(
+                document=document).latest('document')
+            next_receiving_user_index = document_prev_trail.document_flow_order.order + 1
+
             if next_receiving_user_index < len(document_actions)-1:
                 next_receiving_user = document_actions[next_receiving_user_index].user
                 serialized_receiver = serializers.UserSerializer(
                     next_receiving_user)
                 data = {"receiver": serialized_receiver.data,
                         "last_receiver": False}
+                return Response({'data': data}, status=status.HTTP_201_CREATED)
             elif next_receiving_user_index == len(document_actions)-1:
                 next_receiving_user = document_actions[next_receiving_user_index].user
                 serialized_receiver = serializers.UserSerializer(
                     next_receiving_user)
                 data = {"receiver": serialized_receiver.data,
                         "last_receiver": True}
+                return Response({'data': data}, status=status.HTTP_201_CREATED)
         except Exception as err:
             print(err)
 
-        return Response({'data': data}, status=status.HTTP_201_CREATED)
+        return Response({'status': 'success'}, status=status.HTTP_201_CREATED)
 
     def post(self, request, format=None):
         data = request.data
