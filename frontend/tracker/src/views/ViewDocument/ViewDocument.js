@@ -6,6 +6,7 @@ import { useParams, useHistory } from "react-router";
 import {
   createMinute,
   fetchDocument,
+  forwardDocument,
   markComplete,
   previewCode,
 } from "../../http/document";
@@ -73,6 +74,11 @@ function ViewDocument() {
     }
   };
 
+  const handleForwardDocument = async () => {
+    const res = await forwardDocument(store.token, { working: "yes" });
+    console.log(res.status);
+  };
+
   const handlePreview = () => {
     if (code) {
       if (!code?.used) {
@@ -138,7 +144,7 @@ function ViewDocument() {
                   <>
                     <button
                       className="file-btn forward disabled"
-                      // onClick={() => handleForwardDocument()}
+                      onClick={() => handleForwardDocument()}
                       disabled={!code?.used}
                     >
                       Forward

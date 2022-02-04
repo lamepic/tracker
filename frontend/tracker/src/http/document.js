@@ -207,3 +207,15 @@ export async function fetchDocumentAction(token, id) {
   const res = await axios.get(`document-action/${id}/`, config);
   return res;
 }
+
+export async function forwardDocument(token, data) {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
+    },
+  };
+
+  const res = await axios.post("forward-document/", data, config);
+  return res;
+}

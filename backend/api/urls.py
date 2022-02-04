@@ -33,5 +33,7 @@ urlpatterns = [
          views.TrackingAPIView.as_view(), name='tracking'),
     path('document-type/', views.DocumentTypeAPIView.as_view(), name='document_type'),
     path('document-action/<action_id>/',
-         views.DocumentActionAPIView.as_view(), name='document-action')
+         views.DocumentActionAPIView.as_view(), name='document-action'),
+    path('forward-document/', views.ForwardDocumentAPIView.as_view(),
+         name='forward-document'),
 ]

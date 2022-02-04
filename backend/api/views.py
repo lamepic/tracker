@@ -377,6 +377,81 @@ class DocumentActionAPIView(views.APIView):
         return Response({'data': 'Custom'}, status=status.HTTP_200_OK)
 
 
+class ForwardDocumentAPIView(views.APIView):
+
+    def post(self, request, format=None):
+        data = request.data
+        print(data)
+
+        # receiver = models.Employee.objects.get(id=data['receiver'])
+        # sender = models.Employee.objects.get(id=data['sender'])
+        # document = models.Document.objects.get(id=data['document'])
+
+        # if str(data.get('department')) != str(receiver.department):
+        #     return Response({'error': 'User Department is incorrect'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # try:
+        #     prev_trail = models.Trail.objects.filter(document=document)
+        #     for item in prev_trail:
+        #         item.forwarded = False
+        #         item.save()
+
+        #     # When a department is forwarding a document
+        #     if sender.user.is_staff:
+        #         # Department is same as that of receiver
+        #         if receiver.department == sender.department:
+        #             trail = models.Trail.objects.create(
+        #                 receiver=receiver, sender=sender, document=document)
+        #             trail.send_id = sender.employee_id
+        #             trail.forwarded = True
+        #             trail.save()
+        #             send_email(receiver=receiver,
+        #                        sender=sender, document=document)
+        #         # Department is different from that of receiver
+        #         else:
+        #             meta_info = f'Receipient : {receiver}'
+        #             receiver_department_account = models.Employee.objects.get(
+        #                 department=receiver.department, user__is_staff=True)
+        #             trail = models.Trail.objects.create(
+        #                 receiver=receiver_department_account, sender=sender, document=document, meta_info=meta_info)
+        #             department_trail = models.DepartmentTrail.objects.create(
+        #                 trail=trail)
+        #             trail.send_id = sender.employee_id
+        #             trail.forwarded = True
+        #             trail.save()
+        #             send_email(receiver=receiver_department_account,
+        #                        sender=sender, document=document)
+        #     # When an employee is forwarding a document
+        #     else:
+        #         # sending employee Department is same as receiver employee department
+        #         if receiver.department == sender.department:
+        #             trail = models.Trail.objects.create(
+        #                 receiver=receiver, sender=sender, document=document)
+        #             trail.send_id = sender.employee_id
+        #             trail.forwarded = True
+        #             trail.save()
+        #             send_email(receiver=receiver,
+        #                        sender=sender, document=document)
+        #         # sending employee department is different from receiver employee department
+        #         else:
+        #             meta_info = f'Receipient : {receiver}'
+        #             receiver_department_account = models.Employee.objects.get(
+        #                 department=receiver.department, user__is_staff=True)
+        #             trail = models.Trail.objects.create(
+        #                 receiver=receiver_department_account, sender=sender, document=document, meta_info=meta_info)
+        #             trail.send_id = sender.employee_id
+        #             trail.forwarded = True
+        #             trail.save()
+        #             send_email(receiver=receiver_department_account,
+        #                        sender=sender, document=document)
+        #             # department_trail = models.DepartmentTrail.objects.create(
+        #             #     trail=trail)
+        # except:
+        #     return Response({'error': 'Wrong Credentials'}, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response({'working': 'yes'}, status=status.HTTP_201_CREATED)
+
+
 def generate_code():
     code = random.sample(string.digits, 4)
     return ''.join(code)
