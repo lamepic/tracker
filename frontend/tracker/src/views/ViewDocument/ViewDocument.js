@@ -109,6 +109,8 @@ function ViewDocument() {
     }
   };
 
+  console.log(document);
+
   return (
     <>
       {!loading ? (
@@ -203,7 +205,11 @@ function ViewDocument() {
       ) : (
         <LoadingPage />
       )}
-      <Preview openPreview={openPreview} setOpenPreview={setOpenPreview} />
+      <Preview
+        openPreview={openPreview}
+        setOpenPreview={setOpenPreview}
+        doc={document}
+      />
     </>
   );
 }

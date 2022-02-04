@@ -70,7 +70,7 @@ class DocumentsSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Document
         fields = ['id', 'content', 'subject', 'minute',
-                  'related_document', 'preview_code', 'ref', 'document_type']
+                  'related_document', 'preview_code', 'ref', 'document_type', 'doc_content_url']
 
     def get_related_document(self, obj):
         related_document = obj.relateddocument_set

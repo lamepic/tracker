@@ -47,6 +47,13 @@ class DocumentType(models.Model):
         return f'{self.name}'
 
 
+class DocumentFlowPosition(models.Model):
+    order = models.IntegerField()
+
+    def __str__(self):
+        return f'{self.order}'
+
+
 class Document(models.Model):
     content = models.FileField(upload_to='documents/', blank=True, null=False)
     subject = models.CharField(max_length=100)
@@ -55,12 +62,15 @@ class Document(models.Model):
         User, on_delete=models.CASCADE, related_name='document_creator')
     document_type = models.ForeignKey(
         DocumentType, on_delete=models.CASCADE, null=True, blank=True)
+    doc_content_url = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.subject
 
-    # def save(self, *args, **kwargs):
-    #     pass
+    def save(self, *args, **kwargs):
+        path = self.content.path
+        self.doc_content_url = path
+        super(Document, self).save(*args, **kwargs)
 
 
 class RelatedDocument(models.Model):
@@ -108,6 +118,8 @@ class Trail(models.Model):
     meta_info = models.CharField(max_length=100, blank=True, null=True)
     send_id = models.CharField(max_length=50)
     forwarded = models.BooleanField(default=False)
+    document_flow_order = models.ForeignKey(
+        DocumentFlowPosition, on_delete=models.CASCADE, blank=True, null=True)
 
     class Meta:
         ordering = ('-date', 'status')

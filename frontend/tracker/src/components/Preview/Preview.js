@@ -3,7 +3,7 @@ import Backdrop from "@mui/material/Backdrop";
 
 import PDF from "../../assets/test.pdf";
 
-function Preview({ openPreview, setOpenPreview }) {
+function Preview({ openPreview, setOpenPreview, doc }) {
   const handleClose = () => {
     setOpenPreview(false);
   };
@@ -16,7 +16,7 @@ function Preview({ openPreview, setOpenPreview }) {
         onClick={handleClose}
       >
         <iframe
-          src={PDF}
+          src={doc?.doc_content_url}
           title="preview document"
           width="70%"
           height="100%"

@@ -171,24 +171,45 @@ class CreateDocument(views.APIView):
             except:
                 return Response({'msg': 'Something went wrong!!'}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            document_type = models.DocumentType.objects.get(
-                name=data_document_type)
-            document_actions = models.DocumentAction.objects.filter(
-                document_type=document_type)
-            # document_action_receiver =
-            data = [
-                path for path in document_actions if path.user != request.user]
+            try:
+                document_type = models.DocumentType.objects.get(
+                    name=data_document_type)
+                document = models.Document.objects.create(
+                    content=document, subject=subject, created_by=sender, ref=reference, document_type=document_type)
+                if document:
+                    count = 0
+                    for item in data_lst:
+                        if item == f'attachment_{count}':
+                            doc = data[item]
+                            if f'attachment_subject_{count}' in data_lst:
+                                sub = data[f'attachment_subject_{count}']
 
-            order = data.index()
+                            related_document = models.RelatedDocument.objects.create(
+                                subject=sub, content=doc, document=document)
+                            count += 1
+                document_actions = models.DocumentAction.objects.filter(
+                    document_type=document_type)
+                document_action_receiver = [
+                    path for path in document_actions if path.user == receiver]
+                document_action_lst = [action for action in document_actions]
 
-            trail = models.Trail.objects.create(
-                receiver=receiver, sender=sender, document=document)
-            trail.forwarded = True
-            trail.send_id = sender.employee_id
-            trail.save()
-            send_email(receiver=receiver,
-                       sender=sender, document=document, create_code=True)
-            print(document_type)
+                if len(document_action_receiver) > 0:
+                    document_action_receiver_index = document_action_lst.index(
+                        document_action_receiver[0])
+                    current_trail_position = document_action_receiver_index
+                    document_flow_order = models.DocumentFlowPosition.objects.create(
+                        order=current_trail_position)
+
+                    trail = models.Trail.objects.create(
+                        receiver=receiver, sender=sender, document=document, document_flow_order=document_flow_order)
+                    trail.forwarded = True
+                    trail.send_id = sender.employee_id
+                    trail.save()
+                    send_email(receiver=receiver,
+                               sender=sender, document=document, create_code=True)
+            except Exception as err:
+                print(err)
+            return Response({'working': 'yes'}, status=status.HTTP_201_CREATED)
 
         return Response({'msg': 'Document sent'}, status=status.HTTP_201_CREATED)
 
@@ -338,8 +359,6 @@ class DocumentActionAPIView(views.APIView):
                         if document_action_sender_index + 1 <= len(document_action_lst):
                             document_action_next_receiveing_user = document_action_lst[
                                 document_action_sender_index + 1]
-                        # else:
-                        #     pass
                         data = document_action_next_receiveing_user
                         serialized_data = serializers.DocumentActionSerializer(
                             data)
