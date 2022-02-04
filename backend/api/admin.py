@@ -43,12 +43,16 @@ class RelatedDocumentAdmin(admin.ModelAdmin):
 
 @admin.register(models.Trail)
 class TrailAdmin(admin.ModelAdmin):
-    list_display = ['sender', 'receiver', 'date', 'document', 'status']
+    list_display = ['sender', 'receiver', 'date',
+                    'document', 'document_type', 'status']
     search_fields = (
         "document__subject",
     )
     list_filter = ('status',)
     # actions = [mark_as_complete, ]
+
+    def document_type(self, obj):
+        return obj.document.document_type
 
 
 @admin.register(models.Minute)

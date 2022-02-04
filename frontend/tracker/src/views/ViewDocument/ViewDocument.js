@@ -6,6 +6,7 @@ import { useParams, useHistory } from "react-router";
 import {
   createMinute,
   fetchDocument,
+  fetchNextUserToForwardDoc,
   forwardDocument,
   markComplete,
   previewCode,
@@ -26,10 +27,12 @@ function ViewDocument() {
   const [openPreview, setOpenPreview] = useState(false);
   const [code, setCode] = useState(null);
   const [openModal, setOpenModal] = useState(false);
+  const [nextReceiver, setNextReceiver] = useState(null);
 
   useEffect(() => {
     fetchPreviewCode();
     _fetchDocument();
+    _fetchNextUserToForwardDoc();
   }, []);
 
   const _fetchDocument = async () => {
@@ -37,6 +40,13 @@ function ViewDocument() {
     const data = res.data;
     setDocument(data);
     setLoading(false);
+  };
+
+  const _fetchNextUserToForwardDoc = async () => {
+    const res = await fetchNextUserToForwardDoc(store.token, id);
+    const data = res.data;
+    setNextReceiver(data.data);
+    console.log(data.data);
   };
 
   const fetchPreviewCode = async () => {
@@ -84,21 +94,27 @@ function ViewDocument() {
       setOpenModal(true);
     } else {
       swal({
-        title: `Are you sure you want to Forward this Document to ?`,
+        title: `Are you sure you want to Forward this Document to ${nextReceiver.receiver.first_name} ${nextReceiver.receiver.last_name}?`,
         text: "Forwarding of this Document is irreversible",
         icon: "warning",
         buttons: true,
         dangerMode: true,
       }).then(async (willSubmit) => {
         if (willSubmit) {
-          const res = await forwardDocument(store.token, { working: "yes" });
-          // if (res.status === 201) {
-          //   setOpenModal(false);
-          //   history.push("/dashboard/outgoing");
-          //   swal("Document has been sent succesfully", {
-          //     icon: "success",
-          //   });
-          // }
+          const data = {
+            receiver: nextReceiver.receiver,
+            document,
+          };
+          console.log(data);
+          const res = await forwardDocument(store.token, data);
+          console.log(res);
+          if (res.status === 201) {
+            setOpenModal(false);
+            history.push("/dashboard/outgoing");
+            swal("Document has been sent succesfully", {
+              icon: "success",
+            });
+          }
         }
       });
     }
@@ -139,9 +155,6 @@ function ViewDocument() {
       setOpenPreview(true);
     }
   };
-
-  console.log(document);
-  console.log(code);
 
   return (
     <>

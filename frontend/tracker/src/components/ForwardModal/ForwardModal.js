@@ -79,7 +79,6 @@ function ForwardModal({ document, openModal, setOpenModal }) {
 
   const handleSubmit = (e) => {
     const data = { receiver, document };
-    console.log(data);
     if (receiver && department && document) {
       swal({
         title: `Are you sure you want to Forward this Document to ${receiver.name} ?`,

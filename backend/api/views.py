@@ -1,5 +1,6 @@
 import json
 from msilib.schema import Error
+from django.dispatch import receiver
 from django.shortcuts import get_object_or_404
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
@@ -380,12 +381,33 @@ class DocumentActionAPIView(views.APIView):
 class ForwardDocumentAPIView(views.APIView):
 
     def get(self, request, document_id, format=None):
-        print(document_id)
-        return Response({'working': 'yes'}, status=status.HTTP_201_CREATED)
+        document = models.Document.objects.get(id=document_id)
+        document_actions = models.DocumentAction.objects.filter(
+            document_type=document.document_type)
+        document_prev_trail = models.Trail.objects.filter(
+            document=document).latest('document')
+        next_receiving_user_index = document_prev_trail.document_flow_order.order + 1
+
+        try:
+            if next_receiving_user_index < len(document_actions)-1:
+                next_receiving_user = document_actions[next_receiving_user_index].user
+                serialized_receiver = serializers.UserSerializer(
+                    next_receiving_user)
+                data = {"receiver": serialized_receiver.data,
+                        "last_receiver": False}
+            elif next_receiving_user_index == len(document_actions)-1:
+                next_receiving_user = document_actions[next_receiving_user_index].user
+                serialized_receiver = serializers.UserSerializer(
+                    next_receiving_user)
+                data = {"receiver": serialized_receiver.data,
+                        "last_receiver": True}
+        except Exception as err:
+            print(err)
+
+        return Response({'data': data}, status=status.HTTP_201_CREATED)
 
     def post(self, request, format=None):
         data = request.data
-        print(data)
 
         receiver = models.User.objects.get(employee_id=data['receiver'])
         sender = models.User.objects.get(employee_id=request.user.employee_id)
@@ -457,7 +479,7 @@ class ForwardDocumentAPIView(views.APIView):
                 print(err)
                 return Response({'error': 'Wrong Credentials'}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            print(data)
+            print("not custom", data)
 
         return Response({'working': 'yes'}, status=status.HTTP_201_CREATED)
 
