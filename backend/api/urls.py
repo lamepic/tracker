@@ -36,4 +36,6 @@ urlpatterns = [
          views.DocumentActionAPIView.as_view(), name='document-action'),
     path('forward-document/', views.ForwardDocumentAPIView.as_view(),
          name='forward-document'),
+    path('forward-document/<document_id>/', views.ForwardDocumentAPIView.as_view(),
+         name='forward-document'),
 ]

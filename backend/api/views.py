@@ -379,6 +379,10 @@ class DocumentActionAPIView(views.APIView):
 
 class ForwardDocumentAPIView(views.APIView):
 
+    def get(self, request, document_id, format=None):
+        print(document_id)
+        return Response({'working': 'yes'}, status=status.HTTP_201_CREATED)
+
     def post(self, request, format=None):
         data = request.data
         print(data)
