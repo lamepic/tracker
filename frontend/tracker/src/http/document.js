@@ -216,6 +216,13 @@ export async function forwardDocument(token, data) {
     },
   };
 
-  const res = await axios.post("forward-document/", data, config);
+  const receiver = data.receiver.employee_id;
+  const doucument = data.document.id;
+
+  const formData = new FormData();
+  formData.append("receiver", receiver);
+  formData.append("document", doucument);
+
+  const res = await axios.post("forward-document/", formData, config);
   return res;
 }

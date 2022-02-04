@@ -14,6 +14,7 @@ import { useStateValue } from "../../store/StateProvider";
 import swal from "sweetalert";
 import Preview from "../../components/Preview/Preview";
 import { showNotification } from "../../utility/helper";
+import ForwardModal from "../../components/ForwardModal/ForwardModal";
 
 function ViewDocument() {
   const [store] = useStateValue();
@@ -24,6 +25,7 @@ function ViewDocument() {
   const [loading, setLoading] = useState(true);
   const [openPreview, setOpenPreview] = useState(false);
   const [code, setCode] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
     fetchPreviewCode();
@@ -75,8 +77,31 @@ function ViewDocument() {
   };
 
   const handleForwardDocument = async () => {
-    const res = await forwardDocument(store.token, { working: "yes" });
-    console.log(res.status);
+    if (
+      document.document_type === null ||
+      document.document_type.name === "Custom"
+    ) {
+      setOpenModal(true);
+    } else {
+      swal({
+        title: `Are you sure you want to Forward this Document to ?`,
+        text: "Forwarding of this Document is irreversible",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      }).then(async (willSubmit) => {
+        if (willSubmit) {
+          const res = await forwardDocument(store.token, { working: "yes" });
+          // if (res.status === 201) {
+          //   setOpenModal(false);
+          //   history.push("/dashboard/outgoing");
+          //   swal("Document has been sent succesfully", {
+          //     icon: "success",
+          //   });
+          // }
+        }
+      });
+    }
   };
 
   const handlePreview = () => {
@@ -116,12 +141,12 @@ function ViewDocument() {
   };
 
   console.log(document);
+  console.log(code);
 
   return (
     <>
       {!loading ? (
         <div className="view">
-          {/* {document?.related_document?.length > 0 ? ( */}
           <div className="relatedfiles-section">
             <p>{document.subject}</p>
             {document?.related_document.map((doc) => {
@@ -132,7 +157,6 @@ function ViewDocument() {
               );
             })}
           </div>
-          {/* ) : null} */}
 
           <div className="view__content">
             <div className="file__preview">
@@ -145,14 +169,14 @@ function ViewDocument() {
                     <button
                       className="file-btn forward disabled"
                       onClick={() => handleForwardDocument()}
-                      disabled={!code?.used}
+                      disabled={code === undefined ? false : !code?.used}
                     >
                       Forward
                     </button>
                     <button
                       className="file-btn submit disabled"
                       onClick={handleMarkComplete}
-                      disabled={!code?.used}
+                      disabled={code === undefined ? false : !code?.used}
                     >
                       Mark Complete
                     </button>
@@ -215,6 +239,11 @@ function ViewDocument() {
         openPreview={openPreview}
         setOpenPreview={setOpenPreview}
         doc={document}
+      />
+      <ForwardModal
+        document={document}
+        openModal={openModal}
+        setOpenModal={setOpenModal}
       />
     </>
   );
