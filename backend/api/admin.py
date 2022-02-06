@@ -111,6 +111,7 @@ class DocumentTypeAdmin(admin.ModelAdmin):
 @admin.register(models.DocumentAction)
 class DocumentActionAdmin(admin.ModelAdmin):
     list_display = ['user', 'action', 'document_type']
+    list_filter = ['document_type']
 
 
 @admin.register(models.DocumentFlowPosition)
