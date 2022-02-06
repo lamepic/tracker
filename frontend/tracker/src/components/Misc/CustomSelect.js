@@ -128,7 +128,7 @@ CustomSelect.propTypes = {
 function SelectInput() {
   const [store, dispatch] = useStateValue();
   const [option, setOption] = useState(null);
-  const [options, setOptions] = useState([{ id: 0, name: "Custom" }]);
+  const [options, setOptions] = useState([]);
 
   useEffect(() => {
     _fetchDocumentType();
@@ -144,7 +144,7 @@ function SelectInput() {
   const _fetchDocumentType = async () => {
     const res = await fetchDocumentType(store.token);
     const data = res.data;
-    setOptions([...options, ...data]);
+    setOptions(data);
   };
 
   return (
