@@ -154,7 +154,7 @@ function CreateDocument() {
                     setAttachments([]);
                     setDocument(null);
                     setDocumentAction(null);
-                    history.push("/dashboard/outgoing");
+                    history.replace("/dashboard/outgoing");
                     swal("Document has been sent succesfully", {
                       icon: "success",
                     });
