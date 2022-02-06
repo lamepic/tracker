@@ -47,11 +47,11 @@ class DocumentType(models.Model):
         return f'{self.name}'
 
 
-class DocumentFlowPosition(models.Model):
-    order = models.IntegerField()
+# class DocumentFlowPosition(models.Model):
+#     order = models.IntegerField()
 
-    def __str__(self):
-        return f'{self.order}'
+#     def __str__(self):
+#         return f'{self.order}'
 
 
 class Document(models.Model):
@@ -118,8 +118,7 @@ class Trail(models.Model):
     meta_info = models.CharField(max_length=100, blank=True, null=True)
     send_id = models.CharField(max_length=50)
     forwarded = models.BooleanField(default=False)
-    document_flow_order = models.ForeignKey(
-        DocumentFlowPosition, on_delete=models.CASCADE, blank=True, null=True)
+    order = models.IntegerField(null=True, blank=True)
 
     class Meta:
         ordering = ('-date', 'status')

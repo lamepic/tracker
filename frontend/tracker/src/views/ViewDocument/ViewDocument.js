@@ -46,6 +46,7 @@ function ViewDocument() {
     const res = await fetchNextUserToForwardDoc(store.token, id);
     const data = res.data;
     setNextReceiver(data.data);
+    console.log(data);
   };
 
   const fetchPreviewCode = async () => {
@@ -176,20 +177,44 @@ function ViewDocument() {
               <div className="file__action-btn">
                 {type === "incoming" && (
                   <>
-                    <button
-                      className="file-btn forward disabled"
-                      onClick={() => handleForwardDocument()}
-                      disabled={code === undefined ? false : !code?.used}
-                    >
-                      Forward
-                    </button>
-                    <button
-                      className="file-btn submit disabled"
-                      onClick={handleMarkComplete}
-                      disabled={code === undefined ? false : !code?.used}
-                    >
-                      Mark Complete
-                    </button>
+                    {document.document_type !== "Custom" ? (
+                      !nextReceiver?.last_receiver && (
+                        <button
+                          className="file-btn forward disabled"
+                          onClick={() => handleForwardDocument()}
+                          disabled={code === undefined ? false : !code?.used}
+                        >
+                          Forward
+                        </button>
+                      )
+                    ) : (
+                      <button
+                        className="file-btn forward disabled"
+                        onClick={() => handleForwardDocument()}
+                        disabled={code === undefined ? false : !code?.used}
+                      >
+                        Forward
+                      </button>
+                    )}
+                    {document.document_type !== "Custom" ? (
+                      nextReceiver?.last_receiver && (
+                        <button
+                          className="file-btn submit disabled"
+                          onClick={handleMarkComplete}
+                          disabled={code === undefined ? false : !code?.used}
+                        >
+                          Mark Complete
+                        </button>
+                      )
+                    ) : (
+                      <button
+                        className="file-btn submit disabled"
+                        onClick={handleMarkComplete}
+                        disabled={code === undefined ? false : !code?.used}
+                      >
+                        Mark Complete
+                      </button>
+                    )}
                   </>
                 )}
               </div>

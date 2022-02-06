@@ -114,6 +114,6 @@ class DocumentActionAdmin(admin.ModelAdmin):
     list_filter = ['document_type']
 
 
-@admin.register(models.DocumentFlowPosition)
-class DocumentFlowAdmin(admin.ModelAdmin):
-    list_display = ['order']
+# @admin.register(models.DocumentFlowPosition)
+# class DocumentFlowAdmin(admin.ModelAdmin):
+#     list_display = ['order']

@@ -198,11 +198,9 @@ class CreateDocument(views.APIView):
                     document_action_receiver_index = document_action_lst.index(
                         document_action_receiver[0])
                     current_trail_position = document_action_receiver_index
-                    document_flow_order = models.DocumentFlowPosition.objects.create(
-                        order=current_trail_position)
 
                     trail = models.Trail.objects.create(
-                        receiver=receiver, sender=sender, document=document, document_flow_order=document_flow_order)
+                        receiver=receiver, sender=sender, document=document, order=current_trail_position)
                     trail.forwarded = True
                     trail.send_id = sender.employee_id
                     trail.save()
@@ -387,27 +385,33 @@ class ForwardDocumentAPIView(views.APIView):
             document_actions = models.DocumentAction.objects.filter(
                 document_type=document.document_type)
             document_prev_trail = models.Trail.objects.filter(
-                document=document).latest('document')
-            next_receiving_user_index = document_prev_trail.document_flow_order.order + 1
+                document=document)[0]
+            next_receiving_user_index = document_prev_trail.order + 1
 
-            if next_receiving_user_index < len(document_actions)-1:
+            print(document_prev_trail)
+            print(len(document_actions)-1)
+
+            if next_receiving_user_index <= len(document_actions)-1:
                 next_receiving_user = document_actions[next_receiving_user_index].user
+                print(next_receiving_user_index)
                 serialized_receiver = serializers.UserSerializer(
                     next_receiving_user)
                 data = {"receiver": serialized_receiver.data,
                         "last_receiver": False}
                 return Response({'data': data}, status=status.HTTP_201_CREATED)
-            elif next_receiving_user_index == len(document_actions)-1:
-                next_receiving_user = document_actions[next_receiving_user_index].user
-                serialized_receiver = serializers.UserSerializer(
-                    next_receiving_user)
-                data = {"receiver": serialized_receiver.data,
+            else:  # next_receiving_user_index == len(document_actions)-1:
+                # next_receiving_user = document_actions[next_receiving_user_index].user
+                # print(next_receiving_user_index)
+                # serialized_receiver = serializers.UserSerializer(
+                #     next_receiving_user)
+
+                data = {"receiver": None,
                         "last_receiver": True}
                 return Response({'data': data}, status=status.HTTP_201_CREATED)
         except Exception as err:
             print(err, 'forward doc GET')
 
-        return Response({'status': 'success'}, status=status.HTTP_201_CREATED)
+        return Response({'status': 'error'}, status=status.HTTP_404_NOT_FOUND)
 
     def post(self, request, format=None):
         data = request.data
@@ -483,12 +487,19 @@ class ForwardDocumentAPIView(views.APIView):
         else:
             try:
                 prev_trail = models.Trail.objects.filter(
-                    document=document).latest('document')
-                print(prev_trail)
+                    document=document)[0]
+                document_actions = models.DocumentAction.objects.filter(
+                    document_type=document.document_type)
                 prev_trail.forwarded = False
                 prev_trail.save()
+
+                # document_action_lst = [action for action in document_actions]
+
+                document_action_receiver_index = prev_trail.order + 1
+                print(document_action_receiver_index, 'order index')
+                print(prev_trail.order, 'prev trail order')
                 trail = models.Trail.objects.create(
-                    receiver=receiver, sender=sender, document=document)
+                    receiver=receiver, sender=sender, document=document, order=document_action_receiver_index)
                 trail.send_id = sender.employee_id
                 trail.forwarded = True
                 trail.save()
