@@ -405,7 +405,7 @@ class ForwardDocumentAPIView(views.APIView):
                         "last_receiver": True}
                 return Response({'data': data}, status=status.HTTP_201_CREATED)
         except Exception as err:
-            print(err)
+            print(err, 'forward doc GET')
 
         return Response({'status': 'success'}, status=status.HTTP_201_CREATED)
 
@@ -424,7 +424,6 @@ class ForwardDocumentAPIView(views.APIView):
                 #     item.save()
                 prev_trail = models.Trail.objects.filter(
                     document=document).latest('document')
-                print(prev_trail)
                 prev_trail.forwarded = False
                 prev_trail.save()
 
@@ -482,7 +481,21 @@ class ForwardDocumentAPIView(views.APIView):
                 print(err)
                 return Response({'error': 'Wrong Credentials'}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            print("not custom", data)
+            try:
+                prev_trail = models.Trail.objects.filter(
+                    document=document).latest('document')
+                print(prev_trail)
+                prev_trail.forwarded = False
+                prev_trail.save()
+                trail = models.Trail.objects.create(
+                    receiver=receiver, sender=sender, document=document)
+                trail.send_id = sender.employee_id
+                trail.forwarded = True
+                trail.save()
+                send_email(receiver=receiver,
+                           sender=sender, document=document, create_code=True)
+            except Exception as err:
+                print(err)
 
         return Response({'working': 'yes'}, status=status.HTTP_201_CREATED)
 
