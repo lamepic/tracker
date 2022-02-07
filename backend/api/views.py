@@ -382,6 +382,9 @@ class ForwardDocumentAPIView(views.APIView):
 
         try:
             document = models.Document.objects.get(id=document_id)
+            if document.document_type.name == 'Custom':
+                return Response({'data': 'null'}, status=status.HTTP_200_OK)
+
             document_actions = models.DocumentAction.objects.filter(
                 document_type=document.document_type)
             document_prev_trail = models.Trail.objects.filter(
@@ -399,12 +402,7 @@ class ForwardDocumentAPIView(views.APIView):
                 data = {"receiver": serialized_receiver.data,
                         "last_receiver": False}
                 return Response({'data': data}, status=status.HTTP_201_CREATED)
-            else:  # next_receiving_user_index == len(document_actions)-1:
-                # next_receiving_user = document_actions[next_receiving_user_index].user
-                # print(next_receiving_user_index)
-                # serialized_receiver = serializers.UserSerializer(
-                #     next_receiving_user)
-
+            else:
                 data = {"receiver": None,
                         "last_receiver": True}
                 return Response({'data': data}, status=status.HTTP_201_CREATED)
