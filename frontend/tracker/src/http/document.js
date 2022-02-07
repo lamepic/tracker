@@ -238,3 +238,15 @@ export async function fetchNextUserToForwardDoc(token, id) {
   const res = await axios.get(`forward-document/${id}/`, config);
   return res;
 }
+
+export async function Search(token, term) {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
+    },
+  };
+
+  const res = await axios.get(`search/${term.toLowerCase()}/`, config);
+  return res;
+}

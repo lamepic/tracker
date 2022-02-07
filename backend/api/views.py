@@ -389,7 +389,6 @@ class ForwardDocumentAPIView(views.APIView):
             document_prev_trail = models.Trail.objects.filter(
                 document=document)[0]
             next_receiving_user_index = document_prev_trail.order + 1
-
             if next_receiving_user_index <= len(document_actions)-1:
                 next_receiving_user = document_actions[next_receiving_user_index].user
                 serialized_receiver = serializers.UserSerializer(
@@ -496,6 +495,12 @@ class ForwardDocumentAPIView(views.APIView):
                 print(err)
 
         return Response({'working': 'yes'}, status=status.HTTP_201_CREATED)
+
+
+class SearchAPIView(views.APIView):
+    def get(self, request, term, format=None):
+        data = request.data
+        return Response({"data": term}, status=status.HTTP_200_OK)
 
 
 def generate_code():

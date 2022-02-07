@@ -38,4 +38,5 @@ urlpatterns = [
          name='forward-document'),
     path('forward-document/<document_id>/', views.ForwardDocumentAPIView.as_view(),
          name='forward-document'),
+    path('search/<term>/', views.SearchAPIView.as_view(), name='search')
 ]
