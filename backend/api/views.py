@@ -298,7 +298,6 @@ class TrackingAPIView(views.APIView):
 class PreviewCodeAPIView(views.APIView):
     def post(self, request, user_id, document_id, format=None):
         data = request.data
-        print(data)
         user_code = data.get('code')
 
         code = models.PreviewCode.objects.filter(
@@ -365,12 +364,12 @@ class DocumentActionAPIView(views.APIView):
                     else:
                         document_action_next_receiveing_user = document_action[0]
                         data = document_action_next_receiveing_user
-                        print(data)
                         serialized_data = serializers.DocumentActionSerializer(
                             data)
                         return Response(serialized_data.data, status=status.HTTP_200_OK)
                 else:
-                    print(action_id)
+                    Response({'status': 'error'},
+                             status=status.HTTP_404_NOT_FOUND)
             except Exception as err:
                 print(err)
         return Response({'data': 'Custom'}, status=status.HTTP_200_OK)
@@ -391,12 +390,8 @@ class ForwardDocumentAPIView(views.APIView):
                 document=document)[0]
             next_receiving_user_index = document_prev_trail.order + 1
 
-            print(document_prev_trail)
-            print(len(document_actions)-1)
-
             if next_receiving_user_index <= len(document_actions)-1:
                 next_receiving_user = document_actions[next_receiving_user_index].user
-                print(next_receiving_user_index)
                 serialized_receiver = serializers.UserSerializer(
                     next_receiving_user)
                 data = {"receiver": serialized_receiver.data,
@@ -420,10 +415,6 @@ class ForwardDocumentAPIView(views.APIView):
 
         if document.document_type.name.lower() == 'custom':
             try:
-                # prev_trail = models.Trail.objects.filter(document=document)
-                # for item in prev_trail:
-                #     item.forwarded = False
-                #     item.save()
                 prev_trail = models.Trail.objects.filter(
                     document=document).latest('document')
                 prev_trail.forwarded = False
@@ -494,8 +485,6 @@ class ForwardDocumentAPIView(views.APIView):
                 # document_action_lst = [action for action in document_actions]
 
                 document_action_receiver_index = prev_trail.order + 1
-                print(document_action_receiver_index, 'order index')
-                print(prev_trail.order, 'prev trail order')
                 trail = models.Trail.objects.create(
                     receiver=receiver, sender=sender, document=document, order=document_action_receiver_index)
                 trail.send_id = sender.employee_id
