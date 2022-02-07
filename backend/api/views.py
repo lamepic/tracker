@@ -499,8 +499,40 @@ class ForwardDocumentAPIView(views.APIView):
 
 class SearchAPIView(views.APIView):
     def get(self, request, term, format=None):
-        data = request.data
-        return Response({"data": term}, status=status.HTTP_200_OK)
+        documents = []
+        incoming = models.Trail.objects.filter(
+            forwarded=True,
+            receiver=request.user, status='P')
+        for item in incoming:
+            document_serializer = serializers.DocumentsSerializer(
+                item.document)
+            incoming_data = {
+                "document": document_serializer.data, "route": "incoming"}
+            documents.append(incoming_data)
+
+        outgoing = models.Trail.objects.filter(
+            send_id=request.user.employee_id,
+            sender=request.user, status='P').order_by('-document__id').distinct('document__id')
+        for item in outgoing:
+            document_serializer = serializers.DocumentsSerializer(
+                item.document)
+            outgoing_data = {
+                "document": document_serializer.data, "route": "outgoing"}
+            documents.append(outgoing_data)
+
+        archive = [archive for archive in models.Archive.objects.all().order_by(
+            'created_by') if archive.created_by.department == request.user.department]
+        for item in archive:
+            document_serializer = serializers.DocumentsSerializer(
+                item.document)
+            archive_data = {
+                "document": document_serializer.data, "route": "archive"}
+            documents.append(archive_data)
+
+        data = [doc for doc in documents if term in doc['document']
+                ['subject'].lower()]
+
+        return Response(data, status=status.HTTP_200_OK)
 
 
 def generate_code():
