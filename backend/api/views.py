@@ -115,6 +115,7 @@ class CreateDocument(views.APIView):
         document = data.get('document')
         reference = data.get('reference')
         subject = data.get('subject')
+        encrypt = json.loads(data.get('encrypt'))
         receiver = get_object_or_404(
             models.User, employee_id=data.get('receiver'))
         sender = get_object_or_404(
@@ -138,7 +139,7 @@ class CreateDocument(views.APIView):
             try:
                 # creating documents and attachments
                 document = models.Document.objects.create(
-                    content=document, subject=subject, created_by=sender, ref=reference, document_type=document_type)
+                    content=document, subject=subject, created_by=sender, ref=reference, document_type=document_type, encrypt=encrypt)
                 if document:
                     count = 0
                     for item in data_lst:
@@ -159,7 +160,7 @@ class CreateDocument(views.APIView):
                     trail.send_id = sender.employee_id
                     trail.save()
                     send_email(receiver=receiver_department_account,
-                               sender=sender, document=document, create_code=True)
+                               sender=sender, document=document, create_code=encrypt)
                 else:
                     # send to receiver
                     trail = models.Trail.objects.create(
@@ -168,7 +169,7 @@ class CreateDocument(views.APIView):
                     trail.send_id = sender.employee_id
                     trail.save()
                     send_email(receiver=receiver,
-                               sender=sender, document=document, create_code=True)
+                               sender=sender, document=document, create_code=encrypt)
             except:
                 return Response({'msg': 'Something went wrong!!'}, status=status.HTTP_400_BAD_REQUEST)
         else:
@@ -205,7 +206,7 @@ class CreateDocument(views.APIView):
                     trail.send_id = sender.employee_id
                     trail.save()
                     send_email(receiver=receiver,
-                               sender=sender, document=document, create_code=True)
+                               sender=sender, document=document, create_code=encrypt)
             except Exception as err:
                 print(err)
             return Response({'working': 'yes'}, status=status.HTTP_201_CREATED)
