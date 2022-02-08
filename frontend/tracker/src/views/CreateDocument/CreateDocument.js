@@ -16,6 +16,7 @@ import { Typography } from "@mui/material";
 import { createDocument, fetchDocumentAction } from "../../http/document";
 import swal from "sweetalert";
 import SelectInput from "../../components/Misc/CustomSelect";
+import Checkbox from "@mui/material/Checkbox";
 
 function CreateDocument() {
   const [store, dispatch] = useStateValue();
@@ -30,6 +31,7 @@ function CreateDocument() {
   const [attachments, setAttachments] = useState([]);
   const [namesOfUsers, setNamesOfUsers] = useState([]);
   const [documentAction, setDocumentAction] = useState(null);
+  const [encrypt, setEncrypt] = React.useState(false);
 
   // utility state
   const [loading, setLoading] = useState(true);
@@ -113,6 +115,10 @@ function CreateDocument() {
     }
   };
 
+  const handleEncrypt = (e) => {
+    setEncrypt(e.target.checked);
+  };
+
   const goToDashboard = () => {
     history.push("/dashboard");
   };
@@ -126,6 +132,7 @@ function CreateDocument() {
       department,
       document,
       attachments,
+      encrypt,
       documentAction,
       documentType: store.documentType.name,
     };
@@ -328,6 +335,14 @@ function CreateDocument() {
                     setOpenModal={setOpenModal}
                   />
                 )}
+              </div>
+              <div className="encrypt">
+                <label htmlFor="">Encrypt Document</label>
+                <Checkbox
+                  checked={encrypt}
+                  onChange={handleEncrypt}
+                  inputProps={{ "aria-label": "controlled" }}
+                />
               </div>
               <hr className="divider" />
               <div className="form__buttons">

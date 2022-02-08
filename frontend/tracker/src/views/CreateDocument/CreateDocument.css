@@ -47,14 +47,15 @@
   outline: 0.2px solid var(--dark-brown);
 }
 
-.form-group label {
+.form-group label,
+.encrypt label {
   color: var(--dark-brown);
   font-size: 0.9rem;
   font-weight: 600;
 }
 
 .form__document {
-  padding: 15px;
+  padding-left: 5px;
   display: flex;
   justify-content: space-between;
 }
@@ -86,7 +87,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 5px;
+  padding: 20px 0 0 5px;
 }
 
 .form__attachment button {
@@ -114,7 +115,7 @@
 }
 
 .form__buttons {
-  margin-top: 35px;
+  margin-top: 10px;
   width: fit-content;
   margin-left: auto;
 }
@@ -181,4 +182,13 @@
 
 .upload__box > .MuiSvgIcon-root {
   color: #e3bc97;
+}
+
+.encrypt {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  padding-left: 5px;
 }
