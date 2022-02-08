@@ -4,6 +4,7 @@ import { useStateValue } from "../../store/StateProvider";
 import { Search } from "../../http/document";
 import { Button, CircularProgress } from "@mui/material";
 import useClickOutside from "../../hooks/useClickOutside";
+import * as actionTypes from "../../store/actionTypes";
 
 function SearchAutocomplete() {
   const [store, dispatch] = useStateValue();
@@ -42,6 +43,17 @@ function SearchAutocomplete() {
     }
   }, [term]);
 
+  const handleTrack = (id) => {
+    dispatch({
+      type: actionTypes.SET_TRACKING_DOC_ID,
+      payload: id,
+    });
+    dispatch({
+      type: actionTypes.SET_OPEN_TRACKING_MODAL,
+      payload: true,
+    });
+  };
+
   return (
     <>
       <div className="search">
@@ -61,18 +73,32 @@ function SearchAutocomplete() {
                     <p className="item__ref">{item.document.ref}</p>
                   </div>
                   <div className="item__action">
-                    <Button
-                      size="small"
-                      sx={{ color: "#9d4d01", fontWeight: 600 }}
-                    >
-                      Request
-                    </Button>
-                    <Button
-                      size="small"
-                      sx={{ color: "#9d4d01", fontWeight: 600 }}
-                    >
-                      View
-                    </Button>
+                    {item.route === "outgoing" && (
+                      <Button
+                        size="small"
+                        sx={{ color: "#9d4d01", fontWeight: 600 }}
+                        onClick={() => handleTrack(item.document.id)}
+                      >
+                        Track
+                      </Button>
+                    )}
+                    {(item.route === "outgoing" ||
+                      item.route === "incoming") && (
+                      <Button
+                        size="small"
+                        sx={{ color: "#9d4d01", fontWeight: 600 }}
+                      >
+                        View
+                      </Button>
+                    )}
+                    {item.route === "archive" && (
+                      <Button
+                        size="small"
+                        sx={{ color: "#9d4d01", fontWeight: 600 }}
+                      >
+                        Request
+                      </Button>
+                    )}
                   </div>
                 </div>
               );

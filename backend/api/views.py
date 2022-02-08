@@ -501,6 +501,10 @@ class ForwardDocumentAPIView(views.APIView):
 class SearchAPIView(views.APIView):
     def get(self, request, term, format=None):
         documents = []
+        active_requested_document = models.RequestDocument.objects.filter(
+            requested_by=request.user, active=True)
+        active_requested_document_lst = [
+            doc.document for doc in active_requested_document]
         incoming = models.Trail.objects.filter(
             forwarded=True,
             receiver=request.user, status='P')
@@ -524,11 +528,12 @@ class SearchAPIView(views.APIView):
         archive = [archive for archive in models.Archive.objects.all().order_by(
             'created_by') if archive.created_by.department == request.user.department]
         for item in archive:
-            document_serializer = serializers.DocumentsSerializer(
-                item.document)
-            archive_data = {
-                "document": document_serializer.data, "route": "archive"}
-            documents.append(archive_data)
+            if item.document not in active_requested_document_lst:
+                document_serializer = serializers.DocumentsSerializer(
+                    item.document)
+                archive_data = {
+                    "document": document_serializer.data, "route": "archive"}
+                documents.append(archive_data)
 
         data = [doc for doc in documents if term in doc['document']
                 ['subject'].lower()]

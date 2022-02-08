@@ -57,7 +57,7 @@ function Tracking() {
                   />
                 );
               })}
-              {openTrackingModal && <TrackingDetail />}
+              {/* {openTrackingModal && <TrackingDetail />} */}
             </div>
           ) : (
             <LoadingPage />
