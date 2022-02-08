@@ -430,7 +430,7 @@ class ForwardDocumentAPIView(views.APIView):
                         trail.forwarded = True
                         trail.save()
                         send_email(receiver=receiver,
-                                   sender=sender, document=document, create_code=True)
+                                   sender=sender, document=document, create_code=document.encrypt)
                     # Department is different from that of receiver
                     else:
                         meta_info = f'Receipient : {receiver}'
@@ -444,7 +444,7 @@ class ForwardDocumentAPIView(views.APIView):
                         trail.forwarded = True
                         trail.save()
                         send_email(receiver=receiver_department_account,
-                                   sender=sender, document=document, create_code=True)
+                                   sender=sender, document=document, create_code=document.encrypt)
                 # When an employee is forwarding a document
                 else:
                     # sending employee Department is same as receiver employee department
@@ -455,7 +455,7 @@ class ForwardDocumentAPIView(views.APIView):
                         trail.forwarded = True
                         trail.save()
                         send_email(receiver=receiver,
-                                   sender=sender, document=document, create_code=True)
+                                   sender=sender, document=document, create_code=document.encrypt)
                     # sending employee department is different from receiver employee department
                     else:
                         meta_info = f'Receipient : {receiver}'
@@ -467,7 +467,7 @@ class ForwardDocumentAPIView(views.APIView):
                         trail.forwarded = True
                         trail.save()
                         send_email(receiver=receiver_department_account,
-                                   sender=sender, document=document, create_code=True)
+                                   sender=sender, document=document, create_code=document.encrypt)
                         # department_trail = models.DepartmentTrail.objects.create(
                         #     trail=trail)
             except Exception as err:
@@ -491,7 +491,7 @@ class ForwardDocumentAPIView(views.APIView):
                 trail.forwarded = True
                 trail.save()
                 send_email(receiver=receiver,
-                           sender=sender, document=document, create_code=True)
+                           sender=sender, document=document, create_code=document.encrypt)
             except Exception as err:
                 print(err)
 
