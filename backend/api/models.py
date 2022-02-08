@@ -63,6 +63,7 @@ class Document(models.Model):
     document_type = models.ForeignKey(
         DocumentType, on_delete=models.CASCADE, null=True, blank=True)
     doc_content_url = models.TextField(null=True, blank=True)
+    encrypt = models.BooleanField(default=False)
 
     def __str__(self):
         return self.subject
