@@ -244,7 +244,11 @@ function CreateDocument() {
                     <input
                       type="text"
                       style={{ width: "60%" }}
-                      value={documentAction?.user?.department?.name}
+                      value={
+                        documentAction
+                          ? documentAction?.user?.department?.name
+                          : ""
+                      }
                       disabled
                     />
                   ) : (
@@ -342,6 +346,7 @@ function CreateDocument() {
                   checked={encrypt}
                   onChange={handleEncrypt}
                   inputProps={{ "aria-label": "controlled" }}
+                  color="success"
                 />
               </div>
               <hr className="divider" />
