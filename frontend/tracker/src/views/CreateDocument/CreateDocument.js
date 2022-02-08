@@ -31,7 +31,7 @@ function CreateDocument() {
   const [attachments, setAttachments] = useState([]);
   const [namesOfUsers, setNamesOfUsers] = useState([]);
   const [documentAction, setDocumentAction] = useState(null);
-  const [encrypt, setEncrypt] = React.useState(false);
+  const [encrypt, setEncrypt] = useState(false);
 
   // utility state
   const [loading, setLoading] = useState(true);
