@@ -59,7 +59,8 @@
 }
 
 .file-preview-box-img {
-  opacity: 0.5;
+  opacity: 0.7;
+  width: 45%;
 }
 
 .file-preview-box-text {

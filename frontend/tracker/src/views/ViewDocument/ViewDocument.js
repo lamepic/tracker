@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./ViewDocument.css";
-import logo from "../../assets/images/logo.png";
+import pdf from "../../assets/images/pdf-img.png";
 import LoadingPage from "../../components/Loading/LoadingPage";
 import { useParams, useHistory, Redirect } from "react-router";
 import {
@@ -172,7 +172,7 @@ function ViewDocument() {
           <div className="view__content">
             <div className="file__preview">
               <div className="file__preview-box" onClick={handlePreview}>
-                <img src={logo} alt="logo" className="file-preview-box-img" />
+                <img src={pdf} alt="logo" className="file-preview-box-img" />
               </div>
               <div className="file__action-btn">
                 {type === "incoming" && (
