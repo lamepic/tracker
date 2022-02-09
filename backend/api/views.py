@@ -590,6 +590,43 @@ class NotificationsCountAPIView(views.APIView):
         return Response({"count": total}, status=status.HTTP_200_OK)
 
 
+class ActivateDocument(views.APIView):
+    def post(self, request, format=None):
+        data = request.data
+
+        print(data)
+
+        # receiver = models.Employee.objects.get(employee_id=data['receiver_id'])
+        # sender = models.Employee.objects.get(user=request.user)
+        # document = models.Document.objects.get(id=data['document_id'])
+        # date = data.get('expire_at')
+        # expire_at = datetime.fromisoformat(date[:-1])
+
+        # requested_doc_instance = models.RequestDocument.objects.get(
+        #     id=data['request_id'])
+
+        # activate_doc = models.ActivateDocument.objects.create(document=document, expire_at=expire_at, document_receiver=receiver,
+        #                                                       document_sender=sender)
+
+        # send_email(receiver=receiver,
+        #            sender=sender, document=document)
+
+        # if activate_doc:
+        #     requested_doc_instance.active = False
+        #     requested_doc_instance.save()
+
+        return Response({'msg': 'Document has been activated and sent'}, status=status.HTTP_201_CREATED)
+
+    def get(self, request, format=None):
+        employee = models.Employee.objects.get(user=request.user)
+        activated_documents = models.ActivateDocument.objects.filter(
+            expired=False, document_receiver=employee)
+        serialized_data = serializers.ActivateDocumentSerializer(
+            activated_documents, many=True)
+
+        return Response(serialized_data.data, status=status.HTTP_200_OK)
+
+
 def generate_code():
     code = random.sample(string.digits, 4)
     return ''.join(code)
