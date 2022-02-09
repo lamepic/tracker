@@ -287,3 +287,15 @@ export async function notificationsCount(token) {
   const res = await axios.get("notifications/", config);
   return res;
 }
+
+export async function activateDocument(token, data) {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
+    },
+  };
+
+  const res = await axios.post("activate-document/", data, config);
+  return res;
+}

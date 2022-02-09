@@ -16,6 +16,7 @@ import LoadingPage from "../../components/Loading/LoadingPage";
 import Preview from "../../components/Preview/Preview";
 import { useStateValue } from "../../store/StateProvider";
 import { showNotification } from "../../utility/helper";
+import { activateDocument } from "../../http/document";
 
 function ActivateDocument() {
   const today = new Date();
@@ -24,6 +25,7 @@ function ActivateDocument() {
     today.getMonth(),
     today.getDate() + 7
   );
+  const history = useHistory();
   const [store, dispatch] = useStateValue();
   const [loading, setLoading] = useState(false);
   const [openPreview, setOpenPreview] = useState(false);
@@ -43,7 +45,7 @@ function ActivateDocument() {
     return date.setHours(0, 0, 0, 0) >= new Date().setHours(0, 0, 0, 0);
   };
 
-  const activateDocument = () => {
+  const handleActivateDocument = () => {
     const valid_date = inFuture(expireAt);
 
     if (!valid_date) {
@@ -57,7 +59,7 @@ function ActivateDocument() {
 
     const data = {
       request_id: request.id,
-      receiver_id: request.created_by.employee_id,
+      receiver_id: request.requested_by.employee_id,
       // sender_id: store.user.employee_id,
       document_id: request.document.id,
       expire_at: expireAt,
@@ -75,12 +77,10 @@ function ActivateDocument() {
     }).then(async (willSubmit) => {
       if (willSubmit) {
         const _data = JSON.stringify(data);
-        console.log(_data);
         const res = await activateDocument(store.token, _data);
-        console.log("data", data.expire_at);
         if (res.status === 201) {
           history.push("/");
-          swal("Document has been sent succesfully", {
+          swal("Document has been activated succesfully", {
             icon: "success",
           });
         }
@@ -125,7 +125,7 @@ function ActivateDocument() {
                         >
                           <button
                             className="file-btn submit"
-                            onClick={activateDocument}
+                            onClick={handleActivateDocument}
                           >
                             Activate Document
                           </button>

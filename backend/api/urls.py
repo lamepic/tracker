@@ -43,4 +43,6 @@ urlpatterns = [
          name='request_document'),
     path('notifications/', views.NotificationsCountAPIView.as_view(),
          name='notifications'),
+    path('activate-document/', views.ActivateDocument.as_view(),
+         name='activate_document'),
 ]

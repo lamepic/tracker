@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 from msilib.schema import Error
 from django.dispatch import receiver
 from django.shortcuts import get_object_or_404
@@ -596,24 +597,24 @@ class ActivateDocument(views.APIView):
 
         print(data)
 
-        # receiver = models.Employee.objects.get(employee_id=data['receiver_id'])
-        # sender = models.Employee.objects.get(user=request.user)
-        # document = models.Document.objects.get(id=data['document_id'])
-        # date = data.get('expire_at')
-        # expire_at = datetime.fromisoformat(date[:-1])
+        receiver = models.User.objects.get(employee_id=data['receiver_id'])
+        sender = models.User.objects.get(employee_id=request.user.employee_id)
+        document = models.Document.objects.get(id=data['document_id'])
+        date = data.get('expire_at')
+        expire_at = datetime.fromisoformat(date[:-1])
 
-        # requested_doc_instance = models.RequestDocument.objects.get(
-        #     id=data['request_id'])
+        requested_doc_instance = models.RequestDocument.objects.get(
+            id=data['request_id'])
 
-        # activate_doc = models.ActivateDocument.objects.create(document=document, expire_at=expire_at, document_receiver=receiver,
-        #                                                       document_sender=sender)
+        activate_doc = models.ActivateDocument.objects.create(document=document, expire_at=expire_at, document_receiver=receiver,
+                                                              document_sender=sender)
 
-        # send_email(receiver=receiver,
-        #            sender=sender, document=document)
+        send_email(receiver=receiver,
+                   sender=sender, document=document, create_code=False)
 
-        # if activate_doc:
-        #     requested_doc_instance.active = False
-        #     requested_doc_instance.save()
+        if activate_doc:
+            requested_doc_instance.active = False
+            requested_doc_instance.save()
 
         return Response({'msg': 'Document has been activated and sent'}, status=status.HTTP_201_CREATED)
 
