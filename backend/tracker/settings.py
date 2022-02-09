@@ -13,7 +13,7 @@ SECRET_KEY = 'django-insecure-_*r%hm-nwp&a3od7+vxb6%o6(3grb++z!(=9_vfqldbrfgue^)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     "corsheaders.middleware.CorsMiddleware",
@@ -44,7 +45,6 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 ROOT_URLCONF = 'tracker.urls'
@@ -141,7 +141,8 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PERMISSION_CLASSES': [
         # Change to IsAuthenticated
-        'rest_framework.permissions.IsAuthenticated',
+        # 'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',
     ]
 }
 
@@ -153,5 +154,7 @@ PASSWORDLESS_AUTH = {
 }
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+X_FRAME_OPTIONS = 'ALLOWALL'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

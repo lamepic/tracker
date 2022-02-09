@@ -12,7 +12,7 @@ import MenuItem from "@mui/material/MenuItem";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 import { useStateValue } from "../../store/StateProvider";
-import { IconButton, Typography } from "@mui/material";
+import { CircularProgress, IconButton, Typography } from "@mui/material";
 // import SearchAutocomplete from "../Autocomplete/SearchAutocomplete";
 import { useHistory } from "react-router-dom";
 import moment from "moment";
@@ -238,7 +238,9 @@ function RequestDropDownMenu() {
             );
           })
         ) : (
-          <p>Loading</p>
+          <div className="notification__loading">
+            <CircularProgress color="inherit" />
+          </div>
         )}
         {activatedDocuments.map((doc) => {
           const id = doc.id;

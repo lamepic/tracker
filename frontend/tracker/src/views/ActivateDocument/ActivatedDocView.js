@@ -16,10 +16,10 @@ function ActivatedDocView() {
 
   useEffect(() => {
     _fetchDocument(store.token);
-  }, []);
+  }, [activatedDoc]);
 
   const _fetchDocument = async () => {
-    const res = await fetchDocument(store.token, activatedDoc.document.id);
+    const res = await fetchDocument(store.token, activatedDoc?.document.id);
     const data = res.data;
     setDocument(data);
     setLoading(false);
@@ -62,6 +62,7 @@ function ActivatedDocView() {
                 />
               </div>
             </div>
+            <div className="vr vr-sm"></div>
 
             <div className="file-info">
               <p className="file-info-title">Minutes</p>
