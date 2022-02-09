@@ -18,7 +18,7 @@ import { useHistory } from "react-router-dom";
 import moment from "moment";
 import { logout } from "../../http/auth";
 import SearchAutocomplete from "../Autocomplete/SearchAutocomplete";
-import { fetchRequest } from "../../http/document";
+import { fetchActivateDocument, fetchRequest } from "../../http/document";
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -126,6 +126,7 @@ function RequestDropDownMenu() {
   const history = useHistory();
   const [store, dispatch] = useStateValue();
   const [pendingRequest, setPendingRequest] = useState([]);
+  const [activatedDocuments, setActivatedDocuments] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const handleClick = (event) => {
@@ -137,11 +138,20 @@ function RequestDropDownMenu() {
   };
 
   const fetchPendingRequest = async () => {
-    const res = await fetchRequest(store.token);
-    const data = res.data;
-    setPendingRequest(data);
+    const requestRes = await fetchRequest(store.token);
+    const requestData = requestRes.data;
+    setPendingRequest(requestData);
+
+    const activatedDocumentRes = await fetchActivateDocument(store.token);
+    const activatedDocumentData = activatedDocumentRes.data;
+    setActivatedDocuments(activatedDocumentData);
+
     setLoading(false);
   };
+
+  // const fetchActivatedDocuments = async () => {
+  //   setLoading(false);
+  // };
 
   const handleRequest = (details) => {
     setAnchorEl(null);
@@ -233,9 +243,9 @@ function RequestDropDownMenu() {
         ) : (
           <p>Loading</p>
         )}
-        {/* {activatedDocs.map((doc) => {
+        {activatedDocuments.map((doc) => {
           const id = doc.id;
-          const name = `${doc.document_sender.user.first_name} ${doc.document_sender.user.last_name}`;
+          const name = `${doc.document_sender.first_name} ${doc.document_sender.last_name}`;
           const document = doc.document.subject;
           const department = doc.document_sender.department.name;
           const date = new Date(doc.date_activated);
@@ -243,7 +253,7 @@ function RequestDropDownMenu() {
           return (
             <MenuItem
               disableRipple
-              onClick={() => handleOpenActivatedDoc(doc)}
+              // onClick={() => handleOpenActivatedDoc(doc)}
               key={id}
             >
               <div className="request">
@@ -267,7 +277,7 @@ function RequestDropDownMenu() {
               </div>
             </MenuItem>
           );
-        })} */}
+        })}
         {store.notificationsCount === 0 && (
           <MenuItem>
             <div className="request">

@@ -299,3 +299,15 @@ export async function activateDocument(token, data) {
   const res = await axios.post("activate-document/", data, config);
   return res;
 }
+
+export async function fetchActivateDocument(token) {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
+    },
+  };
+
+  const res = await axios.get("activate-document/", config);
+  return res;
+}

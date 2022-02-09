@@ -585,8 +585,10 @@ class NotificationsCountAPIView(views.APIView):
     def get(self, request, format=None):
         pending_document_requests = models.RequestDocument.objects.filter(
             active=True, requested_from=request.user).count()
+        activated_documents = models.ActivateDocument.objects.filter(
+            document_receiver=request.user).count()
 
-        total = pending_document_requests
+        total = pending_document_requests + activated_documents
 
         return Response({"count": total}, status=status.HTTP_200_OK)
 
@@ -619,7 +621,8 @@ class ActivateDocument(views.APIView):
         return Response({'msg': 'Document has been activated and sent'}, status=status.HTTP_201_CREATED)
 
     def get(self, request, format=None):
-        employee = models.Employee.objects.get(user=request.user)
+        employee = models.User.objects.get(
+            employee_id=request.user.employee_id)
         activated_documents = models.ActivateDocument.objects.filter(
             expired=False, document_receiver=employee)
         serialized_data = serializers.ActivateDocumentSerializer(
