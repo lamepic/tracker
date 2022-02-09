@@ -579,6 +579,15 @@ class RequestDocumentAPIView(views.APIView):
         return Response(serialized_data.data, status=status.HTTP_200_OK)
 
 
+class NotificationsCountAPIView(views.APIView):
+
+    def get(self, request, format=None):
+        pending_document_requests = models.RequestDocument.objects.filter(
+            active=True).count()
+
+        return Response({}, status=status.HTTP_200_OK)
+
+
 def generate_code():
     code = random.sample(string.digits, 4)
     return ''.join(code)
