@@ -263,3 +263,15 @@ export async function requestDocument(token, data) {
   const res = await axios.post("request-document/", data, config);
   return res;
 }
+
+export async function fetchRequest(token) {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
+    },
+  };
+
+  const res = await axios.get("request-document/", config);
+  return res;
+}

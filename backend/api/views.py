@@ -569,9 +569,10 @@ class RequestDocumentAPIView(views.APIView):
         return Response({'working': 'yes'}, status=status.HTTP_201_CREATED)
 
     def get(self, request, format=None):
-        employee = models.Employee.objects.get(user=request.user)
+        employee = models.User.objects.get(
+            employee_id=request.user.employee_id)
         active_requests = models.RequestDocument.objects.filter(
-            active=True, request_receiver=employee)
+            active=True, requested_from=employee)
         serialized_data = serializers.RequestDocumentSerializer(
             active_requests, many=True)
 

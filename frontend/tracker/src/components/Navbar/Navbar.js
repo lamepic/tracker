@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Navbar.css";
 import * as actionTypes from "../../store/actionTypes";
 
@@ -18,6 +18,7 @@ import { useHistory } from "react-router-dom";
 import moment from "moment";
 import { logout } from "../../http/auth";
 import SearchAutocomplete from "../Autocomplete/SearchAutocomplete";
+import { fetchRequest } from "../../http/document";
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -122,14 +123,24 @@ function DropDownMenu({ handleLogout, userInfo }) {
 function RequestDropDownMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  const [store, dispatch] = useStateValue();
   const history = useHistory();
+  const [store, dispatch] = useStateValue();
+  const [pendingRequest, setPendingRequest] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
+    fetchPendingRequest();
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const fetchPendingRequest = async () => {
+    const res = await fetchRequest(store.token);
+    const data = res.data;
+    setPendingRequest(data);
+    setLoading(false);
   };
 
   //   const handleRequest = (details) => {
@@ -184,41 +195,45 @@ function RequestDropDownMenu() {
             <p>Notifications</p>
           </div>
         </MenuItem>
-        {/* {requests.map((request) => {
-          const id = request.id;
-          const name = `${request.created_by.user.first_name} ${request.created_by.user.last_name}`;
-          const document = request.document.subject;
-          const department = request.created_by.department.name;
-          const date = new Date(request.created_at);
-          return (
-            <MenuItem
-              disableRipple
-              onClick={() => handleRequest(request)}
-              key={id}
-            >
-              <div className="request">
-                <div className="request__content">
-                  <div className="request_from">
-                    <Typography
-                      noWrap
-                      sx={{
-                        color: "var(--dark-brown)",
-                        fontWeight: 600,
-                        fontSize: "15px",
-                      }}
-                    >
-                      {name}
-                    </Typography>
+        {!loading ? (
+          pendingRequest.map((request) => {
+            const id = request.id;
+            const name = `${request.requested_by.first_name} ${request.requested_by.last_name}`;
+            const document = request.document.subject;
+            const department = request.requested_by.department.name;
+            const date = new Date(request.created_at);
+            return (
+              <MenuItem
+                disableRipple
+                // onClick={() => handleRequest(request)}
+                key={id}
+              >
+                <div className="request">
+                  <div className="request__content">
+                    <div className="request_from">
+                      <Typography
+                        noWrap
+                        sx={{
+                          color: "var(--dark-brown)",
+                          fontWeight: 600,
+                          fontSize: "15px",
+                        }}
+                      >
+                        {name}
+                      </Typography>
+                    </div>
+                    <p className="request_department">{department}</p>
+                    <p className="document__name">{document}</p>
                   </div>
-                  <p className="request_department">{department}</p>
-                  <p className="document__name">{document}</p>
+                  <p className="request__date">{moment(date).fromNow()}</p>
                 </div>
-                <p className="request__date">{moment(date).fromNow()}</p>
-              </div>
-            </MenuItem>
-          );
-        })}
-        {activatedDocs.map((doc) => {
+              </MenuItem>
+            );
+          })
+        ) : (
+          <p>loading</p>
+        )}
+        {/* {activatedDocs.map((doc) => {
           const id = doc.id;
           const name = `${doc.document_sender.user.first_name} ${doc.document_sender.user.last_name}`;
           const document = doc.document.subject;
@@ -252,8 +267,8 @@ function RequestDropDownMenu() {
               </div>
             </MenuItem>
           );
-        })}
-        {requests.length === 0 && activatedDocs.length === 0 && (
+        })} */}
+        {/* {requests.length === 0 && activatedDocs.length === 0 && (
           <MenuItem>
             <div className="request">
               <p className="empty__request">You have 0 Notifications</p>

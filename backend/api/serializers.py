@@ -162,7 +162,7 @@ class DepartmentTrailSerializer(serializers.ModelSerializer):
 
 
 class RequestDocumentSerializer(serializers.ModelSerializer):
-    created_by = UserSerializer()
+    requested_by = UserSerializer()
     requested_from = UserSerializer()
     document = DocumentsSerializer()
 
