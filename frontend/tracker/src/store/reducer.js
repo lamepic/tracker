@@ -52,6 +52,11 @@ const reducer = (state, action) => {
         ...state,
         request_details: action.payload,
       };
+    case actionTypes.SET_ACTIVATED_DOCUMENTS_DETAILS:
+      return {
+        ...state,
+        activatedDocumentDetails: action.payload,
+      };
     case actionTypes.LOGIN_FAIL:
     case actionTypes.AUTH_ERROR:
     case actionTypes.LOGOUT_SUCCESS:

@@ -25,6 +25,7 @@ import ViewDocument from "../ViewDocument/ViewDocument";
 import ProtectedPage from "../../utility/ProtectedPage";
 import TrackingDetail from "../Tracking/TrackingDetail";
 import ActivateDocument from "../ActivateDocument/ActivateDocument";
+import ActivatedDocView from "../ActivateDocument/ActivatedDocView";
 
 function Dashboard() {
   const [store, dispatch] = useStateValue();
@@ -107,10 +108,10 @@ function Dashboard() {
                   path="/dashboard/activate-document"
                   component={ActivateDocument}
                 />
-                {/* <Route
+                <Route
                   path="/dashboard/activated-document"
                   component={ActivatedDocView}
-                /> */}
+                />
                 {store.openTrackingModal && <TrackingDetail />}
               </main>
             </>

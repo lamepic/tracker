@@ -99,7 +99,7 @@ class ArchiveAdmin(admin.ModelAdmin):
 
 @admin.register(models.ActivateDocument)
 class ActivateDocumentAdmin(admin.ModelAdmin):
-    list_display = ['id', 'document', 'document_receiver',
+    list_display = ['document', 'document_receiver',
                     'document_sender', 'expire_at', 'date_activated', 'expired']
 
 

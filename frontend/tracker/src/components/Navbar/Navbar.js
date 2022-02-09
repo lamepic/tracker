@@ -162,17 +162,14 @@ function RequestDropDownMenu() {
     history.push("/dashboard/activate-document");
   };
 
-  //   const handleOpenActivatedDoc = (details) => {
-  //     setAnchorEl(null);
-  //     dispatch({
-  //       type: actionTypes.SET_ACTIVATED_DOCUMENTS_DETAILS,
-  //       payload: details,
-  //     });
-  //     history.push("/dashboard/activated-document");
-  //   };
-
-  //   const requests = store.requests;
-  //   const activatedDocs = store.activatedDocuments;
+  const handleOpenActivatedDoc = (details) => {
+    setAnchorEl(null);
+    dispatch({
+      type: actionTypes.SET_ACTIVATED_DOCUMENTS_DETAILS,
+      payload: details,
+    });
+    history.push("/dashboard/activated-document");
+  };
 
   return (
     <div>
@@ -253,7 +250,7 @@ function RequestDropDownMenu() {
           return (
             <MenuItem
               disableRipple
-              // onClick={() => handleOpenActivatedDoc(doc)}
+              onClick={() => handleOpenActivatedDoc(doc)}
               key={id}
             >
               <div className="request">

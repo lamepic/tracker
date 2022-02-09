@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./ViewDocument.css";
 import logo from "../../assets/images/logo.png";
 import LoadingPage from "../../components/Loading/LoadingPage";
-import { useParams, useHistory } from "react-router";
+import { useParams, useHistory, Redirect } from "react-router";
 import {
   createMinute,
   fetchDocument,
