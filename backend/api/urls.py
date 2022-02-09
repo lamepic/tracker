@@ -41,4 +41,6 @@ urlpatterns = [
     path('search/<term>/', views.SearchAPIView.as_view(), name='search'),
     path('request-document/', views.RequestDocumentAPIView.as_view(),
          name='request_document'),
+    path('notifications/', views.NotificationsCountAPIView.as_view(),
+         name='notifications'),
 ]
