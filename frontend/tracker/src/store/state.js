@@ -9,6 +9,7 @@ const intialState = {
   trackingDocId: null,
   documentType: null,
   notificationsCount: 0,
+  request_details: null,
 };
 
 export default intialState;

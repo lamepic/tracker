@@ -47,6 +47,11 @@ const reducer = (state, action) => {
         ...state,
         documentType: action.payload,
       };
+    case actionTypes.SET_REQUEST_DETAILS:
+      return {
+        ...state,
+        request_details: action.payload,
+      };
     case actionTypes.LOGIN_FAIL:
     case actionTypes.AUTH_ERROR:
     case actionTypes.LOGOUT_SUCCESS:

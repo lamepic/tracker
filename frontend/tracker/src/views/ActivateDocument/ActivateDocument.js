@@ -14,6 +14,7 @@ import DatePicker from "@mui/lab/DatePicker";
 import { Box } from "@mui/material";
 import LoadingPage from "../../components/Loading/LoadingPage";
 import Preview from "../../components/Preview/Preview";
+import { useStateValue } from "../../store/StateProvider";
 
 function ActivateDocument() {
   const today = new Date();
@@ -22,7 +23,7 @@ function ActivateDocument() {
     today.getMonth(),
     today.getDate() + 7
   );
-
+  const [store, dispatch] = useStateValue();
   const [loading, setLoading] = useState(false);
   const [openPreview, setOpenPreview] = useState(false);
   const [expireAt, setExpireAt] = React.useState(nextweek);
@@ -31,19 +32,25 @@ function ActivateDocument() {
     setOpenPreview(!openPreview);
   };
 
+  const request = store.request_details;
+  const document = request.document;
+  if (!request) {
+    return <Redirect to="/" />;
+  }
+
   return (
     <>
       {!loading ? (
         <div className="view">
           <div className="relatedfiles-section">
-            {/* <p>{document.subject}</p>
+            <p>{document.subject}</p>
             {document?.related_document.map((doc) => {
               return (
                 <p key={doc.id} onClick={handlePreview}>
                   {doc.subject}
                 </p>
               );
-            })} */}
+            })}
           </div>
 
           <div className="view__content">
@@ -98,7 +105,7 @@ function ActivateDocument() {
             <div className="file-info">
               <div className={`minute-box-preview`}>
                 <div>
-                  {/* {document?.minute?.map((item) => {
+                  {document?.minute?.map((item) => {
                     return (
                       <div className="minute" key={item?.id}>
                         <p>{item?.content}</p>
@@ -108,7 +115,7 @@ function ActivateDocument() {
                         </p>
                       </div>
                     );
-                  })} */}
+                  })}
                 </div>
               </div>
             </div>
