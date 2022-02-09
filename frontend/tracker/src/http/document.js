@@ -251,3 +251,15 @@ export async function Search(token, term) {
   const res = await axios.get(`search/${term.toLowerCase()}/`, config);
   return res;
 }
+
+export async function requestDocument(token, data) {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
+    },
+  };
+
+  const res = await axios.post("request-document/", data, config);
+  return res;
+}

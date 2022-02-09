@@ -545,15 +545,17 @@ class RequestDocumentAPIView(views.APIView):
 
     def post(self, request, format=None):
         data = request.data
-        created_by = models.Employee.objects.get(employee_id=data['sender'])
-        document = models.Document.objects.get(id=data['document'])
-        request_receiver = document.created_by
+        requested_by = models.User.objects.get(
+            employee_id=request.user.employee_id)
+        document = models.Document.objects.get(id=data['document_id'])
+        archive_document = models.Archive.objects.get(document__id=document.id)
+        requested_from = archive_document.closed_by
 
         existing_request = models.RequestDocument.objects.filter(
-            document__id=document.id, created_by__user=request.user, active=True)
+            document__id=document.id, requested_by=requested_by, active=True)
 
         sent_document = models.ActivateDocument.objects.filter(
-            document__id=document.id, document_receiver=created_by, expired=False)
+            document__id=document.id, document_receiver=requested_by, expired=False)
 
         if len(existing_request) > 0:
             return Response({'msg': 'You already requested this document'}, status=status.HTTP_200_OK)
@@ -562,7 +564,7 @@ class RequestDocumentAPIView(views.APIView):
             return Response({'msg': 'Document has been sent to you'}, status=status.HTTP_200_OK)
 
         create_request = models.RequestDocument.objects.create(
-            created_by=created_by, document=document, request_receiver=request_receiver)
+            requested_by=requested_by, document=document, requested_from=requested_from)
 
         return Response({'working': 'yes'}, status=status.HTTP_201_CREATED)
 

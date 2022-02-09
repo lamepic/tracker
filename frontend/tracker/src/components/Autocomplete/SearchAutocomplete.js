@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import "./Autocomplete.css";
 import { useStateValue } from "../../store/StateProvider";
-import { Search } from "../../http/document";
+import { requestDocument, Search } from "../../http/document";
 import { Button, CircularProgress } from "@mui/material";
 import useClickOutside from "../../hooks/useClickOutside";
 import * as actionTypes from "../../store/actionTypes";
 import { useHistory } from "react-router-dom";
+import swal from "sweetalert";
 
 function SearchAutocomplete() {
   const [store, dispatch] = useStateValue();
@@ -62,6 +63,37 @@ function SearchAutocomplete() {
     clearResults();
   };
 
+  const handleRequest = async (id) => {
+    const data = {
+      document_id: id,
+    };
+    swal({
+      title: "Request this Document?",
+      text: "This action is irreversible",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then(async (willSubmit) => {
+      if (willSubmit) {
+        const res = await requestDocument(store.token, data);
+        if (res.status === 201) {
+          swal("Your Request for the document has been sent", {
+            icon: "success",
+          });
+          history.push("/dashboard/");
+        }
+        if (res.status === 200) {
+          swal({
+            title: "Request Pending",
+            text: res.data.msg,
+            icon: "warning",
+          });
+          history.push("/dashboard/");
+        }
+      }
+    });
+  };
+
   return (
     <>
       <div className="search">
@@ -104,6 +136,7 @@ function SearchAutocomplete() {
                       <Button
                         size="small"
                         sx={{ color: "#9d4d01", fontWeight: 600 }}
+                        onClick={() => handleRequest(item.document.id)}
                       >
                         Request
                       </Button>
