@@ -27,6 +27,11 @@ const reducer = (state, action) => {
         ...state,
         outgoingCount: action.payload,
       };
+    case actionTypes.SET_NOTIFICATIONS_COUNT:
+      return {
+        ...state,
+        notificationsCount: action.payload,
+      };
     case actionTypes.SET_OPEN_TRACKING_MODAL:
       return {
         ...state,

@@ -8,6 +8,7 @@ const intialState = {
   openTrackingModal: false,
   trackingDocId: null,
   documentType: null,
+  notificationsCount: 0,
 };
 
 export default intialState;

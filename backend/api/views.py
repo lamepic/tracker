@@ -583,9 +583,11 @@ class NotificationsCountAPIView(views.APIView):
 
     def get(self, request, format=None):
         pending_document_requests = models.RequestDocument.objects.filter(
-            active=True).count()
+            active=True, requested_from=request.user).count()
 
-        return Response({}, status=status.HTTP_200_OK)
+        total = pending_document_requests
+
+        return Response({"count": total}, status=status.HTTP_200_OK)
 
 
 def generate_code():

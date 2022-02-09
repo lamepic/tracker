@@ -231,7 +231,7 @@ function RequestDropDownMenu() {
             );
           })
         ) : (
-          <p>loading</p>
+          <p>Loading</p>
         )}
         {/* {activatedDocs.map((doc) => {
           const id = doc.id;
@@ -268,13 +268,13 @@ function RequestDropDownMenu() {
             </MenuItem>
           );
         })} */}
-        {/* {requests.length === 0 && activatedDocs.length === 0 && (
+        {store.notificationsCount === 0 && (
           <MenuItem>
             <div className="request">
               <p className="empty__request">You have 0 Notifications</p>
             </div>
           </MenuItem>
-        )} */}
+        )}
       </StyledMenu>
     </div>
   );
@@ -305,7 +305,6 @@ function Navbar() {
     const options = { month: "long" };
     return event.toLocaleDateString("en-US", options);
   };
-
   //   const documentName = store.documents.map((document) => {
   //     const { subject, id, ref } = document;
   //     return { id, subject, ref };
@@ -324,7 +323,11 @@ function Navbar() {
         <SearchAutocomplete />
       </div>
       <div className="notification">
-        <Badge count={10} size="20px" position={{ top: "0", right: "0" }} />
+        <Badge
+          count={store.notificationsCount}
+          size="20px"
+          position={{ top: "0", right: "0" }}
+        />
         <RequestDropDownMenu />
       </div>
       <div className="profile">

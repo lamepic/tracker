@@ -275,3 +275,15 @@ export async function fetchRequest(token) {
   const res = await axios.get("request-document/", config);
   return res;
 }
+
+export async function notificationsCount(token) {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
+    },
+  };
+
+  const res = await axios.get("notifications/", config);
+  return res;
+}

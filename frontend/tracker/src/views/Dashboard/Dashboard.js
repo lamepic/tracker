@@ -6,7 +6,11 @@ import { useStateValue } from "../../store/StateProvider";
 import * as actionTypes from "../../store/actionTypes";
 
 import { loadUser } from "../../http/user";
-import { fetchIncomingCount, fetchOutgoingCount } from "../../http/document";
+import {
+  fetchIncomingCount,
+  fetchOutgoingCount,
+  notificationsCount,
+} from "../../http/document";
 
 import Sidebar from "../../components/Sidebar/Sidebar";
 import Navbar from "../../components/Navbar/Navbar";
@@ -59,10 +63,20 @@ function Dashboard() {
     });
   };
 
+  const fetchNotifications = async () => {
+    const res = await notificationsCount(store.token);
+    const data = res.data;
+    dispatch({
+      type: actionTypes.SET_NOTIFICATIONS_COUNT,
+      payload: data.count,
+    });
+  };
+
   useEffect(() => {
     fetchUser();
     _fetchIncomingCount();
     _fetchOutgoingCount();
+    fetchNotifications();
     setLoading(false);
   }, []);
 
