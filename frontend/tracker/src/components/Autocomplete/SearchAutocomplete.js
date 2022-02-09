@@ -32,7 +32,7 @@ function SearchAutocomplete() {
   const clearResults = useCallback(() => setSearch([]));
 
   useEffect(() => {
-    const timer = setTimeout(() => setTerm(debouncedTerm), 100);
+    const timer = setTimeout(() => setTerm(debouncedTerm), 1000);
     return () => clearTimeout(timer);
   }, [debouncedTerm]);
 

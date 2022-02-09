@@ -541,6 +541,41 @@ class SearchAPIView(views.APIView):
         return Response(data, status=status.HTTP_200_OK)
 
 
+class RequestDocumentAPIView(views.APIView):
+
+    def post(self, request, format=None):
+        data = request.data
+        created_by = models.Employee.objects.get(employee_id=data['sender'])
+        document = models.Document.objects.get(id=data['document'])
+        request_receiver = document.created_by
+
+        existing_request = models.RequestDocument.objects.filter(
+            document__id=document.id, created_by__user=request.user, active=True)
+
+        sent_document = models.ActivateDocument.objects.filter(
+            document__id=document.id, document_receiver=created_by, expired=False)
+
+        if len(existing_request) > 0:
+            return Response({'msg': 'You already requested this document'}, status=status.HTTP_200_OK)
+
+        if len(sent_document) > 0:
+            return Response({'msg': 'Document has been sent to you'}, status=status.HTTP_200_OK)
+
+        create_request = models.RequestDocument.objects.create(
+            created_by=created_by, document=document, request_receiver=request_receiver)
+
+        return Response({'working': 'yes'}, status=status.HTTP_201_CREATED)
+
+    def get(self, request, format=None):
+        employee = models.Employee.objects.get(user=request.user)
+        active_requests = models.RequestDocument.objects.filter(
+            active=True, request_receiver=employee)
+        serialized_data = serializers.RequestDocumentSerializer(
+            active_requests, many=True)
+
+        return Response(serialized_data.data, status=status.HTTP_200_OK)
+
+
 def generate_code():
     code = random.sample(string.digits, 4)
     return ''.join(code)
