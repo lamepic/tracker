@@ -5,15 +5,17 @@ import { Search } from "../../http/document";
 import { Button, CircularProgress } from "@mui/material";
 import useClickOutside from "../../hooks/useClickOutside";
 import * as actionTypes from "../../store/actionTypes";
+import { useHistory } from "react-router-dom";
 
 function SearchAutocomplete() {
   const [store, dispatch] = useStateValue();
   const [search, setSearch] = useState([]);
   const [term, setTerm] = useState("");
   const [debouncedTerm, setDebouncedTerm] = useState(term);
-  const ref = useRef(null);
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
+  const ref = useRef(null);
+  const history = useHistory();
   useClickOutside(ref, setShow);
 
   const _Search = useCallback(async (term) => {
@@ -30,7 +32,7 @@ function SearchAutocomplete() {
   const clearResults = useCallback(() => setSearch([]));
 
   useEffect(() => {
-    const timer = setTimeout(() => setTerm(debouncedTerm), 1000);
+    const timer = setTimeout(() => setTerm(debouncedTerm), 100);
     return () => clearTimeout(timer);
   }, [debouncedTerm]);
 
@@ -52,6 +54,12 @@ function SearchAutocomplete() {
       type: actionTypes.SET_OPEN_TRACKING_MODAL,
       payload: true,
     });
+    clearResults();
+  };
+
+  const handleView = (route, id) => {
+    history.push(`/dashboard/document/${route}/${id}/`);
+    clearResults();
   };
 
   return (
@@ -87,6 +95,7 @@ function SearchAutocomplete() {
                       <Button
                         size="small"
                         sx={{ color: "#9d4d01", fontWeight: 600 }}
+                        onClick={() => handleView(item.route, item.document.id)}
                       >
                         View
                       </Button>
