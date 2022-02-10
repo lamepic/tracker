@@ -28,6 +28,7 @@ function ViewDocument() {
   const [code, setCode] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [nextReceiver, setNextReceiver] = useState(null);
+  const [previewDoc, setPreviewDoc] = useState({});
 
   useEffect(() => {
     fetchPreviewCode();
@@ -117,7 +118,8 @@ function ViewDocument() {
     }
   };
 
-  const handlePreview = () => {
+  const handlePreview = (doc) => {
+    setPreviewDoc(doc);
     if (code) {
       if (!code?.used) {
         swal("Enter secret token to view this Document", {
@@ -161,7 +163,7 @@ function ViewDocument() {
             <p>{document.subject}</p>
             {document?.related_document.map((doc) => {
               return (
-                <p key={doc.id} onClick={handlePreview}>
+                <p key={doc.id} onClick={() => handlePreview(doc)}>
                   {doc.subject}
                 </p>
               );
@@ -170,7 +172,10 @@ function ViewDocument() {
 
           <div className="view__content">
             <div className="file__preview">
-              <div className="file__preview-box" onClick={handlePreview}>
+              <div
+                className="file__preview-box"
+                onClick={() => handlePreview(document)}
+              >
                 <img src={pdf} alt="logo" className="file-preview-box-img" />
               </div>
               <div className="file__action-btn">
@@ -217,6 +222,9 @@ function ViewDocument() {
                   </>
                 )}
               </div>
+              {/* {type === "incoming" && store.user.is_staff ? (
+              <p className="meta_info">{info?.meta_info}</p>
+            ) : null} */}
             </div>
 
             <div className={`vr ${type !== "incoming" && "vr-sm"}`}></div>
@@ -272,7 +280,7 @@ function ViewDocument() {
       <Preview
         openPreview={openPreview}
         setOpenPreview={setOpenPreview}
-        doc={document}
+        doc={previewDoc}
       />
       <ForwardModal
         document={document}
