@@ -12,6 +12,8 @@ def expire_document(self, data):
     try:
         activated_document = models.ActivateDocument.objects.filter(
             id=int(data))
+        pending_document_request = models.RequestDocument.objects.filter(
+            requested_by=activated_document.document_receiver)
         if len(activated_document) > 0:
             activated_document = activated_document.first()
             activated_document.expired = True

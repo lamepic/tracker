@@ -586,7 +586,7 @@ class NotificationsCountAPIView(views.APIView):
         pending_document_requests = models.RequestDocument.objects.filter(
             active=True, requested_from=request.user).count()
         activated_documents = models.ActivateDocument.objects.filter(
-            document_receiver=request.user).count()
+            document_receiver=request.user, expired=False).count()
 
         total = pending_document_requests + activated_documents
 
