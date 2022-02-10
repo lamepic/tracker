@@ -3,7 +3,6 @@ import "./Tracking.css";
 
 import TrackingCard from "../../components/TrackingCard/TrackingCard";
 import EmptyPage from "../../components/EmptyPage/EmptyPage";
-import TrackingDetail from "./TrackingDetail";
 import { useStateValue } from "../../store/StateProvider";
 import { fetchOutgoing } from "../../http/document";
 import LoadingPage from "../../components/Loading/LoadingPage";
