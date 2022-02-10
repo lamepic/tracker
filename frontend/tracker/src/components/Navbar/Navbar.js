@@ -277,7 +277,7 @@ function RequestDropDownMenu() {
             </MenuItem>
           );
         })}
-        {store.notificationsCount === 0 && (
+        {(!loading && store.notificationsCount) === 0 && (
           <MenuItem>
             <div className="request">
               <p className="empty__request">You have 0 Notifications</p>
