@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./Navbar.css";
 import * as actionTypes from "../../store/actionTypes";
 
@@ -13,7 +13,6 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 import { useStateValue } from "../../store/StateProvider";
 import { CircularProgress, IconButton, Typography } from "@mui/material";
-// import SearchAutocomplete from "../Autocomplete/SearchAutocomplete";
 import { useHistory } from "react-router-dom";
 import moment from "moment";
 import { logout } from "../../http/auth";
@@ -149,10 +148,6 @@ function RequestDropDownMenu() {
     setLoading(false);
   };
 
-  // const fetchActivatedDocuments = async () => {
-  //   setLoading(false);
-  // };
-
   const handleRequest = (details) => {
     setAnchorEl(null);
     dispatch({
@@ -179,7 +174,6 @@ function RequestDropDownMenu() {
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
-        // endIcon={<NotificationsIcon />}
         sx={{
           color: "#603814",
           fontWeight: 600,
@@ -246,7 +240,6 @@ function RequestDropDownMenu() {
           const id = doc.id;
           const name = `${doc.document_sender.first_name} ${doc.document_sender.last_name}`;
           const document = doc.document.subject;
-          const department = doc.document_sender.department.name;
           const date = new Date(doc.date_activated);
 
           return (
@@ -314,10 +307,6 @@ function Navbar() {
     const options = { month: "long" };
     return event.toLocaleDateString("en-US", options);
   };
-  //   const documentName = store.documents.map((document) => {
-  //     const { subject, id, ref } = document;
-  //     return { id, subject, ref };
-  //   });
 
   return (
     <div className="navbar">
