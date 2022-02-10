@@ -46,7 +46,6 @@ function ViewDocument() {
     const res = await fetchNextUserToForwardDoc(store.token, id);
     const data = res.data;
     setNextReceiver(data.data);
-    console.log(data);
   };
 
   const fetchPreviewCode = async () => {

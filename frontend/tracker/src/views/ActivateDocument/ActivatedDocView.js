@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Redirect, useHistory } from "react-router-dom";
 import { useStateValue } from "../../store/StateProvider";
-import logo from "../../assets/images/logo.png";
+import pdf from "../../assets/images/pdf-img.png";
 import { fetchDocument } from "../../http/document";
 import Preview from "../../components/Preview/Preview";
 import LoadingPage from "../../components/Loading/LoadingPage";
@@ -52,7 +52,7 @@ function ActivatedDocView() {
             <div className="file-preview">
               <p className="file-preview-title">{document.subject}</p>
               <div className="file__preview-box" onClick={handlePreview}>
-                <img src={logo} alt="logo" className="file-preview-box-img" />
+                <img src={pdf} alt="logo" className="file-preview-box-img" />
               </div>
 
               <div className="file-action-btn">
