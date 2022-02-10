@@ -125,18 +125,24 @@ function CreateDocument() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = {
-      subject,
-      reference,
-      receiver,
-      department,
-      document,
-      attachments,
-      encrypt,
-      documentAction,
-      documentType: store.documentType.name,
-    };
-    if (subject && receiver && department) {
+    if (
+      subject &&
+      receiver &&
+      department &&
+      store.documentType.name &&
+      reference
+    ) {
+      const data = {
+        subject,
+        reference,
+        receiver,
+        department,
+        document,
+        attachments,
+        encrypt,
+        documentAction,
+        documentType: store.documentType.name,
+      };
       if (document === null) {
         swal({
           title: "Empty Document",

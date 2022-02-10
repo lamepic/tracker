@@ -62,7 +62,6 @@ class Document(models.Model):
         User, on_delete=models.CASCADE, related_name='document_creator')
     document_type = models.ForeignKey(
         DocumentType, on_delete=models.CASCADE, null=True, blank=True)
-    doc_content_url = models.TextField(null=True, blank=True)
     encrypt = models.BooleanField(default=False)
 
     def __str__(self):
