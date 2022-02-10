@@ -9,7 +9,6 @@ from . import models
 
 @shared_task(bind=True)
 def expire_document(self, data):
-    print(data)
     try:
         activated_document = models.ActivateDocument.objects.filter(
             id=int(data))
@@ -17,7 +16,6 @@ def expire_document(self, data):
             activated_document = activated_document.first()
             activated_document.expired = True
             activated_document.save()
-            print(activated_document.expired)
         else:
             self.update_state(state='FAILURE_len', meta={'exe': 'Not Found'})
     except:

@@ -3,7 +3,7 @@ import "./ActivateDocument.css";
 
 // import "../ViewDocument/ViewDocument.css";
 import swal from "sweetalert";
-import logo from "../../assets/images/logo.png";
+import pdf from "../../assets/images/pdf-img.png";
 
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
@@ -106,7 +106,7 @@ function ActivateDocument() {
           <div className="view__content">
             <div className="file__preview">
               <div className="file__preview-box" onClick={handlePreview}>
-                <img src={logo} alt="logo" className="file-preview-box-img" />
+                <img src={pdf} alt="logo" className="file-preview-box-img" />
               </div>
               <div className="file__action-btn">
                 <div className="expiry-date">

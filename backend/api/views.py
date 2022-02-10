@@ -597,13 +597,13 @@ class ActivateDocument(views.APIView):
     def post(self, request, format=None):
         data = request.data
 
-        print(data)
-
         receiver = models.User.objects.get(employee_id=data['receiver_id'])
         sender = models.User.objects.get(employee_id=request.user.employee_id)
         document = models.Document.objects.get(id=data['document_id'])
         date = data.get('expire_at')
         expire_at = datetime.fromisoformat(date[:-1])
+        print(date)
+        print(expire_at)
 
         requested_doc_instance = models.RequestDocument.objects.get(
             id=data['request_id'])

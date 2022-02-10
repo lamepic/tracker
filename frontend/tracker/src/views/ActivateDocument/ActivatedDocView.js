@@ -41,7 +41,7 @@ function ActivatedDocView() {
             <p>{document.subject}</p>
             {document?.related_document.map((doc) => {
               return (
-                <p key={doc.id} onClick={handlePreview}>
+                <p key={doc.id} onClick={() => handlePreview(doc)}>
                   {doc.subject}
                 </p>
               );
@@ -59,6 +59,7 @@ function ActivatedDocView() {
                 <Preview
                   openPreview={openPreview}
                   setOpenPreview={setOpenPreview}
+                  doc={document}
                 />
               </div>
             </div>
