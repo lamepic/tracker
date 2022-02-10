@@ -51,7 +51,6 @@ function TrackingDetail() {
   const documentId = store.trackingDocId;
 
   const _fetchTracking = async () => {
-    console.log("fetching tracking");
     const res = await fetchTracking(store.token, documentId);
     const data = res.data;
     setTracking(data.data);
