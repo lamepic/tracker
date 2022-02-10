@@ -47,13 +47,6 @@ class DocumentType(models.Model):
         return f'{self.name}'
 
 
-# class DocumentFlowPosition(models.Model):
-#     order = models.IntegerField()
-
-#     def __str__(self):
-#         return f'{self.order}'
-
-
 class Document(models.Model):
     content = models.FileField(upload_to='documents/', blank=True, null=False)
     subject = models.CharField(max_length=100)
