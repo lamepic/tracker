@@ -56,11 +56,13 @@ function SearchAutocomplete() {
       payload: true,
     });
     clearResults();
+    setTerm("");
   };
 
   const handleView = (route, id) => {
     history.push(`/dashboard/document/${route}/${id}/`);
     clearResults();
+    setTerm("");
   };
 
   const handleRequest = async (id) => {
