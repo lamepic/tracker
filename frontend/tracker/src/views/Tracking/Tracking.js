@@ -14,7 +14,6 @@ function Tracking() {
   const [loading, setLoading] = useState(true);
 
   const outgoingCount = store.outgoingCount;
-  const openTrackingModal = store.openTrackingModal;
 
   const _fetchOutgoing = async () => {
     const res = await fetchOutgoing(store.token);
@@ -57,7 +56,6 @@ function Tracking() {
                   />
                 );
               })}
-              {/* {openTrackingModal && <TrackingDetail />} */}
             </div>
           ) : (
             <LoadingPage />
