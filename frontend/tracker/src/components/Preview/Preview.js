@@ -16,7 +16,8 @@ function Preview({ openPreview, setOpenPreview, doc }) {
         onClick={handleClose}
       >
         <iframe
-          src={`http://localhost:8000${doc?.content}`}
+          // src={`http://localhost:8000${doc?.content}`}
+          src={`http://192.168.40.8:8000${doc?.content}`}
           title="preview document"
           width="70%"
           height="100%"

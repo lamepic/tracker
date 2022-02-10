@@ -42,7 +42,7 @@ class LoginAPIView(views.APIView):
         user = get_object_or_404(models.User, employee_id=employee_id)
         email = user.email
 
-        res = requests.post('http://localhost:8000/auth/email/',
+        res = requests.post('http://127.0.0.1:8000/auth/email/',
                             data={'email': email})
         if res.status_code == 200:
             return Response({"email": email}, status=status.HTTP_200_OK)

@@ -74,7 +74,7 @@ function ActivatedDocView() {
                     return (
                       <div className="minute" key={item?.id}>
                         <p>{item?.content}</p>
-                        <p className="employee">{item?.employee}</p>
+                        <p className="employee">{item?.user}</p>
                         <p className="date">
                           Date: {new Date(item?.date).toDateString()}
                         </p>

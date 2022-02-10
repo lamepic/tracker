@@ -164,6 +164,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # CELERY SETTINGS
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+# CELERY_BROKER_URL = 'redis://192.168.40.8:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
