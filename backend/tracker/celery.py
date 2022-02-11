@@ -11,6 +11,4 @@ app = Celery('tracker')
 app.config_from_object(settings, namespace='CELERY')
 
 
-# app.conf.beat.schedule = {}
-
 app.autodiscover_tasks()
