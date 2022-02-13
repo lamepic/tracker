@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Redirect, useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { useStateValue } from "../../store/StateProvider";
 import pdf from "../../assets/images/pdf-img.png";
 import { fetchDocument } from "../../http/document";
