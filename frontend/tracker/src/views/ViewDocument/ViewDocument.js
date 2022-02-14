@@ -222,9 +222,9 @@ function ViewDocument() {
                   </>
                 )}
               </div>
-              {/* {type === "incoming" && store.user.is_staff ? (
-              <p className="meta_info">{info?.meta_info}</p>
-            ) : null} */}
+              {type === "incoming" && store.user.is_department ? (
+                <p className="meta_info">{document.ref}</p>
+              ) : null}
             </div>
 
             <div className={`vr ${type !== "incoming" && "vr-sm"}`}></div>

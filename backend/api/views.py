@@ -64,7 +64,14 @@ class DepartmentAPIView(generics.ListAPIView):
 
 class IncomingAPIView(views.APIView):
 
-    def get(self, request, format=None):
+    def get(self, request, document_id, format=None):
+
+        if document_id:
+            incoming_document = models.Trail.objects.get(
+                document__id=document_id)
+            serialized_data = serializers.IncomingSerializer(incoming_document)
+            return Response(serialized_data.data, status=status.HTTP_200_OK)
+
         user = models.User.objects.get(employee_id=request.user.employee_id)
         incoming = models.Trail.objects.filter(
             forwarded=True,
