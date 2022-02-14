@@ -513,6 +513,16 @@ class SearchAPIView(views.APIView):
             requested_by=request.user, active=True)
         active_requested_document_lst = [
             doc.document for doc in active_requested_document]
+
+        # pending documents
+        for item in active_requested_document:
+            document_serializer = serializers.DocumentsSerializer(
+                item.document)
+            incoming_data = {
+                "document": document_serializer.data, "route": "pending"}
+            documents.append(incoming_data)
+
+        # incoming documents
         incoming = models.Trail.objects.filter(
             forwarded=True,
             receiver=request.user, status='P')
@@ -523,6 +533,7 @@ class SearchAPIView(views.APIView):
                 "document": document_serializer.data, "route": "incoming"}
             documents.append(incoming_data)
 
+        # outgoing documents
         outgoing = models.Trail.objects.filter(
             send_id=request.user.employee_id,
             sender=request.user, status='P').order_by('-document__id').distinct('document__id')
@@ -533,6 +544,7 @@ class SearchAPIView(views.APIView):
                 "document": document_serializer.data, "route": "outgoing"}
             documents.append(outgoing_data)
 
+        # archived documents
         archive = [archive for archive in models.Archive.objects.all().order_by(
             'created_by') if archive.created_by.department == request.user.department]
         for item in archive:
