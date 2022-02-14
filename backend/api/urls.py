@@ -23,6 +23,8 @@ urlpatterns = [
          name='outgoing-count'),
     path('incoming/', views.IncomingAPIView.as_view(),
          name='incoming'),
+    path('incoming/<document_id>/', views.IncomingAPIView.as_view(),
+         name='incoming_document'),
     path('outgoing/', views.OutgoingAPIView.as_view(),
          name='outgoing'),
     path('archive/', views.ArchiveAPIView.as_view(),
