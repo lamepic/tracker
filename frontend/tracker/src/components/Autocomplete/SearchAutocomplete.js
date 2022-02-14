@@ -96,6 +96,14 @@ function SearchAutocomplete() {
     });
   };
 
+  const handleOpenActivatedDoc = (details) => {
+    dispatch({
+      type: actionTypes.SET_ACTIVATED_DOCUMENTS_DETAILS,
+      payload: details,
+    });
+    history.push("/dashboard/activated-document");
+  };
+
   return (
     <>
       <div className="search">
@@ -134,6 +142,15 @@ function SearchAutocomplete() {
                         View
                       </Button>
                     )}
+                    {item.route === "activated" && (
+                      <Button
+                        size="small"
+                        sx={{ color: "#9d4d01", fontWeight: 600 }}
+                        onClick={() => handleOpenActivatedDoc(item)}
+                      >
+                        View
+                      </Button>
+                    )}
                     {item.route === "archive" && (
                       <Button
                         size="small"
@@ -141,6 +158,15 @@ function SearchAutocomplete() {
                         onClick={() => handleRequest(item.document.id)}
                       >
                         Request
+                      </Button>
+                    )}
+                    {item.route === "pending" && (
+                      <Button
+                        size="small"
+                        sx={{ color: "#9d4d01", fontWeight: 600 }}
+                        disabled
+                      >
+                        Pending
                       </Button>
                     )}
                   </div>
