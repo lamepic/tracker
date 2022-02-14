@@ -64,7 +64,7 @@ class DepartmentAPIView(generics.ListAPIView):
 
 class IncomingAPIView(views.APIView):
 
-    def get(self, request, document_id, format=None):
+    def get(self, request, document_id=None, format=None):
 
         if document_id:
             incoming_document = models.Trail.objects.get(

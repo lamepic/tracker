@@ -183,3 +183,12 @@ textarea::placeholder {
 .vr-sm {
   height: 270px;
 }
+
+.meta_info {
+  color: var(--dark-brown) !important;
+  font-weight: 600;
+  text-align: center;
+  text-transform: capitalize;
+  background-color: var(--text-background);
+  padding: 10px;
+}

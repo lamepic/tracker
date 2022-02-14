@@ -6,6 +6,7 @@ import { useParams, useHistory } from "react-router";
 import {
   createMinute,
   fetchDocument,
+  fetchIncomingDocumentTrail,
   fetchNextUserToForwardDoc,
   forwardDocument,
   markComplete,
@@ -29,6 +30,7 @@ function ViewDocument() {
   const [openModal, setOpenModal] = useState(false);
   const [nextReceiver, setNextReceiver] = useState(null);
   const [previewDoc, setPreviewDoc] = useState({});
+  const [incomingDocumentTrail, setIncomingDocumentTrail] = useState({});
 
   useEffect(() => {
     fetchPreviewCode();
@@ -40,7 +42,14 @@ function ViewDocument() {
     const res = await fetchDocument(store.token, id);
     const data = res.data;
     setDocument(data);
+    const incomingTrailDocRes = await fetchIncomingDocumentTrail(
+      store.token,
+      data.id
+    );
+    const incomingTrailDocData = incomingTrailDocRes.data;
+    setIncomingDocumentTrail(incomingTrailDocData);
     setLoading(false);
+    console.log(incomingTrailDocData);
   };
 
   const _fetchNextUserToForwardDoc = async () => {
@@ -223,7 +232,7 @@ function ViewDocument() {
                 )}
               </div>
               {type === "incoming" && store.user.is_department ? (
-                <p className="meta_info">{document.ref}</p>
+                <p className="meta_info">{incomingDocumentTrail?.meta_info}</p>
               ) : null}
             </div>
 
