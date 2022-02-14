@@ -59,6 +59,19 @@ export async function fetchIncoming(token) {
   return res;
 }
 
+// Single Incoming document trail
+export async function fetchIncomingDocumentTrail(token, document_id) {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
+    },
+  };
+
+  const res = await axios.get(`incoming/${document_id}/`, config);
+  return res;
+}
+
 // Number of outgoing documents
 export async function fetchOutgoingCount(token) {
   const config = {
