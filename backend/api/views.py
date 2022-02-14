@@ -514,13 +514,24 @@ class SearchAPIView(views.APIView):
         active_requested_document_lst = [
             doc.document for doc in active_requested_document]
 
+        # activated documents
+        activated_documents = models.ActivateDocument.objects.filter(
+            document_receiver=request.user, expired=False)
+        activated_document_lst = [doc.document for doc in activated_documents]
+        for item in activated_documents:
+            document_serializer = serializers.DocumentsSerializer(
+                item.document)
+            activated_data = {
+                "document": document_serializer.data, "route": "activated"}
+            documents.append(activated_data)
+
         # pending documents
         for item in active_requested_document:
             document_serializer = serializers.DocumentsSerializer(
                 item.document)
-            incoming_data = {
+            pending_data = {
                 "document": document_serializer.data, "route": "pending"}
-            documents.append(incoming_data)
+            documents.append(pending_data)
 
         # incoming documents
         incoming = models.Trail.objects.filter(
@@ -548,7 +559,7 @@ class SearchAPIView(views.APIView):
         archive = [archive for archive in models.Archive.objects.all().order_by(
             'created_by') if archive.created_by.department == request.user.department]
         for item in archive:
-            if item.document not in active_requested_document_lst:
+            if item.document not in active_requested_document_lst and item.document not in activated_document_lst:
                 document_serializer = serializers.DocumentsSerializer(
                     item.document)
                 archive_data = {
