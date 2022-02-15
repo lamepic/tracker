@@ -11,7 +11,7 @@ import random
 import string
 
 
-from rest_framework import generics, viewsets, views, status
+from rest_framework import generics, views, status
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 
