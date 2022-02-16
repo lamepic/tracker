@@ -556,8 +556,7 @@ class SearchAPIView(views.APIView):
             documents.append(outgoing_data)
 
         # archived documents
-        archive = [archive for archive in models.Archive.objects.all().order_by(
-            'created_by') if archive.created_by.department == request.user.department]
+        archive = [archive for archive in models.Archive.objects.all()]
         for item in archive:
             if item.document not in active_requested_document_lst and item.document not in activated_document_lst:
                 document_serializer = serializers.DocumentsSerializer(
