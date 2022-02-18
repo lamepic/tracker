@@ -66,8 +66,8 @@ class IncomingAPIView(views.APIView):
     def get(self, request, document_id=None, format=None):
 
         if document_id:
-            incoming_document = models.Trail.objects.get(
-                document__id=document_id)
+            incoming_document = models.Trail.objects.filter(
+                document__id=document_id)[0]
             serialized_data = serializers.IncomingSerializer(incoming_document)
             return Response(serialized_data.data, status=status.HTTP_200_OK)
 
@@ -223,8 +223,12 @@ class CreateDocument(views.APIView):
 
 class DocumentAPIView(views.APIView):
     def get(self, request, id, format=None):
-        document = get_object_or_404(models.Document, id=id)
-        serialized_data = serializers.DocumentsSerializer(document)
+        try:
+            document = get_object_or_404(models.Document, id=id)
+            serialized_data = serializers.DocumentsSerializer(document)
+        except:
+            return Response({"status": "error"}, status=status.HTTP_404_NOT_FOUND)
+
         return Response(serialized_data.data)
 
 

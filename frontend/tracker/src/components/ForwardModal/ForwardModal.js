@@ -17,6 +17,7 @@ import InputAutocomplete from "../Autocomplete/InputAutocomplete";
 import swal from "sweetalert";
 import { departments, loadUsers } from "../../http/user";
 import { forwardDocument } from "../../http/document";
+import LoadingPage from "../Loading/LoadingPage";
 
 function ForwardModal({ document, openModal, setOpenModal }) {
   const [store, dispatch] = useStateValue();
@@ -139,7 +140,7 @@ function ForwardModal({ document, openModal, setOpenModal }) {
           </DialogActions>
         </Dialog>
       ) : (
-        <p>loading....</p>
+        <LoadingPage />
       )}
     </div>
   );
