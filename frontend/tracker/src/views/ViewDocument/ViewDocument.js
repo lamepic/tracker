@@ -3,6 +3,11 @@ import "./ViewDocument.css";
 import pdf from "../../assets/images/pdf-img.png";
 import LoadingPage from "../../components/Loading/LoadingPage";
 import { useParams, useHistory } from "react-router";
+import { useStateValue } from "../../store/StateProvider";
+import swal from "sweetalert";
+import Preview from "../../components/Preview/Preview";
+import { showNotification } from "../../utility/helper";
+import ForwardModal from "../../components/ForwardModal/ForwardModal";
 import {
   createMinute,
   fetchDocument,
@@ -12,11 +17,6 @@ import {
   markComplete,
   previewCode,
 } from "../../http/document";
-import { useStateValue } from "../../store/StateProvider";
-import swal from "sweetalert";
-import Preview from "../../components/Preview/Preview";
-import { showNotification } from "../../utility/helper";
-import ForwardModal from "../../components/ForwardModal/ForwardModal";
 
 function ViewDocument() {
   const [store] = useStateValue();
