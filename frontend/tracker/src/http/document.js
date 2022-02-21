@@ -325,7 +325,7 @@ export async function fetchActivateDocument(token) {
   return res;
 }
 
-export async function createFlow(token) {
+export async function createFlow(token, data) {
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -333,6 +333,6 @@ export async function createFlow(token) {
     },
   };
 
-  const res = await axios.post("create-flow/", config);
+  const res = await axios.post("create-flow/", data, config);
   return res;
 }

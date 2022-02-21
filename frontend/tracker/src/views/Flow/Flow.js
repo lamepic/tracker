@@ -8,6 +8,7 @@ import LoadingPage from "../../components/Loading/LoadingPage";
 import { useStateValue } from "../../store/StateProvider";
 import { useHistory } from "react-router-dom";
 import { showNotification } from "../../utility/helper";
+import { createFlow } from "../../http/document";
 
 const { Option } = Select;
 
@@ -30,13 +31,17 @@ function Flow() {
     console.log(data);
   };
 
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     if (flowName && values) {
-      console.log(flowName);
-      console.log(values);
-      history.push("/");
-
-      showNotification("Success", "Flow created successfully", "success");
+      const data = {
+        flowName,
+        flow: values.users,
+      };
+      const res = await createFlow(store.token, data);
+      if (res.status === 200) {
+        history.push("/");
+        showNotification("Success", "Flow created successfully", "success");
+      }
     } else {
       showNotification("Warning", "Please create a flow", "warning");
     }

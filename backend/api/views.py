@@ -665,8 +665,30 @@ class ActivateDocument(views.APIView):
 
 class CreateFlow(views.APIView):
     def post(self, request, format=None):
-        print(request.data)
-        return Response(serialized_data.data, status=status.HTTP_200_OK)
+        data = request.data
+
+        name = data.get('flowName')
+        flow = data.get('flow')
+
+        try:
+            document_type = models.DocumentType.objects.create(
+                name=name, department=request.user.department)
+
+            for action in flow:
+                employee = models.User.objects.get(
+                    employee_id=action.get('employee'))
+                act = action.get('action')
+                if act.startswith('f'):
+                    document_action = models.DocumentAction.objects.create(
+                        user=employee, action='F', document_type=document_type)
+
+                if act.startswith('c'):
+                    document_action = models.DocumentAction.objects.create(
+                        user=employee, action='CC', document_type=document_type)
+        except Exception:
+            Response(request.data, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response(request.data, status=status.HTTP_200_OK)
 
 
 def generate_code():
