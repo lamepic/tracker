@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./views/App";
 import reportWebVitals from "./reportWebVitals";
-
 import { StateProvider } from "./store/StateProvider";
 import initialState from "./store/state";
 import reducer from "./store/reducer";

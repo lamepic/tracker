@@ -1,3 +1,4 @@
+@import "antd/dist/antd.css";
 .flow {
   margin-left: 10px;
 }
@@ -13,7 +14,6 @@
 .flow__content {
   max-width: 450px;
   height: 100%;
-  border: 1px solid red;
 }
 
 .flow-group {
@@ -45,7 +45,11 @@
 .flow-action {
   margin-top: 20px;
   padding: 10px;
-  border: 1px solid green;
+  /* border: 1px solid var(--light-brown); */
+  max-height: 400px;
+  overflow-y: auto;
+  background-color: var(--lightest-brown);
+  border-radius: 10px;
 }
 
 .action__header {
