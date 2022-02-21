@@ -26,6 +26,7 @@ import ProtectedPage from "../../utility/ProtectedPage";
 import TrackingDetail from "../Tracking/TrackingDetail";
 import ActivateDocument from "../ActivateDocument/ActivateDocument";
 import ActivatedDocView from "../ActivateDocument/ActivatedDocView";
+import Flow from "../Flow/Flow";
 
 function Dashboard() {
   const [store, dispatch] = useStateValue();
@@ -104,6 +105,7 @@ function Dashboard() {
                 />
                 <Route path="/dashboard/tracker" component={Tracking} />
                 <ProtectedPage path="/dashboard/archive" component={Archive} />
+                <ProtectedPage path="/dashboard/create-flow" component={Flow} />
                 <Route
                   path="/dashboard/activate-document"
                   component={ActivateDocument}

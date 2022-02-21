@@ -1,0 +1,54 @@
+.flow {
+  margin-left: 10px;
+}
+
+.flow__header {
+  color: var(--dark-brown);
+}
+
+.flow .divider {
+  margin-top: 10px;
+}
+
+.flow__content {
+  max-width: 450px;
+  height: 100%;
+  border: 1px solid red;
+}
+
+.flow-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.flow-group label {
+  color: var(--dark-brown);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.flow-group input {
+  padding: 5px;
+  border: 0.2px solid var(--light-brown);
+  background-color: var(--lightest-brown);
+  border-radius: 5px;
+  width: 70%;
+}
+
+.flow-group > input:focus {
+  border: 0.2px solid var(--light-brown);
+  outline: 0.2px solid var(--light-brown);
+}
+
+.flow-action {
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid green;
+}
+
+.action__header {
+  color: var(--dark-brown);
+  margin-bottom: 10px;
+}
