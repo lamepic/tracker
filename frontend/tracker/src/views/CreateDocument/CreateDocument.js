@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./CreateDocument.css";
 import { useStateValue } from "../../store/StateProvider";
-import * as actionTypes from "../../store/actionTypes";
 
 import { showNotification } from "../../utility/helper";
 import { useHistory } from "react-router-dom";
