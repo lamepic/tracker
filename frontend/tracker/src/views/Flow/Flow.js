@@ -35,6 +35,8 @@ function Flow() {
       console.log(flowName);
       console.log(values);
       history.push("/");
+
+      showNotification("Success", "Flow created successfully", "success");
     } else {
       showNotification("Warning", "Please create a flow", "warning");
     }
