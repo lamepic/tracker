@@ -290,11 +290,13 @@ function ViewDocument() {
         setOpenPreview={setOpenPreview}
         doc={previewDoc}
       />
-      <ForwardModal
-        document={document}
-        openModal={openModal}
-        setOpenModal={setOpenModal}
-      />
+      {openModal && (
+        <ForwardModal
+          document={document}
+          openModal={openModal}
+          setOpenModal={setOpenModal}
+        />
+      )}
     </>
   );
 }
