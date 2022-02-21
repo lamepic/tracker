@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./ForwardModal.css";
-import * as actionTypes from "../../store/actionTypes";
 import { useHistory } from "react-router-dom";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -8,15 +7,11 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useStateValue } from "../../store/StateProvider";
 import InputAutocomplete from "../Autocomplete/InputAutocomplete";
-// import {
-//   fetchDepartments,
-//   fetchEmployees,
-//   forwardDocument,
-// } from "../../utility/utility";
 
 import swal from "sweetalert";
 import { departments, loadUsers } from "../../http/user";
 import { forwardDocument } from "../../http/document";
+import { CircularProgress } from "@mui/material";
 
 function ForwardModal({ document, openModal, setOpenModal }) {
   const [store, dispatch] = useStateValue();
@@ -139,7 +134,7 @@ function ForwardModal({ document, openModal, setOpenModal }) {
           </DialogActions>
         </Dialog>
       ) : (
-        <p>loading....</p>
+        <CircularProgress />
       )}
     </div>
   );
