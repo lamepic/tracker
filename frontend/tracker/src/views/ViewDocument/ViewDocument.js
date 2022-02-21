@@ -17,7 +17,6 @@ import swal from "sweetalert";
 import Preview from "../../components/Preview/Preview";
 import { showNotification } from "../../utility/helper";
 import ForwardModal from "../../components/ForwardModal/ForwardModal";
-import { Redirect } from "react-router-dom";
 
 function ViewDocument() {
   const [store] = useStateValue();
@@ -40,21 +39,16 @@ function ViewDocument() {
   }, []);
 
   const _fetchDocument = async () => {
-    try {
-      const res = await fetchDocument(store.token, id);
-      const data = res.data;
-      setDocument(data);
-      const incomingTrailDocRes = await fetchIncomingDocumentTrail(
-        store.token,
-        data.id
-      );
-      const incomingTrailDocData = incomingTrailDocRes.data;
-      setIncomingDocumentTrail(incomingTrailDocData);
-      setLoading(false);
-    } catch (error) {
-      history.push("/");
-      // setLoading(false);
-    }
+    const res = await fetchDocument(store.token, id);
+    const data = res.data;
+    setDocument(data);
+    const incomingTrailDocRes = await fetchIncomingDocumentTrail(
+      store.token,
+      data.id
+    );
+    const incomingTrailDocData = incomingTrailDocRes.data;
+    setIncomingDocumentTrail(incomingTrailDocData);
+    setLoading(false);
   };
 
   const _fetchNextUserToForwardDoc = async () => {
