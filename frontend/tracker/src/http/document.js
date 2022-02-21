@@ -324,3 +324,15 @@ export async function fetchActivateDocument(token) {
   const res = await axios.get("activate-document/", config);
   return res;
 }
+
+export async function createFlow(token) {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
+    },
+  };
+
+  const res = await axios.post("create-flow/", config);
+  return res;
+}
