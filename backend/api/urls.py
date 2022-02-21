@@ -47,4 +47,6 @@ urlpatterns = [
          name='notifications'),
     path('activate-document/', views.ActivateDocument.as_view(),
          name='activate_document'),
+    path('create-flow/', views.CreateFlow.as_view(),
+         name='create-flow'),
 ]
