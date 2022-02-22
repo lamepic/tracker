@@ -230,7 +230,9 @@ function ViewDocument() {
                   </>
                 )}
               </div>
-              {type === "incoming" && store.user.is_department ? (
+              {type === "incoming" &&
+              store.user.is_department &&
+              incomingDocumentTrail?.meta_info ? (
                 <p className="meta_info">{incomingDocumentTrail?.meta_info}</p>
               ) : null}
             </div>
