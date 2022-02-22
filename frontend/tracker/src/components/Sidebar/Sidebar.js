@@ -1,7 +1,5 @@
 import React from "react";
 import "./Sidebar.css";
-
-import * as actionTypes from "../../store/actionTypes";
 import logo from "../../assets/images/logo.png";
 
 import tracker from "../../assets/icons/tracker-icon.svg";
@@ -9,6 +7,7 @@ import home from "../../assets/icons/home-icon.svg";
 import { Link } from "react-router-dom";
 import { useStateValue } from "../../store/StateProvider";
 import SidebarOption from "./SidebarOption";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 
 function Sidebar() {
   const [store, dispatch] = useStateValue();
@@ -30,6 +29,11 @@ function Sidebar() {
           <Link to="/dashboard/tracker">
             <SidebarOption icon={tracker} name="tracker" />
           </Link>
+          {store.user.is_department && (
+            <Link to="/dashboard/create-flow">
+              <SidebarOption icon={tracker} name="create flow" />
+            </Link>
+          )}
         </div>
       </div>
     </div>

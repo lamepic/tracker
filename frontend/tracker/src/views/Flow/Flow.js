@@ -43,7 +43,7 @@ function Flow() {
         showNotification("Success", "Flow created successfully", "success");
       }
     } else {
-      showNotification("Warning", "Please create a flow", "warning");
+      showNotification("Warning", "Fields cannot be blank", "warning");
     }
   };
 
