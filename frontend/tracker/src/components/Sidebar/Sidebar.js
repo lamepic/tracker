@@ -29,7 +29,7 @@ function Sidebar() {
           <Link to="/dashboard/tracker">
             <SidebarOption icon={tracker} name="tracker" />
           </Link>
-          {store.user.is_department && (
+          {store.user?.is_department && (
             <Link to="/dashboard/create-flow">
               <SidebarOption icon={tracker} name="create flow" />
             </Link>
