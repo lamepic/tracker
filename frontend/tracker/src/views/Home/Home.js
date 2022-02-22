@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Home.css";
 import { useStateValue } from "../../store/StateProvider";
 import dashboard_hero from "../../assets/icons/dashboard-hero-icon.svg";
@@ -11,9 +11,35 @@ import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 
 import { Link } from "react-router-dom";
+import { fetchIncomingCount, fetchOutgoingCount } from "../../http/document";
+
+import * as actionTypes from "../../store/actionTypes";
 
 function Home() {
-  const [store] = useStateValue();
+  const [store, dispatch] = useStateValue();
+
+  useEffect(() => {
+    _fetchIncomingCount();
+    _fetchOutgoingCount();
+  }, []);
+
+  const _fetchIncomingCount = async () => {
+    const res = await fetchIncomingCount(store.token);
+    const data = res.data;
+    dispatch({
+      type: actionTypes.SET_INCOMING_COUNT,
+      payload: data.data,
+    });
+  };
+
+  const _fetchOutgoingCount = async () => {
+    const res = await fetchOutgoingCount(store.token);
+    const data = res.data;
+    dispatch({
+      type: actionTypes.SET_OUTGOING_COUNT,
+      payload: data.data,
+    });
+  };
 
   const userInfo = store.user;
   const incomingCount = store.incomingCount;
