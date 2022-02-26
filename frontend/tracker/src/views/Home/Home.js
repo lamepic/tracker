@@ -88,7 +88,7 @@ function Home() {
             )}
           </div>
 
-          <hr className="divider" />
+          <hr className="divider" style={{ marginTop: "10px", color: "red" }} />
           <Link to="/dashboard/add-document">
             <Fab
               size="medium"
